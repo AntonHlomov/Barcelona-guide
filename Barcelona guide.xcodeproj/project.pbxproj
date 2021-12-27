@@ -14,6 +14,7 @@
 		8AE0EB2B277A3A9B002ADA32 /* Barcelona_guide.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0EB29277A3A9B002ADA32 /* Barcelona_guide.xcdatamodeld */; };
 		8AE0EB2D277A3A9C002ADA32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AE0EB2C277A3A9C002ADA32 /* Assets.xcassets */; };
 		8AE0EB30277A3A9C002ADA32 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AE0EB2E277A3A9C002ADA32 /* LaunchScreen.storyboard */; };
+		8AE0EB38277A449D002ADA32 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0EB37277A449D002ADA32 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		8AE0EB2C277A3A9C002ADA32 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8AE0EB2F277A3A9C002ADA32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8AE0EB31277A3A9C002ADA32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8AE0EB37277A449D002ADA32 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				8AE0EB20277A3A9B002ADA32 /* AppDelegate.swift */,
 				8AE0EB22277A3A9B002ADA32 /* SceneDelegate.swift */,
 				8AE0EB24277A3A9B002ADA32 /* ViewController.swift */,
+				8AE0EB37277A449D002ADA32 /* Utils.swift */,
 				8AE0EB26277A3A9B002ADA32 /* Main.storyboard */,
 				8AE0EB2C277A3A9C002ADA32 /* Assets.xcassets */,
 				8AE0EB2E277A3A9C002ADA32 /* LaunchScreen.storyboard */,
@@ -141,6 +144,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AE0EB38277A449D002ADA32 /* Utils.swift in Sources */,
 				8AE0EB2B277A3A9B002ADA32 /* Barcelona_guide.xcdatamodeld in Sources */,
 				8AE0EB25277A3A9B002ADA32 /* ViewController.swift in Sources */,
 				8AE0EB21277A3A9B002ADA32 /* AppDelegate.swift in Sources */,
