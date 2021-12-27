@@ -98,6 +98,10 @@ class ViewController: UIViewController {
     
     
     @objc fileprivate func touchAddAdress(){
+        alertAddAdress(title: "Add one more place", placeholder: "Add adres") { (text) in
+            print(text)
+            
+        }
         print("touchAddAdress")
     }
     @objc fileprivate func touchRouteButton(){
