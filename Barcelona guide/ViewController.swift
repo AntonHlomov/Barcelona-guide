@@ -33,6 +33,8 @@ class ViewController: UIViewController {
     
     lazy var stackButtonView = UIStackView(arrangedSubviews: [addAdressButton,routeButton,resetButton])
     
+    var annotationsArray = [MKPointAnnotation]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,11 +100,13 @@ class ViewController: UIViewController {
     
     
     @objc fileprivate func touchAddAdress(){
-        alertAddAdress(title: "Add one more place", placeholder: "Add adres") { (text) in
-            print(text)
-            
+        alertAddAdress(title: "Add one more place", placeholder: "Add adres") {  [self] (text) in
+            // print(text)
+        // получаем текст из алерта  отпраляем его в функцию и получаем анатацию и точки на карте
+        setupPlacemark(adressPlace: text)
         }
-        print("touchAddAdress")
+        
+    
     }
     @objc fileprivate func touchRouteButton(){
         print("touchRouteButton")
@@ -110,7 +114,39 @@ class ViewController: UIViewController {
     @objc fileprivate func touchResetButton(){
         print("touchResetButton")
     }
-
+    
+    //MARK: - funcional, put point for map.
+    private func  setupPlacemark(adressPlace: String){
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(adressPlace) { [self] (placemarks, error) in
+            if let error = error{
+                print(error.localizedDescription)
+                alertError(title: "Error", message: "Server error, please try again.")
+                return
+            }
+            
+            guard let placemarks = placemarks else {return}
+            let placemark = placemarks.first
+            
+            let anotation = MKPointAnnotation()
+            anotation.title = "\(adressPlace)"
+            
+            guard let placemarkLocation = placemark?.location else {return}
+            anotation.coordinate = placemarkLocation.coordinate
+            
+            annotationsArray.append(anotation)
+            
+         //  if annotationsArray.count > 2 {
+         //      // появиться кнопки если в массиве точек 3 точки адреса
+         //  }
+            mapView.showAnnotations(annotationsArray, animated: true)
+            
+            
+            
+        }
+        
+    }
+      
 
 }
 
