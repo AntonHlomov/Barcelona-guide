@@ -25,15 +25,19 @@ class ViewController: UIViewController {
     
     lazy var stackTextFieldView = UIStackView(arrangedSubviews: [firstPlaceTextfield,secondPlaceTextField])
     
-    fileprivate let styleMap = UIButton.setupButton(title: "[]", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false)
-  
-    fileprivate let addAdressButton = UIButton.setupButton(title: "Add", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false)
-  
-    fileprivate let routeButton = UIButton.setupButton(title: "Route", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false)
-   
-    fileprivate let resetButton = UIButton.setupButton(title: "Reset", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false)
+    fileprivate let styleMap = UIButton.setupButton(title: "[]", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.7)
     
-    lazy var stackButtonView = UIStackView(arrangedSubviews: [addAdressButton,routeButton,resetButton])
+    fileprivate let addAdressButton = UIButton.setupButton(title: "+", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 50/2, alpha: 0.8)
+    
+    fileprivate let userLocationButtonCircle = UIButton.setupButton(title: "*", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 50/2, alpha: 0.8)
+    
+    lazy var circleButtonView = UIStackView(arrangedSubviews: [userLocationButtonCircle,addAdressButton])
+  
+    fileprivate let routeButton = UIButton.setupButton(title: "Route", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 30/2, alpha: 1)
+   
+    fileprivate let resetButton = UIButton.setupButton(title: "Reset", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 30/2, alpha: 1)
+    
+    lazy var stackButtonView = UIStackView(arrangedSubviews: [routeButton,resetButton])
     
     var annotationsArray = [MKPointAnnotation]()
     
@@ -68,11 +72,10 @@ class ViewController: UIViewController {
         
         view.addSubview(stackTextFieldView)
         stackTextFieldView.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: 10, left: 10, bottom: 0, right: 10), size: .init(width: 0, height: 100))
-       // stackTextFieldView.centerXAnchor.constraint(equalTo: addresses.centerXAnchor).isActive = true //выстовляет по середине экрана
-      //  stackTextFieldView.centerYAnchor.constraint(equalTo: addresses.centerYAnchor).isActive = true
+
         
         view.addSubview(styleMap)
-        styleMap.anchor(top: stackTextFieldView.bottomAnchor, leading: nil, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: 20, left: 0, bottom: 0, right: 10), size: .init(width: 30, height: 30))
+        styleMap.anchor(top: stackTextFieldView.bottomAnchor, leading: nil, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: 20, left: 0, bottom: 0, right: 10), size: .init(width: 40, height: 40))
         
 
         stackButtonView.axis = .horizontal
@@ -81,6 +84,14 @@ class ViewController: UIViewController {
         
         view.addSubview(stackButtonView)
         stackButtonView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: 0, left: 10 , bottom: 0, right: 10), size: .init(width: 0, height: 0))
+        
+  
+        circleButtonView.axis = .vertical
+        circleButtonView.spacing = 15
+        circleButtonView.distribution = .fillEqually  // для корректного отображения
+        
+        view.addSubview(circleButtonView)
+        circleButtonView.anchor(top: nil, leading: nil, bottom: stackButtonView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: 0, left: 0 , bottom: 35, right: 10), size: .init(width: 50, height: 115))
         
     }
     
@@ -126,7 +137,6 @@ class ViewController: UIViewController {
     
     @objc fileprivate func touchAddAdress(){
         alertAddAdress(title: "Add one more place", placeholder: "Add adres") {  [self] (text) in
-            // print(text)
         // получаем текст из алерта  отпраляем его в функцию и получаем анатацию и точки на карте
         setupPlacemark(adressPlace: text)
         }
@@ -145,8 +155,7 @@ class ViewController: UIViewController {
         
     }
     @objc fileprivate func touchResetButton(){
-        self.mapView.mapType = .satellite
-        
+       
         firstPlaceTextfield.text = ""
         secondPlaceTextField.text = ""
         mapView.removeOverlays(mapView.overlays)

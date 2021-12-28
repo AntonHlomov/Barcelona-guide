@@ -61,12 +61,12 @@ extension UITextField{
 // функция для кнопки
 
 extension UIButton{
-    class func setupButton(title: String, color: UIColor, activation: Bool, invisibility: Bool ) -> UIButton {
+    class func setupButton(title: String, color: UIColor, activation: Bool, invisibility: Bool, laeyerRadius: Double, alpha: Double ) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = color
-        button.layer.cornerRadius = 30/2  // скругляем кнопку
+        button.backgroundColor = color.withAlphaComponent(alpha)
+        button.layer.cornerRadius = laeyerRadius //30/2  // скругляем кнопку
         button.isEnabled = activation   //диактивация кнопки изначально кнопка не активна (активна после заполнения всех полей)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.isHidden = invisibility
