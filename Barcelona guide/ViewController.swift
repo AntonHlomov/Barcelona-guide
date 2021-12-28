@@ -39,6 +39,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        mapView.delegate = self
+        
         hadleres()
         configureViewComponents()
         setupTapGesture()
@@ -109,13 +111,26 @@ class ViewController: UIViewController {
     
     }
     @objc fileprivate func touchRouteButton(){
-        print("touchRouteButton")
+        
+        for index in 0...annotationsArray.count - 2{
+            createDirectioReqest(startCoordinate: annotationsArray[index].coordinate, destinationCoordinate: annotationsArray[index + 1].coordinate)
+        }
+        mapView.showAnnotations(annotationsArray, animated: true)
+        
+        
     }
     @objc fileprivate func touchResetButton(){
-        print("touchResetButton")
+        mapView.removeOverlays(mapView.overlays)
+        mapView.removeAnnotations(mapView.annotations)
+        annotationsArray = [MKPointAnnotation]()
+        
+        // здесь можно убрать активность кнопки
+     
+        
+ 
     }
     
-    //MARK: - funcional, put point for map.
+    //MARK: - put point for map.
     private func  setupPlacemark(adressPlace: String){
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(adressPlace) { [self] (placemarks, error) in
@@ -140,13 +155,59 @@ class ViewController: UIViewController {
          //      // появиться кнопки если в массиве точек 3 точки адреса
          //  }
             mapView.showAnnotations(annotationsArray, animated: true)
+           
+        }
+    }
+    
+    //MARK: - let's make a route for point.
+    private func createDirectioReqest (startCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D){
+        
+        let startLocation = MKPlacemark(coordinate: startCoordinate)
+        let destinationLocation = MKPlacemark(coordinate: destinationCoordinate)
+        
+        // запрос
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: startLocation)
+        request.destination = MKMapItem(placemark: destinationLocation)
+        // устанавливаем маршрут для пешехода
+        request.transportType = .walking
+       // смотрим альтернативные маршруты
+        request.requestsAlternateRoutes = true
+        
+        let direction = MKDirections(request: request)
+        direction.calculate { (responce, error) in
+            if let error = error{
+                print(error.localizedDescription)
+                return
+            }
             
+            guard let responce = responce else {
+                self.alertError(title: "Error", message: "Route not available.")
+                return
+            }
+            // route.distance показывает дистанцию маршрута в метрах
+            // responce.routes маршруты но мы берем первый, что бы в дальнейшем в цикле сравнивать какой короче
+           var minRoute = responce.routes[0]
             
+            for route in responce.routes {
+                minRoute = (route.distance < minRoute.distance) ? route : minRoute
+            }
+            // создаем маршрут
+            self.mapView.addOverlay(minRoute.polyline)
             
         }
-        
     }
-      
+    
+}
 
+extension ViewController: MKMapViewDelegate{
+    
+    // отрисовка на карте маршрута
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let render = MKPolylineRenderer(overlay: overlay as! MKPolyline)
+        render.strokeColor = UIColor.rgb(red: 190, green: 140, blue: 196)
+        return render
+    }
+    
 }
 
