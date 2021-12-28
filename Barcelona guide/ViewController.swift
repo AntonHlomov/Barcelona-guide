@@ -53,17 +53,6 @@ class ViewController: UIViewController {
     }
     
     
-    
-    func hadleres(){
-    
-    addAdressButton.addTarget(self, action: #selector(touchAddAdress), for: .touchUpInside)
-    routeButton.addTarget(self, action: #selector(touchRouteButton), for: .touchUpInside)
-    resetButton.addTarget(self, action: #selector(touchResetButton), for: .touchUpInside)
- 
-    }
-    
-    
-    
     fileprivate func configureViewComponents(){
        
         view.addSubview(mapView)
@@ -91,13 +80,42 @@ class ViewController: UIViewController {
         
     }
     
-    fileprivate func setupTapGesture(){
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapDismiss)))
-      
+    // проверяем поля на заполненность
+    func hadleres(){
+    
+        firstPlaceTextfield.addTarget(self, action: #selector(formValidation), for: .editingDidEnd )
+        secondPlaceTextField.addTarget(self, action: #selector(formValidation), for: .editingDidEnd)
+    
+        addAdressButton.addTarget(self, action: #selector(touchAddAdress), for: .touchUpInside)
+        routeButton.addTarget(self, action: #selector(touchRouteButton), for: .touchUpInside)
+        resetButton.addTarget(self, action: #selector(touchResetButton), for: .touchUpInside)
+    
     }
-    @objc fileprivate func handleTapDismiss(){
-        view.endEditing(true)
+    
+    
+    
+    // проверяем поля на заполненность
+    @objc fileprivate func formValidation() {
+        guard
+            firstPlaceTextfield.hasText,
+            secondPlaceTextField.hasText
+              
+        else {
+           // self.loginButton.isEnabled = false
+           // self.loginButton.backgroundColor = UIColor.rgb(red: 190, green: 140, blue: 196)
+            return
+        }
+        
+        guard let first = firstPlaceTextfield.text else {return}
+        guard let second = secondPlaceTextField.text else {return}
+        // получаем текст из алерта  отпраляем его в функцию и получаем анатацию и точки на карте
+        setupPlacemark(adressPlace: first)
+        setupPlacemark(adressPlace: second)
+      // loginButton.isEnabled = true
+      // loginButton.backgroundColor = UIColor.rgb(red: 170, green: 92, blue: 178)
     }
+    
+   
     
     
     
@@ -112,6 +130,8 @@ class ViewController: UIViewController {
     }
     @objc fileprivate func touchRouteButton(){
         
+        guard  annotationsArray.count > 1 else {return}
+        
         for index in 0...annotationsArray.count - 2{
             createDirectioReqest(startCoordinate: annotationsArray[index].coordinate, destinationCoordinate: annotationsArray[index + 1].coordinate)
         }
@@ -120,6 +140,8 @@ class ViewController: UIViewController {
         
     }
     @objc fileprivate func touchResetButton(){
+        firstPlaceTextfield.text = ""
+        secondPlaceTextField.text = ""
         mapView.removeOverlays(mapView.overlays)
         mapView.removeAnnotations(mapView.annotations)
         annotationsArray = [MKPointAnnotation]()
@@ -197,8 +219,18 @@ class ViewController: UIViewController {
             
         }
     }
+    //MARK: - TapGesture and endEditing
     
+    fileprivate func setupTapGesture(){
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapDismiss)))
+      
+    }
+    @objc fileprivate func handleTapDismiss(){
+        view.endEditing(true)
+    }
 }
+
+//MARK: - extension
 
 extension ViewController: MKMapViewDelegate{
     
