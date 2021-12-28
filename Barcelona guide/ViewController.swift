@@ -19,13 +19,13 @@ class ViewController: UIViewController {
     
   
     
-    fileprivate let firstPlaceTextfield = UITextField.setupTextField(title: "First place..", hideText: false)
+    fileprivate let firstPlaceTextfield = UITextField.setupTextField(title: "First place..", hideText: false, enabled: true)
     
-    fileprivate let secondPlaceTextField = UITextField.setupTextField(title: "Second place..", hideText: false)
+    fileprivate let secondPlaceTextField = UITextField.setupTextField(title: "Second place..", hideText: false, enabled: false)
     
     lazy var stackTextFieldView = UIStackView(arrangedSubviews: [firstPlaceTextfield,secondPlaceTextField])
     
-    fileprivate let addAdressButton = UIButton.setupButton(title: "+", color: UIColor.rgb(red: 255, green: 255, blue: 255),activation: true,invisibility: false, laeyerRadius: 30/2, alpha: 0.5)
+    fileprivate let addAdressButton = UIButton.setupButton(title: "+", color: UIColor.rgb(red: 255, green: 255, blue: 255),activation: false,invisibility: false, laeyerRadius: 30/2, alpha: 0.5)
     
     fileprivate let styleMap = UIButton.setupButton(title: "[]", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.7)
     
@@ -35,7 +35,7 @@ class ViewController: UIViewController {
     
     lazy var circleButtonView = UIStackView(arrangedSubviews: [userLocationButtonCircle,addAdressButton1])
   
-    fileprivate let routeButton = UIButton.setupButton(title: "Route", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 30/2, alpha: 1)
+    fileprivate let routeButton = UIButton.setupButton(title: "Route", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: false,invisibility: false, laeyerRadius: 30/2, alpha: 1)
    
     fileprivate let resetButton = UIButton.setupButton(title: "Reset", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 30/2, alpha: 1)
     
@@ -101,7 +101,7 @@ class ViewController: UIViewController {
         
     }
     
-    // проверяем поля на заполненность
+    
     func hadleres(){
     
         firstPlaceTextfield.addTarget(self, action: #selector(formValidationFirst), for: .editingDidEnd )
@@ -121,12 +121,15 @@ class ViewController: UIViewController {
         guard
             firstPlaceTextfield.hasText
         else {
+            formValidation()
             return
         }
+        
         guard let first = firstPlaceTextfield.text else {return}
         // получаем текст из алерта  отпраляем его в функцию и получаем анатацию и точки на карте
         setupPlacemark(adressPlace: first, mark: "ferstText")
-    
+        secondPlaceTextField.isEnabled = true
+        formValidation()
     }
     
     // проверяем поля на заполненность
@@ -134,11 +137,34 @@ class ViewController: UIViewController {
         guard
             secondPlaceTextField.hasText
         else {
+            formValidation()
             return
         }
+      
         guard let second = secondPlaceTextField.text else {return}
         setupPlacemark(adressPlace: second, mark: "secondText")
-      
+        formValidation()
+
+    }
+    
+    // проверяем поля на заполненность
+    @objc fileprivate func formValidation() {
+        guard
+            firstPlaceTextfield.hasText,
+            secondPlaceTextField.hasText
+        else {
+            addAdressButton.isEnabled = false
+            addAdressButton.backgroundColor =  UIColor.rgb(red: 255, green: 255, blue: 255).withAlphaComponent(0.5)
+            
+            routeButton.isEnabled = false
+            routeButton.backgroundColor = UIColor.rgb(red: 190, green: 140, blue: 196).withAlphaComponent(0.5)
+            return
+        }
+        addAdressButton.isEnabled = true
+        addAdressButton.backgroundColor =  UIColor.rgb(red: 31, green: 152, blue: 233).withAlphaComponent(0.5)
+        
+        routeButton.isEnabled = true
+        routeButton.backgroundColor = UIColor.rgb(red: 190, green: 140, blue: 196).withAlphaComponent(1)
     }
     
    
@@ -220,6 +246,7 @@ class ViewController: UIViewController {
             case "ferstText" :
                 if annotationsArray.indices.contains(0) {
                    mapView.removeAnnotation(annotationsArray[0])
+                   mapView.removeOverlays(mapView.overlays)
                    annotationsArray[0] = anotation
                 } else {
                     annotationsArray.append(anotation)
@@ -228,6 +255,7 @@ class ViewController: UIViewController {
             case "secondText":
                 if annotationsArray.indices.contains(1) {
                    mapView.removeAnnotation(annotationsArray[1])
+                   mapView.removeOverlays(mapView.overlays)
                    annotationsArray[1] = anotation
                 } else {
                    annotationsArray.append(anotation)
