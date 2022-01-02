@@ -304,6 +304,8 @@
 				DEVELOPMENT_TEAM = J8HRCHW3ZN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Barcelona guide/Info.plist";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Let us access your current location so that we can auto-complete your original / final destination";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This is necessary for building routes.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -332,6 +334,8 @@
 				DEVELOPMENT_TEAM = J8HRCHW3ZN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Barcelona guide/Info.plist";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Let us access your current location so that we can auto-complete your original / final destination";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This is necessary for building routes.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

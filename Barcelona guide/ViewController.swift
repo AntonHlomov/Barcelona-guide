@@ -9,19 +9,21 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class ViewController: UIViewController {
-    
+class ViewController: UIViewController,CLLocationManagerDelegate {
+
     fileprivate let mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.translatesAutoresizingMaskIntoConstraints = false
         return mapView
     }()
     
-  
+    let locationManager = CLLocationManager()
+    var annotationsArray = [MKPointAnnotation]()
+
     
     fileprivate let firstPlaceTextfield = UITextField.setupTextField(title: "First place..", hideText: false, enabled: true)
     
-    fileprivate let secondPlaceTextField = UITextField.setupTextField(title: "Second place..", hideText: false, enabled: false)
+    fileprivate let secondPlaceTextField = UITextField.setupTextField(title: "Second place..", hideText: false, enabled: true)
     
     lazy var stackTextFieldView = UIStackView(arrangedSubviews: [firstPlaceTextfield,secondPlaceTextField])
     
@@ -41,25 +43,59 @@ class ViewController: UIViewController {
     
     lazy var stackButtonView = UIStackView(arrangedSubviews: [routeButton,resetButton])
     
-    var annotationsArray = [MKPointAnnotation]()
+   
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapView.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        OnOflocationManager()
+       
+   
+      
         
         hadleres()
         configureViewComponents()
         setupTapGesture()
-     
+        
     }
     
     override func viewDidLayoutSubviews() {
       super.viewDidLayoutSubviews()
         configureViewComponents()
     }
-    
+
+    func OnOflocationManager(){
+        if CLLocationManager.locationServicesEnabled() {
+              locationManager.delegate = self
+              locationManager.desiredAccuracy = kCLLocationAccuracyBest
+          }
+          mapView.delegate = self
+          mapView.isZoomEnabled = true
+          mapView.isScrollEnabled = true
+
+          if let coor = mapView.userLocation.location?.coordinate{
+              mapView.setCenter(coor, animated: true)
+          }
+        
+    }
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        
+        let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        let region = MKCoordinateRegion(center: locValue, span: span)
+        mapView.setRegion(region, animated: true)
+
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = locValue
+        annotation.title = "Anton khlomov"
+        annotation.subtitle = "current location"
+        mapView.addAnnotation(annotation)
+        //mapView.showAnnotations(annotation[0], animated: true)
+
+    }
     
     fileprivate func configureViewComponents(){
        
@@ -111,6 +147,7 @@ class ViewController: UIViewController {
         routeButton.addTarget(self, action: #selector(touchRouteButton), for: .touchUpInside)
         resetButton.addTarget(self, action: #selector(touchResetButton), for: .touchUpInside)
         styleMap.addTarget(self, action: #selector(changeStyleMap), for: .touchUpInside)
+        userLocationButtonCircle.addTarget(self, action: #selector(locationUser), for: .touchUpInside)
     
     }
     
@@ -124,11 +161,9 @@ class ViewController: UIViewController {
             formValidation()
             return
         }
-        
         guard let first = firstPlaceTextfield.text else {return}
         // получаем текст из алерта  отпраляем его в функцию и получаем анатацию и точки на карте
         setupPlacemark(adressPlace: first, mark: "ferstText")
-        secondPlaceTextField.isEnabled = true
         formValidation()
     }
     
@@ -166,9 +201,8 @@ class ViewController: UIViewController {
         routeButton.isEnabled = true
         routeButton.backgroundColor = UIColor.rgb(red: 190, green: 140, blue: 196).withAlphaComponent(1)
     }
-    
+ 
    
-    
     
     
     @objc fileprivate func touchAddAdress(){
@@ -223,6 +257,22 @@ class ViewController: UIViewController {
 
     }
     
+   @objc fileprivate func locationUser(){
+        
+       switch mapView.showsUserLocation {
+       case true:
+           mapView.showsUserLocation = false
+           locationManager.stopUpdatingLocation()
+           mapView.removeAnnotations(mapView.annotations)
+       case false:
+           mapView.showsUserLocation = true
+           locationManager.startUpdatingLocation()
+         
+          
+       }
+    }
+    
+  
     //MARK: - put point for map.
     private func  setupPlacemark(adressPlace: String, mark: String){
         let geocoder = CLGeocoder()
@@ -251,7 +301,6 @@ class ViewController: UIViewController {
                 } else {
                     annotationsArray.append(anotation)
                 }
-                
             case "secondText":
                 if annotationsArray.indices.contains(1) {
                    mapView.removeAnnotation(annotationsArray[1])
@@ -268,6 +317,8 @@ class ViewController: UIViewController {
            
         }
     }
+    
+ 
     
     //MARK: - let's make a route for point.
     private func createDirectioReqest (startCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D){
@@ -328,6 +379,11 @@ extension ViewController: MKMapViewDelegate{
         render.strokeColor = UIColor.rgb(red: 190, green: 140, blue: 196)
         return render
     }
+    
+    
+ 
+    
+  
     
 }
 
