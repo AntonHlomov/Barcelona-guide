@@ -27,9 +27,13 @@ extension UIViewController{
         let alertCancel = UIAlertAction(title: "Cancel", style: .default) { (_) in
             
         }
+        let alertLocation = UIAlertAction(title: "Your location", style: .default) { (_) in
+            
+        }
         
-        alertControler.addAction(alertOk)
+        alertControler.addAction(alertLocation)
         alertControler.addAction(alertCancel)
+        alertControler.addAction(alertOk)
         
         present(alertControler, animated: true, completion: nil)
         
