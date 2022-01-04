@@ -10,6 +10,7 @@ import MapKit
 import CoreLocation
 
 class ViewController: UIViewController,CLLocationManagerDelegate {
+    var test = ""
 
     fileprivate let mapView: MKMapView = {
         let mapView = MKMapView()
@@ -25,12 +26,12 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     
     fileprivate let firstPlaceTextfield = UITextField.setupTextField(title: "First place..", hideText: false, enabled: true)
     
-    fileprivate let lastPlaceTextField = UITextField.setupTextField(title: "Last place..", hideText: false, enabled: true)
+    fileprivate let lastPlaceTextField = UITextField.setupTextField(title: "Last place..", hideText: false, enabled: false)
     
    
     fileprivate let locationButtonAdFirstPlace = UIButton.setupButtonImage(color: .lightGray,activation: true,invisibility: false, laeyerRadius: 6, alpha: 0.2,resourseNa: "icons8-pinMap-48")
     
-    fileprivate let locationButtonAdLastPlace = UIButton.setupButtonImage(color: .lightGray,activation: true,invisibility: false, laeyerRadius: 6, alpha: 0.2,resourseNa: "icons8-pinMap-48")
+    fileprivate let locationButtonAdLastPlace = UIButton.setupButtonImage(color: .lightGray,activation: false,invisibility: false, laeyerRadius: 6, alpha: 0.2,resourseNa: "icons8-pinMap-48")
     
     fileprivate let addAdressButton = UIButton.setupButton(title: "+", color: UIColor.rgb(red: 255, green: 255, blue: 255),activation: false,invisibility: false, laeyerRadius: 30/2, alpha: 0.5)
     
@@ -42,7 +43,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     
     fileprivate let userLocationButtonCircle = UIButton.setupButtonImage(color: UIColor.rgb(red: 31, green: 152, blue: 233),activation: true,invisibility: false, laeyerRadius: 50/2, alpha: 0.6,resourseNa: "icons8-gps-30")
     
-    fileprivate let routeButton = UIButton.setupButton(title: "Route", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: false,invisibility: false, laeyerRadius: 30/2, alpha: 1)
+    fileprivate let routeButton = UIButton.setupButton(title: "Route", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 30/2, alpha: 1)
     
     fileprivate let resetButton = UIButton.setupButton(title: "Reset", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 30/2, alpha: 1)
     
@@ -191,15 +192,27 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     // проверяем поля на заполненность
     @objc fileprivate func formValidationFirst() {
         guard
-            firstPlaceTextfield.hasText
+            firstPlaceTextfield.hasText || locationButtonAdFirstPlace.tag == 1
         else {
+            lastPlaceTextField.isEnabled = false
+            locationButtonAdLastPlace.isEnabled = false
             formValidation()
             return
         }
         guard let first = firstPlaceTextfield.text else {return}
         // получаем текст из алерта  отпраляем его в функцию и получаем анатацию и точки на карте
         setupPlacemark(adressPlace: first, mark: "ferstText")
-       
+        
+        if locationButtonAdFirstPlace.tag == 1 {
+            firstPlaceTextfield.attributedPlaceholder = NSAttributedString(string: "First place..", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            locationButtonAdFirstPlace.backgroundColor = .lightGray.withAlphaComponent(0.2)
+            mapView.removeAnnotation(annotationUser)
+            mapView.removeOverlays(mapView.overlays)
+            locationButtonAdFirstPlace.tag = 0
+        }
+        
+        lastPlaceTextField.isEnabled = true
+        locationButtonAdLastPlace.isEnabled = true
         formValidation()
     }
     
@@ -225,21 +238,22 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     @objc fileprivate func formValidation() {
        
         guard
-            firstPlaceTextfield.hasText,
-            lastPlaceTextField.hasText
-        else {
-            addAdressButton.isEnabled = true
-            addAdressButton.backgroundColor =  UIColor.rgb(red: 255, green: 255, blue: 255).withAlphaComponent(0.5)
+          firstPlaceTextfield.hasText || locationButtonAdFirstPlace.tag == 1
             
-            routeButton.isEnabled = true
-            routeButton.backgroundColor = UIColor.rgb(red: 190, green: 140, blue: 196).withAlphaComponent(0.5)
+        else {
+            locationButtonAdLastPlace.isEnabled = false
+            lastPlaceTextField.isEnabled = false
+            addAdressButton.isEnabled = false
+            addAdressButton.backgroundColor =  UIColor.rgb(red: 255, green: 255, blue: 255).withAlphaComponent(0.5)
             return
         }
+        locationButtonAdLastPlace.isEnabled = true
+        lastPlaceTextField.isEnabled = true
         addAdressButton.isEnabled = true
         addAdressButton.backgroundColor =  UIColor.rgb(red: 31, green: 152, blue: 233).withAlphaComponent(0.5)
         
-        routeButton.isEnabled = true
-        routeButton.backgroundColor = UIColor.rgb(red: 190, green: 140, blue: 196).withAlphaComponent(1)
+       // routeButton.isEnabled = true
+      //  routeButton.backgroundColor = UIColor.rgb(red: 190, green: 140, blue: 196).withAlphaComponent(1)
     }
  
    
@@ -271,6 +285,17 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         
     }
     @objc fileprivate func touchResetButton(){
+        
+        if locationButtonAdFirstPlace.tag == 1 {
+            firstPlaceTextfield.attributedPlaceholder = NSAttributedString(string: "First place..", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            locationButtonAdFirstPlace.backgroundColor = .lightGray.withAlphaComponent(0.2)
+            mapView.removeAnnotation(annotationUser)
+            mapView.removeOverlays(mapView.overlays)
+            locationButtonAdFirstPlace.tag = 0
+        }
+        lastPlaceTextField.isEnabled = false
+        addAdressButton.isEnabled = false
+        addAdressButton.backgroundColor =  UIColor.rgb(red: 255, green: 255, blue: 255).withAlphaComponent(0.5)
        
         firstPlaceTextfield.text = ""
         lastPlaceTextField.text = ""
@@ -278,8 +303,6 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         mapView.removeAnnotations(mapView.annotations)
         annotationsArray = [MKPointAnnotation]()
         
-        // здесь можно убрать активность кнопки
-     
     }
     
     @objc fileprivate func changeStyleMap(){
@@ -308,12 +331,19 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
        print(sender.tag)
        switch sender.tag {
        case 0:
+           locationButtonAdLastPlace.backgroundColor = .lightGray.withAlphaComponent(0.2)
+           lastPlaceTextField.attributedPlaceholder = NSAttributedString(string: "Last place..", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+           locationButtonAdLastPlace.tag = 0
+           mapView.removeAnnotation(annotationUser)
+           mapView.removeOverlays(mapView.overlays)
+           
+           
            locationManager.startMonitoringSignificantLocationChanges()
            mapView.addAnnotation(annotationUser)
            locationButtonAdFirstPlace.backgroundColor = UIColor.rgb(red: 31, green: 152, blue: 233).withAlphaComponent(0.4)
-           locationButtonAdFirstPlace.tag = 1
-           firstPlaceTextfield.placeholder = "Your location.."
+           firstPlaceTextfield.attributedPlaceholder = NSAttributedString(string: "Your location..", attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
            firstPlaceTextfield.text = ""
+           
            if annotationsArray.indices.contains(0) {
               mapView.removeAnnotation(annotationsArray[0])
               mapView.removeOverlays(mapView.overlays)
@@ -321,23 +351,66 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
            } else {
                annotationsArray.append(annotationUser)
            }
-            
+           locationButtonAdFirstPlace.tag = 1
+           
        case 1:
-           firstPlaceTextfield.placeholder = "First place.."
+           firstPlaceTextfield.attributedPlaceholder = NSAttributedString(string: "First place..", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+           locationButtonAdFirstPlace.backgroundColor = .lightGray.withAlphaComponent(0.2)
+
            mapView.removeAnnotation(annotationUser)
            mapView.removeOverlays(mapView.overlays)
            if annotationsArray.indices.contains(0) {
                annotationsArray.remove(at: 0)}
-           locationButtonAdFirstPlace.backgroundColor = .lightGray.withAlphaComponent(0.2)
+          
            locationButtonAdFirstPlace.tag = 0
            
        default:
            return
        }
+        formValidation()
      }
    
     @objc fileprivate func addLocationUserLastPlace(sender: UIButton){
-        print("addLocationUserLastPlace")
+        print(sender.tag)
+        switch sender.tag {
+        case 0:
+            locationManager.startMonitoringSignificantLocationChanges()
+            firstPlaceTextfield.attributedPlaceholder = NSAttributedString(string: "First place..", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            locationButtonAdFirstPlace.backgroundColor = .lightGray.withAlphaComponent(0.2)
+            mapView.removeAnnotation(annotationUser)
+            mapView.removeOverlays(mapView.overlays)
+            
+          
+            
+            
+            locationButtonAdLastPlace.backgroundColor = UIColor.rgb(red: 31, green: 152, blue: 233).withAlphaComponent(0.4)
+            lastPlaceTextField.attributedPlaceholder = NSAttributedString(string: "Your location..", attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+            lastPlaceTextField.text = ""
+            locationButtonAdLastPlace.tag = 1
+            
+            if annotationsArray.indices.contains(indexLastPoint) && indexLastPoint != 0 {
+             
+               mapView.removeAnnotation(lastAnotation)
+               mapView.removeOverlays(mapView.overlays)
+               annotationsArray.remove(at: indexLastPoint)
+                
+               annotationsArray.append(annotationUser)
+               indexLastPoint = annotationsArray.count - 1
+               lastAnotation = annotationUser
+            } else {
+                annotationsArray.append(annotationUser)
+                indexLastPoint = annotationsArray.count - 1
+                lastAnotation = annotationUser
+            }
+              mapView.addAnnotation(annotationUser)
+        case 1:
+            locationButtonAdLastPlace.backgroundColor = .lightGray.withAlphaComponent(0.2)
+            lastPlaceTextField.attributedPlaceholder = NSAttributedString(string: "Last place..", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            locationButtonAdLastPlace.tag = 0
+        default:
+            return
+            
+        }
     
      }
     
@@ -469,6 +542,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         direction.calculate { (responce, error) in
             if let error = error{
                 print(error.localizedDescription)
+                self.alertError(title: "", message: error.localizedDescription)
                 return
             }
             
