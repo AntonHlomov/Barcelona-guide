@@ -10,7 +10,7 @@ import MapKit
 import CoreLocation
 
 class ViewController: UIViewController,CLLocationManagerDelegate {
-    var test = ""
+ 
 
     fileprivate let mapView: MKMapView = {
         let mapView = MKMapView()
