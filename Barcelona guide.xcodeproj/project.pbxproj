@@ -304,6 +304,7 @@
 				DEVELOPMENT_TEAM = J8HRCHW3ZN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Barcelona guide/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Save routes";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Let us access your current location so that we can auto-complete your original / final destination";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This is necessary for building routes.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -316,7 +317,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Barcelona-guide.Barcelona-guide";
+				PRODUCT_BUNDLE_IDENTIFIER = "Save-routes-guide";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -334,6 +335,7 @@
 				DEVELOPMENT_TEAM = J8HRCHW3ZN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Barcelona guide/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Save routes";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "Let us access your current location so that we can auto-complete your original / final destination";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This is necessary for building routes.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -346,7 +348,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Barcelona-guide.Barcelona-guide";
+				PRODUCT_BUNDLE_IDENTIFIER = "Save-routes-guide";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
