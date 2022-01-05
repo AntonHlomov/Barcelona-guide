@@ -48,7 +48,6 @@ extension UITextField{
     class func setupTextField(title: String, hideText: Bool, enabled: Bool) -> UITextField {
         
         let tf = CustomTextField(padding: 16)
-        tf.attributedPlaceholder = NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         tf.backgroundColor = UIColor(white: 1, alpha: 0.7)
         tf.layer.cornerRadius = 5
         tf.font = UIFont .systemFont(ofSize: 16)
