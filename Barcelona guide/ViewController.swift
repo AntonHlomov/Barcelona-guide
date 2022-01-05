@@ -32,7 +32,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     
     fileprivate let locationButtonAdLastPlace = UIButton.setupButtonImage(color: .lightGray,activation: true,invisibility: false, laeyerRadius: 6, alpha: 0.2,resourseNa: "icons8-pinMap-48")
     
-    fileprivate let addAdressButton = UIButton.setupButton(title: "+", color: UIColor.rgb(red: 255, green: 255, blue: 255),activation: false,invisibility: false, laeyerRadius: 30/2, alpha: 0.5)
+    fileprivate let addAdressButton = UIButton.setupButton(title: "+", color: UIColor.rgb(red: 31, green: 152, blue: 233),activation: true,invisibility: false, laeyerRadius: 30/2, alpha: 0.5)
     
     fileprivate let styleMap = UIButton.setupButtonImage( color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.7, resourseNa: "icons8-map-24")
     
@@ -168,7 +168,6 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
             mapView.removeAnnotation(ferstAnotation)
             mapView.removeOverlays(mapView.overlays)
             ferstAnotation = MKPointAnnotation()
-            formValidation()
             return
         }
         guard let first = firstPlaceTextfield.text else {return}
@@ -189,28 +188,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         guard let second = lastPlaceTextField.text else {return}
         setupPlacemark(adressPlace: second, mark: "lastPlace")
     }
-    
-    // проверяем поля на заполненность
-    @objc fileprivate func formValidation() {
-       
-        guard
-            firstPlaceTextfield.hasText,
-            lastPlaceTextField.hasText
-        else {
-            addAdressButton.isEnabled = true
-            addAdressButton.backgroundColor =  UIColor.rgb(red: 255, green: 255, blue: 255).withAlphaComponent(0.5)
-            
-            routeButton.isEnabled = true
-            routeButton.backgroundColor = UIColor.rgb(red: 190, green: 140, blue: 196).withAlphaComponent(0.5)
-            return
-        }
-        addAdressButton.isEnabled = true
-        addAdressButton.backgroundColor =  UIColor.rgb(red: 31, green: 152, blue: 233).withAlphaComponent(0.5)
-        
-        routeButton.isEnabled = true
-        routeButton.backgroundColor = UIColor.rgb(red: 190, green: 140, blue: 196).withAlphaComponent(1)
-    }
- 
+
     @objc fileprivate func touchAddAdress(){
         alertAddAdress(title: "Add one more place", placeholder: "Add adres") {  [self] (text) in
         // получаем текст из алерта  отпраляем его в функцию и получаем анатацию и точки на карте
