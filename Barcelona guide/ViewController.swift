@@ -213,20 +213,16 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
             addAdressButton.isEnabled = false
             addAdressButton.backgroundColor = UIColor.rgb(red: 31, green: 152, blue: 233).withAlphaComponent(0.3)
             return
-            
         }
-       
         addAdressButton.isEnabled = true
         addAdressButton.backgroundColor = UIColor.rgb(red: 31, green: 152, blue: 233).withAlphaComponent(0.9)
     }
     
-
     @objc fileprivate func touchAddAdress(){
         alertAddAdress(title: "Add one more place", placeholder: "Add adres") {  [self] (text) in
         // получаем текст из алерта  отпраляем его в функцию и получаем анатацию и точки на карте
             setupPlacemark(adressPlace: text, mark: "additionPlace")
         }
-      
     }
     
     @objc fileprivate func touchRouteButton(){
@@ -234,7 +230,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         guard
             ferstAnotation.coordinate as NSObject != CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0) as NSObject &&
                 lastAnotation.coordinate as NSObject != CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0) as NSObject
-        else { alertError(title: "Please.", message: "Indicate at least two places.")
+        else { alertError(title: "Please", message: "Indicate at least two places.")
                return }
         
         mapView.removeOverlays(mapView.overlays)
@@ -349,14 +345,20 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
      }
     
    @objc fileprivate func locationUser(sender: UIButton){
-        
+    
        switch sender.tag  {
        case 0:
+           UIView.animate(withDuration: 0.25, animations: {
+               self.userLocationButtonCircle.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+           })
            locationManager.startUpdatingLocation()
            userLocationButtonCircle.tag = 1
            userLocationButtonCircle.backgroundColor = UIColor.rgb(red: 190, green: 140, blue: 196).withAlphaComponent(0.6)
           
        case 1:
+           UIView.animate(withDuration: 0.25, animations: {
+               self.userLocationButtonCircle.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2)
+           })
            locationManager.stopUpdatingLocation()
            userLocationButtonCircle.tag = 0
            userLocationButtonCircle.backgroundColor = UIColor.rgb(red: 31, green: 152, blue: 233).withAlphaComponent(0.6)
@@ -369,7 +371,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         guard
             ferstAnotation.coordinate as NSObject != CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0) as NSObject &&
             lastAnotation.coordinate as NSObject != CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0) as NSObject
-        else { alertError(title: "Please.", message: "Indicate at least two places.")
+        else { alertError(title: "Please", message: "Indicate at least two places.")
                return }
 
        switch sender.tag {
