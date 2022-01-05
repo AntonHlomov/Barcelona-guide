@@ -181,6 +181,9 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
             ferstAnotation = MKPointAnnotation()
             return
         }
+        if locationButtonAdFirstPlace.tag == 1{
+            addLocationUserFerstPlace(sender: locationButtonAdFirstPlace)
+        }
         guard let first = firstPlaceTextfield.text else {return}
         setupPlacemark(adressPlace: first, mark: "ferstText")
     }
@@ -195,7 +198,9 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
             lastAnotation = MKPointAnnotation()
             return
         }
-       
+        if locationButtonAdLastPlace.tag == 1{
+            addLocationUserLastPlace(sender: locationButtonAdLastPlace)
+        }
         guard let second = lastPlaceTextField.text else {return}
         setupPlacemark(adressPlace: second, mark: "lastPlace")
     }
