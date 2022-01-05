@@ -153,7 +153,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     }
     
     func hadleres(){
-    
+        addYorRouteButton.addTarget(self, action: #selector(saveYorRouteButton), for: .touchUpInside)
         firstPlaceTextfield.addTarget(self, action: #selector(formValidationFirst), for: .editingDidEnd )
         lastPlaceTextField.addTarget(self, action: #selector(formValidationLast), for: .editingDidEnd)
         locationButtonAdFirstPlace.tag = 0
@@ -234,7 +234,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         guard
             ferstAnotation.coordinate as NSObject != CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0) as NSObject &&
                 lastAnotation.coordinate as NSObject != CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0) as NSObject
-        else { alertError(title: "Oops", message: "Indicate at least two places.")
+        else { alertError(title: "Please.", message: "Indicate at least two places.")
                return }
         
         mapView.removeOverlays(mapView.overlays)
@@ -257,7 +257,10 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         annotationsArray = [MKPointAnnotation]()
      
     }
-    
+    @objc fileprivate func saveYorRouteButton(){
+        alertError(title: "Sorry", message: "Saving your routes will be available soon..")
+      
+    }
     @objc fileprivate func changeStyleMap(){
         
         switch mapView.mapType {
@@ -366,7 +369,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         guard
             ferstAnotation.coordinate as NSObject != CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0) as NSObject &&
             lastAnotation.coordinate as NSObject != CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0) as NSObject
-        else { alertError(title: "Oops", message: "Indicate at least two places.")
+        else { alertError(title: "Please.", message: "Indicate at least two places.")
                return }
 
        switch sender.tag {
