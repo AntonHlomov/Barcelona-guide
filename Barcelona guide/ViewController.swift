@@ -16,11 +16,22 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         mapView.translatesAutoresizingMaskIntoConstraints = false
         return mapView
     }()
-    
+    var lastAnotation = MKPointAnnotation(){
+        didSet {
+            if lastAnotation != oldValue  {
+            formValidationAllPoint()
+            }
+        }
+    }
+    var ferstAnotation = MKPointAnnotation(){
+        didSet {
+            if ferstAnotation != oldValue  {
+            formValidationAllPoint()
+            }
+        }
+    }
     let locationManager = CLLocationManager()
     var annotationsArray = [MKPointAnnotation]()
-    var lastAnotation = MKPointAnnotation()
-    var ferstAnotation = MKPointAnnotation()
     let annotationUser = MKPointAnnotation()
     
     
@@ -32,7 +43,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     
     fileprivate let locationButtonAdLastPlace = UIButton.setupButtonImage(color: .lightGray,activation: true,invisibility: false, laeyerRadius: 6, alpha: 0.2,resourseNa: "icons8-pinMap-48")
     
-    fileprivate let addAdressButton = UIButton.setupButton(title: "+", color: UIColor.rgb(red: 31, green: 152, blue: 233),activation: true,invisibility: false, laeyerRadius: 30/2, alpha: 0.5)
+    fileprivate let addAdressButton = UIButton.setupButton(title: "+", color: UIColor.rgb(red: 31, green: 152, blue: 233),activation: false,invisibility: false, laeyerRadius: 30/2, alpha: 0.3)
     
     fileprivate let styleMap = UIButton.setupButtonImage( color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.7, resourseNa: "icons8-map-24")
     
@@ -188,6 +199,22 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         guard let second = lastPlaceTextField.text else {return}
         setupPlacemark(adressPlace: second, mark: "lastPlace")
     }
+    
+    fileprivate func formValidationAllPoint() {
+        guard
+            ferstAnotation.coordinate as NSObject != CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0) as NSObject,
+            lastAnotation.coordinate as NSObject != CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0) as NSObject
+        else {
+            addAdressButton.isEnabled = false
+            addAdressButton.backgroundColor = UIColor.rgb(red: 31, green: 152, blue: 233).withAlphaComponent(0.3)
+            return
+            
+        }
+       
+        addAdressButton.isEnabled = true
+        addAdressButton.backgroundColor = UIColor.rgb(red: 31, green: 152, blue: 233).withAlphaComponent(0.9)
+    }
+    
 
     @objc fileprivate func touchAddAdress(){
         alertAddAdress(title: "Add one more place", placeholder: "Add adres") {  [self] (text) in
