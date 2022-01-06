@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A2E2614278643ED00B866E8 /* CollectionRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2E2613278643ED00B866E8 /* CollectionRoute.swift */; };
+		8A2E26162786444E00B866E8 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A2E26152786444E00B866E8 /* Route.swift */; };
 		8AE0EB21277A3A9B002ADA32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0EB20277A3A9B002ADA32 /* AppDelegate.swift */; };
 		8AE0EB23277A3A9B002ADA32 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0EB22277A3A9B002ADA32 /* SceneDelegate.swift */; };
 		8AE0EB25277A3A9B002ADA32 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0EB24277A3A9B002ADA32 /* ViewController.swift */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8A2E2613278643ED00B866E8 /* CollectionRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionRoute.swift; sourceTree = "<group>"; };
+		8A2E26152786444E00B866E8 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		8AE0EB1D277A3A9B002ADA32 /* Barcelona guide.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Barcelona guide.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AE0EB20277A3A9B002ADA32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AE0EB22277A3A9B002ADA32 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +69,8 @@
 				8AE0EB20277A3A9B002ADA32 /* AppDelegate.swift */,
 				8AE0EB22277A3A9B002ADA32 /* SceneDelegate.swift */,
 				8AE0EB24277A3A9B002ADA32 /* ViewController.swift */,
+				8A2E2613278643ED00B866E8 /* CollectionRoute.swift */,
+				8A2E26152786444E00B866E8 /* Route.swift */,
 				8AE0EB39277A6C86002ADA32 /* Alert.swift */,
 				8AE0EB37277A449D002ADA32 /* Utils.swift */,
 				8AE0EB26277A3A9B002ADA32 /* Main.storyboard */,
@@ -152,6 +158,8 @@
 				8AE0EB2B277A3A9B002ADA32 /* Barcelona_guide.xcdatamodeld in Sources */,
 				8AE0EB25277A3A9B002ADA32 /* ViewController.swift in Sources */,
 				8AE0EB21277A3A9B002ADA32 /* AppDelegate.swift in Sources */,
+				8A2E26162786444E00B866E8 /* Route.swift in Sources */,
+				8A2E2614278643ED00B866E8 /* CollectionRoute.swift in Sources */,
 				8AE0EB23277A3A9B002ADA32 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
