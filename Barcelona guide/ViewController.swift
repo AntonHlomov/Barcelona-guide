@@ -8,9 +8,9 @@
 import UIKit
 import MapKit
 import CoreLocation
-
-class ViewController: UIViewController,CLLocationManagerDelegate {
-   
+let cellId = "apCellId"
+class ViewController: UIViewController,CLLocationManagerDelegate{
+  
     fileprivate let mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.translatesAutoresizingMaskIntoConstraints = false
@@ -34,6 +34,23 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     var annotationsArray = [MKPointAnnotation]()
     let annotationUser = MKPointAnnotation()
     
+    let appsCollectionView: UICollectionView = {
+        
+    let layout = UICollectionViewFlowLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 200, height: 90)
+       
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+   
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .clear
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+    
+    return collectionView
+}()
+    
     
     fileprivate let firstPlaceTextfield = UITextField.setupTextField(title: "First place..", hideText: false, enabled: true)
     
@@ -49,22 +66,22 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
     
     fileprivate let styleCarOrWhalk = UIButton.setupButtonImage( color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.7, resourseNa: "icons8-whalk-30")
     
-    fileprivate let addYorRouteButton = UIButton.setupButtonImage( color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 50/2, alpha: 0.8,resourseNa: "icons8-add-100")
+    fileprivate let addYorRouteButton = UIButton.setupButtonImage( color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.8,resourseNa: "icons8-add-100")
     
-    fileprivate let userLocationButtonCircle = UIButton.setupButtonImage(color: UIColor.rgb(red: 31, green: 152, blue: 233),activation: true,invisibility: false, laeyerRadius: 50/2, alpha: 0.6,resourseNa: "icons8-gps-30")
+    fileprivate let userLocationButtonCircle = UIButton.setupButtonImage(color: UIColor.rgb(red: 31, green: 152, blue: 233),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.6,resourseNa: "icons8-gps-30")
     
-    fileprivate let routeButton = UIButton.setupButton(title: "Route", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 30/2, alpha: 1)
+    fileprivate let routeResetButton = UIButton.setupButtonImage(color: UIColor.rgb(red: 31, green: 152, blue: 233),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.6,resourseNa: "icons8-route-30")
+    fileprivate let recordRouteButton = UIButton.setupButtonImage( color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.6,resourseNa: "icons8-rec-30")
     
-    fileprivate let resetButton = UIButton.setupButton(title: "Reset", color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 30/2, alpha: 1)
-   
     lazy var stackTextFieldView = UIStackView(arrangedSubviews: [firstPlaceTextfield,lastPlaceTextField])
     lazy var stackButtonMapCarWhalk = UIStackView(arrangedSubviews: [styleMap,styleCarOrWhalk])
-    lazy var circleButtonView = UIStackView(arrangedSubviews: [userLocationButtonCircle,addYorRouteButton])
-    lazy var stackButtonView = UIStackView(arrangedSubviews: [routeButton,resetButton])
+    lazy var circleButtonView = UIStackView(arrangedSubviews: [userLocationButtonCircle,recordRouteButton])
+    lazy var stackButtonRecAndAddView = UIStackView(arrangedSubviews: [routeResetButton,addYorRouteButton])
+ 
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-   
         mapView.delegate = self
         locationManager.requestWhenInUseAuthorization()
         OnOflocationManager()
@@ -72,13 +89,18 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         configureViewComponents()
         setupTapGesture()
         
+        appsCollectionView.delegate = self
+        appsCollectionView.dataSource = self
+        appsCollectionView.register(CellСollectionRoute.self, forCellWithReuseIdentifier: cellId)
+        
     }
     
     override func viewDidLayoutSubviews() {
       super.viewDidLayoutSubviews()
         configureViewComponents()
     }
-
+   
+   
     func OnOflocationManager(){
         
         if CLLocationManager.locationServicesEnabled() {
@@ -110,6 +132,9 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
        
         view.addSubview(mapView)
         mapView.anchor(top: view.topAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor, pading: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 0))
+        
+        view.addSubview(appsCollectionView)
+        appsCollectionView.anchor(top: nil, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor, pading: .init(top: 0, left: 0, bottom: -10, right: 0), size: .init(width: view.frame.width, height: 90 ))
 
         stackTextFieldView.axis = .vertical
         stackTextFieldView.spacing = 50
@@ -136,19 +161,23 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         view.addSubview(stackButtonMapCarWhalk)
         stackButtonMapCarWhalk.anchor(top: stackTextFieldView.bottomAnchor, leading: nil, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: 20, left: 0, bottom: 0, right: 10), size: .init(width: 40, height: 90))
 
-        stackButtonView.axis = .horizontal
-        stackButtonView.spacing = 30
-        stackButtonView.distribution = .fillEqually  // для корректного отображения
-        
-        view.addSubview(stackButtonView)
-        stackButtonView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: 0, left: 10 , bottom: 0, right: 10), size: .init(width: 0, height: 0))
         
         circleButtonView.axis = .vertical
         circleButtonView.spacing = 15
         circleButtonView.distribution = .fillEqually  // для корректного отображения
         
         view.addSubview(circleButtonView)
-        circleButtonView.anchor(top: nil, leading: nil, bottom: stackButtonView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: 0, left: 0 , bottom: 35, right: 10), size: .init(width: 50, height: 115))
+        circleButtonView.anchor(top: nil, leading: nil, bottom: appsCollectionView.topAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: 0, left: 0 , bottom: 15, right: 10), size: .init(width: 50, height: 115))
+        
+        
+        stackButtonRecAndAddView.axis = .vertical
+        stackButtonRecAndAddView.spacing = 15
+        stackButtonRecAndAddView.distribution = .fillEqually  // для корректного отображения
+        
+        view.addSubview(stackButtonRecAndAddView)
+        stackButtonRecAndAddView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: appsCollectionView.topAnchor, trailing: nil, pading: .init(top: 0, left: 10 , bottom: 15, right:0), size: .init(width: 50, height: 115))
+        
+       
         
     }
     
@@ -161,13 +190,13 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         locationButtonAdLastPlace.tag = 0
         locationButtonAdLastPlace.addTarget(self, action: #selector(addLocationUserLastPlace(sender:)), for: .touchUpInside)
         addAdressButton.addTarget(self, action: #selector(touchAddAdress), for: .touchUpInside)
-        routeButton.addTarget(self, action: #selector(touchRouteButton), for: .touchUpInside)
-        resetButton.addTarget(self, action: #selector(touchResetButton), for: .touchUpInside)
         styleMap.addTarget(self, action: #selector(changeStyleMap), for: .touchUpInside)
         userLocationButtonCircle.tag = 0
         userLocationButtonCircle.addTarget(self, action: #selector(locationUser(sender:)), for: .touchUpInside)
         styleCarOrWhalk.tag = 0
         styleCarOrWhalk.addTarget(self, action: #selector(changeCarOrWhalk(sender:)), for: .touchUpInside)
+        styleCarOrWhalk.tag = 0
+        routeResetButton.addTarget(self, action: #selector(routePutReset(sender:)), for: .touchUpInside)
     
     }
     
@@ -225,7 +254,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         }
     }
     
-    @objc fileprivate func touchRouteButton(){
+     func touchRouteButton(){
        
         guard
             ferstAnotation.coordinate as NSObject != CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0) as NSObject &&
@@ -242,7 +271,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         mapView.showAnnotations(showArrayAnnotions, animated: true)
     }
     
-    @objc fileprivate func touchResetButton(){
+      func touchResetButton(){
         
         lastAnotation = MKPointAnnotation()
         ferstAnotation = MKPointAnnotation()
@@ -253,6 +282,31 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
         annotationsArray = [MKPointAnnotation]()
      
     }
+  
+    @objc fileprivate func routePutReset(sender: UIButton){
+        switch sender.tag  {
+        case 0:
+            guard
+                ferstAnotation.coordinate as NSObject != CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0) as NSObject &&
+                    lastAnotation.coordinate as NSObject != CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0) as NSObject
+            else { alertError(title: "Please", message: "Indicate at least two places.")
+                   return }
+            
+            touchRouteButton()
+            routeResetButton.tag = 1
+            routeResetButton.backgroundColor = UIColor.rgb(red: 190, green: 140, blue: 196).withAlphaComponent(0.6)
+           
+        case 1:
+            touchResetButton()
+            routeResetButton.tag = 0
+            routeResetButton.backgroundColor = UIColor.rgb(red: 31, green: 152, blue: 233).withAlphaComponent(0.6)
+            
+        default:
+            return
+        }
+     
+    }
+    
     @objc fileprivate func saveYorRouteButton(){
         alertError(title: "Sorry", message: "Saving your routes will be available soon..")
       
@@ -373,14 +427,23 @@ class ViewController: UIViewController,CLLocationManagerDelegate {
             lastAnotation.coordinate as NSObject != CLLocationCoordinate2D(latitude: 0.0, longitude: 0.0) as NSObject
         else { alertError(title: "Please", message: "Indicate at least two places.")
                return }
+        if routeResetButton.tag == 0 {
+           routePutReset(sender: routeResetButton)
+        }
 
        switch sender.tag {
        case 0:
+           UIView.animate(withDuration: 0.25, animations: {
+               self.styleCarOrWhalk.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+           })
            styleCarOrWhalk.tag = 1
-           styleCarOrWhalk.setImage(#imageLiteral(resourceName: "icons8-автомобиль-90"), for:.normal)
+           styleCarOrWhalk.setImage(#imageLiteral(resourceName: "icons8-car180-60"), for:.normal)
            styleCarOrWhalk.backgroundColor = UIColor.rgb(red: 31, green: 152, blue: 233).withAlphaComponent(0.6)
            touchRouteButton()
        case 1:
+           UIView.animate(withDuration: 0.25, animations: {
+               self.styleCarOrWhalk.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2)
+           })
            styleCarOrWhalk.tag = 0
            styleCarOrWhalk.setImage(#imageLiteral(resourceName: "icons8-whalk-30"), for:.normal)
            styleCarOrWhalk.backgroundColor = UIColor.rgb(red: 190, green: 140, blue: 196).withAlphaComponent(0.6)
