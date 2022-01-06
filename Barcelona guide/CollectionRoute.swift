@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-extension UIViewController:  UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
+extension UIViewController:  UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
    
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         10
@@ -22,7 +22,20 @@ extension UIViewController:  UICollectionViewDelegate, UICollectionViewDataSourc
         cell.layer.cornerRadius = 20
         return cell
     }
+  
+  
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+     
+       print("нажал\(indexPath)")
     
+
+
+    
+   }
+    
+    
+    
+   
     // MARK: - class AppCellСlReminder
     
     class CellСollectionRoute: UICollectionViewCell {

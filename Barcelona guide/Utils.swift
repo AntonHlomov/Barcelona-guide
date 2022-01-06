@@ -58,20 +58,31 @@ extension UITextField{
         return tf
     }
 }
+extension UILabel{
+    class func setupLabel(title: String, alignment: NSTextAlignment, color: UIColor, alpha: Double, size: Int, numberLines: Int ) -> UILabel{
+        let label = UILabel()
+        label.text = title
+        label.textAlignment = alignment
+        label.textColor = color.withAlphaComponent(alpha)
+        label.font = UIFont.systemFont(ofSize: CGFloat(size))
+        label.numberOfLines = numberLines
+        return label
+    }
+}
 
 // функция для кнопки
 
 extension UIButton{
-    class func setupButton(title: String, color: UIColor, activation: Bool, invisibility: Bool, laeyerRadius: Double, alpha: Double ) -> UIButton {
+    class func setupButton(title: String, color: UIColor, activation: Bool, invisibility: Bool, laeyerRadius: Double, alpha: Double, textcolor: UIColor  ) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(textcolor, for: .normal)
         button.backgroundColor = color.withAlphaComponent(alpha)
         button.layer.cornerRadius = laeyerRadius //30/2  // скругляем кнопку
         button.isEnabled = activation   //диактивация кнопки изначально кнопка не активна (активна после заполнения всех полей)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.isHidden = invisibility
-        
+       
         return button
     }
     class func setupButtonImage(color: UIColor, activation: Bool, invisibility: Bool, laeyerRadius: Double, alpha: Double, resourseNa: String ) -> UIButton {
@@ -84,18 +95,8 @@ extension UIButton{
         button.isHidden = invisibility
         button.setImage(#imageLiteral(resourceName: resourseNa), for: .normal)
         button.tintColor = UIColor(white: 1, alpha: 1)
-    
-//
-//        button.layer.borderColor = color.cgColor
-//        button.backgroundColor = .white
-//        button.layer.borderWidth = 3
-        
-        
         return button
     }
-    
-    
-    
 }
 
 
@@ -106,7 +107,6 @@ extension UIColor{
     static func rgb(red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
         return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: 1)
     }
-    
 }
 
 

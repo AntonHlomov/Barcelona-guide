@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import CoreLocation
 let cellId = "apCellId"
-class ViewController: UIViewController,CLLocationManagerDelegate{
+class ViewController: UIViewController,CLLocationManagerDelegate,UINavigationControllerDelegate{
   
     fileprivate let mapView: MKMapView = {
         let mapView = MKMapView()
@@ -60,7 +60,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate{
     
     fileprivate let locationButtonAdLastPlace = UIButton.setupButtonImage(color: .lightGray,activation: true,invisibility: false, laeyerRadius: 6, alpha: 0.2,resourseNa: "icons8-pinMap-48")
     
-    fileprivate let addAdressButton = UIButton.setupButton(title: "+", color: UIColor.rgb(red: 31, green: 152, blue: 233),activation: false,invisibility: false, laeyerRadius: 30/2, alpha: 0.3)
+    fileprivate let addAdressButton = UIButton.setupButton(title: "+", color: UIColor.rgb(red: 31, green: 152, blue: 233),activation: false,invisibility: false, laeyerRadius: 30/2, alpha: 0.3, textcolor: .white)
     
     fileprivate let styleMap = UIButton.setupButtonImage( color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.7, resourseNa: "icons8-map-24")
     
@@ -82,6 +82,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.delegate = self
         mapView.delegate = self
         locationManager.requestWhenInUseAuthorization()
         OnOflocationManager()
@@ -313,8 +314,12 @@ class ViewController: UIViewController,CLLocationManagerDelegate{
     }
     
     @objc fileprivate func saveYorRouteButton(){
-        alertError(title: "Sorry", message: "Saving your routes will be available soon..")
-      
+       // alertError(title: "Sorry", message: "Saving your routes will be available soon..")
+        let vc = PresentRoute()
+        let navControler = UINavigationController(rootViewController: vc)
+        navControler.modalPresentationStyle = .fullScreen //окно появиться на весь экран
+        self.present(navControler, animated: true, completion: nil)
+        print("Go")
     }
     @objc fileprivate func changeStyleMap(){
         
