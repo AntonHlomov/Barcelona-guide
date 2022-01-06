@@ -195,9 +195,8 @@ class ViewController: UIViewController,CLLocationManagerDelegate{
         userLocationButtonCircle.addTarget(self, action: #selector(locationUser(sender:)), for: .touchUpInside)
         styleCarOrWhalk.tag = 0
         styleCarOrWhalk.addTarget(self, action: #selector(changeCarOrWhalk(sender:)), for: .touchUpInside)
-        styleCarOrWhalk.tag = 0
+        routeResetButton.tag = 0
         routeResetButton.addTarget(self, action: #selector(routePutReset(sender:)), for: .touchUpInside)
-    
     }
     
     // проверяем поля на заполненность
@@ -272,6 +271,12 @@ class ViewController: UIViewController,CLLocationManagerDelegate{
     }
     
       func touchResetButton(){
+          if locationButtonAdFirstPlace.tag == 1{
+              addLocationUserFerstPlace(sender: locationButtonAdFirstPlace)
+          }
+          if locationButtonAdLastPlace.tag == 1{
+              addLocationUserLastPlace(sender: locationButtonAdLastPlace)
+          }
         
         lastAnotation = MKPointAnnotation()
         ferstAnotation = MKPointAnnotation()
