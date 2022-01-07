@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import MapKit
 import CoreLocation
-
+let cellId = "apCellId"
 extension UIViewController:  UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
    
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -23,19 +23,16 @@ extension UIViewController:  UICollectionViewDelegate, UICollectionViewDataSourc
         return cell
     }
   
-  
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-     
-       print("нажал\(indexPath)")
-    
+        print("нажал\(indexPath)")
+        let vc = PresentRoute()
+        vc.starLabel.text = String(indexPath.row)
+        let navControler = UINavigationController(rootViewController: vc)
+        navControler.modalPresentationStyle = .fullScreen //окно появиться на весь экран
+        self.present(navControler, animated: true, completion: nil)
+       
+    }
 
-
-    
-   }
-    
-    
-    
-   
     // MARK: - class AppCellСlReminder
     
     class CellСollectionRoute: UICollectionViewCell {

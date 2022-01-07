@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 import CoreLocation
-let cellId = "apCellId"
+
 class ViewController: UIViewController,CLLocationManagerDelegate,UINavigationControllerDelegate{
   
     fileprivate let mapView: MKMapView = {
@@ -82,18 +82,19 @@ class ViewController: UIViewController,CLLocationManagerDelegate,UINavigationCon
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationController?.delegate = self
         mapView.delegate = self
         locationManager.requestWhenInUseAuthorization()
         OnOflocationManager()
         hadleres()
         configureViewComponents()
-        setupTapGesture()
+        
         
         appsCollectionView.delegate = self
         appsCollectionView.dataSource = self
         appsCollectionView.register(CellСollectionRoute.self, forCellWithReuseIdentifier: cellId)
-        
+        setupTapGesture()
     }
     
     override func viewDidLayoutSubviews() {
@@ -314,12 +315,8 @@ class ViewController: UIViewController,CLLocationManagerDelegate,UINavigationCon
     }
     
     @objc fileprivate func saveYorRouteButton(){
-       // alertError(title: "Sorry", message: "Saving your routes will be available soon..")
-        let vc = PresentRoute()
-        let navControler = UINavigationController(rootViewController: vc)
-        navControler.modalPresentationStyle = .fullScreen //окно появиться на весь экран
-        self.present(navControler, animated: true, completion: nil)
-        print("Go")
+       alertError(title: "Sorry", message: "Saving your routes will be available soon..")
+      
     }
     @objc fileprivate func changeStyleMap(){
         
@@ -559,13 +556,12 @@ class ViewController: UIViewController,CLLocationManagerDelegate,UINavigationCon
     }
     //MARK: - TapGesture and endEditing
     
-    fileprivate func setupTapGesture(){
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapDismiss)))
-      
-    }
-    @objc fileprivate func handleTapDismiss(){
-        view.endEditing(true)
-    }
+  fileprivate func setupTapGesture(){
+      mapView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapDismiss)))
+  }
+  @objc fileprivate func handleTapDismiss(){
+      view.endEditing(true)
+  }
 }
 
 //MARK: - extension

@@ -71,7 +71,7 @@ class PresentRoute: UIViewController, UINavigationControllerDelegate {
         iv.layer.masksToBounds = true
         return iv
     }()
-    let starLabel = UILabel.setupLabel(title: "4.5", alignment: .left, color: .white, alpha: 1, size: 13, numberLines: 1)
+    lazy var starLabel = UILabel.setupLabel(title: "4.5", alignment: .left, color: .white, alpha: 1, size: 13, numberLines: 1)
     lazy var stackStar = UIStackView(arrangedSubviews: [star,starLabel])
    
     
@@ -82,7 +82,7 @@ class PresentRoute: UIViewController, UINavigationControllerDelegate {
         iv.layer.masksToBounds = true
         return iv
     }()
-    let walkLabel = UILabel.setupLabel(title: "10", alignment: .left, color: .white, alpha: 1, size: 13, numberLines: 1)
+    lazy var walkLabel = UILabel.setupLabel(title: "10", alignment: .left, color: .white, alpha: 1, size: 13, numberLines: 1)
     let kmWalkLabel = UILabel.setupLabel(title: "km", alignment: .left, color: .white, alpha: 1, size: 13, numberLines: 1)
     lazy var stackWKLabel = UIStackView(arrangedSubviews: [walkLabel,kmWalkLabel])
     lazy var stackWalk = UIStackView(arrangedSubviews: [walk,stackWKLabel])
@@ -94,7 +94,7 @@ class PresentRoute: UIViewController, UINavigationControllerDelegate {
         iv.layer.masksToBounds = true
         return iv
     }()
-    let timeLabel = UILabel.setupLabel(title: "2.5", alignment: .left, color: .white, alpha: 1, size: 13, numberLines: 1)
+    lazy var timeLabel = UILabel.setupLabel(title: "2.5", alignment: .left, color: .white, alpha: 1, size: 13, numberLines: 1)
     let horsTimeLabel = UILabel.setupLabel(title: "h", alignment: .left, color: .white, alpha: 1, size: 13, numberLines: 1)
     lazy var stackTHLabel = UIStackView(arrangedSubviews: [timeLabel,horsTimeLabel])
     lazy var stackTime = UIStackView(arrangedSubviews: [time,stackTHLabel])
