@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>493174960957-c0p8lrmkltkdfr2gk2koqatslc07nlab.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.493174960957-c0p8lrmkltkdfr2gk2koqatslc07nlab</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAhvZnI-BNQrbayjnZP1pLq_uUtuYr9A0g</string>
+	<key>GCM_SENDER_ID</key>
+	<string>493174960957</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>Save-routes-guide</string>
+	<key>PROJECT_ID</key>
+	<string>guide-e2acb</string>
+	<key>STORAGE_BUCKET</key>
+	<string>guide-e2acb.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:493174960957:ios:2f1b068c095fb773fb0b54</string>
+</dict>
+</plist>
