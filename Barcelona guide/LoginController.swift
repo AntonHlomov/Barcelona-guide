@@ -27,7 +27,7 @@ class LoginController: UIViewController {
   
     fileprivate let emailTextfield = UITextField.setupTextField(title: "Электронная почта..", hideText: false, enabled: true)
     fileprivate let passwordTextField = UITextField.setupTextField(title: "Пароль..", hideText: true, enabled: true)
-    fileprivate let loginButton = UIButton.setupButton(title: "Enter", color: UIColor.rgb(red: 190, green: 140, blue: 196), activation: false, invisibility: false, laeyerRadius: 12, alpha: 1, textcolor: UIColor.rgb(red: 81, green: 107, blue: 103).withAlphaComponent(0.9))
+    fileprivate let loginButton = UIButton.setupButton(title: "Enter", color: UIColor.rgb(red: 190, green: 140, blue: 196), activation: false, invisibility: false, laeyerRadius: 12, alpha: 1, textcolor: UIColor.rgb(red: 255, green: 255, blue: 255).withAlphaComponent(0.9))
   
     fileprivate let registrationWithFacebook: UIButton = {
         let button = UIButton(type: .system)
@@ -57,13 +57,15 @@ class LoginController: UIViewController {
         guard let email = emailTextfield.text else {return}
         guard let password = passwordTextField.text else {return}
         
-        Auth.auth().signIn(withEmail: email, password: password) { (user, err) in
+        Auth.auth().signIn(withEmail: email, password: password) { [self] (user, err) in
             if let err = err {
                 print("Filed to login with error", err.localizedDescription)
+                alertLoginControllerMassage(title: "Oops", message: "\(err.localizedDescription)")
                 return
         }
             print("Successfuly signed user in")
-        
+           // alertLoginControllerMassage(title: "Hello", message: "Successfuly signed user in")
+            
            let loginVC = ViewController()
            let navControler = UINavigationController(rootViewController: loginVC)
            navControler.modalPresentationStyle = .fullScreen
@@ -135,5 +137,14 @@ class LoginController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         NotificationCenter.default.removeObserver(self)
+    }
+}
+
+extension LoginController{
+    func alertLoginControllerMassage(title: String, message: String){
+        let alertControler = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alertOk = UIAlertAction(title: "Ok", style: .default)
+        alertControler.addAction(alertOk)
+        present(alertControler, animated: true, completion: nil)
     }
 }
