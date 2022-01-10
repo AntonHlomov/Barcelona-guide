@@ -19,14 +19,16 @@ class ViewController: UIViewController,CLLocationManagerDelegate,UINavigationCon
     var lastAnotation = MKPointAnnotation(){
         didSet {
             if lastAnotation != oldValue  {
-            formValidationAllPoint()
+                formValidationAllPoint()
+                formValidChanges()
             }
         }
     }
     var ferstAnotation = MKPointAnnotation(){
         didSet {
             if ferstAnotation != oldValue  {
-            formValidationAllPoint()
+                formValidationAllPoint()
+                formValidChanges()
             }
         }
     }
@@ -199,6 +201,17 @@ class ViewController: UIViewController,CLLocationManagerDelegate,UINavigationCon
         styleCarOrWhalk.addTarget(self, action: #selector(changeCarOrWhalk(sender:)), for: .touchUpInside)
         routeResetButton.tag = 0
         routeResetButton.addTarget(self, action: #selector(routePutReset(sender:)), for: .touchUpInside)
+    }
+    // проверяем поля на заполненность
+    @objc fileprivate func formValidChanges() {
+        guard
+        ([ferstAnotation] + annotationsArray + [lastAnotation]).count > 1
+        else {
+            return
+        }
+        if routeResetButton.tag  == 1{
+            touchRouteButton()
+        }
     }
     
     // проверяем поля на заполненность
