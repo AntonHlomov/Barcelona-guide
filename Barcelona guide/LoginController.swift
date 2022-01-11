@@ -63,9 +63,7 @@ class LoginController: UIViewController {
                 alertLoginControllerMassage(title: "Oops", message: "\(err.localizedDescription)")
                 return
         }
-            print("Successfuly signed user in")
-           // alertLoginControllerMassage(title: "Hello", message: "Successfuly signed user in")
-            
+           print("Successfuly signed user in")
            let loginVC = ViewController()
            let navControler = UINavigationController(rootViewController: loginVC)
            navControler.modalPresentationStyle = .fullScreen
@@ -73,14 +71,12 @@ class LoginController: UIViewController {
             
          //   // переход с удалением предыдущего контролера
          //   DispatchQueue.main.async {
-       //
          //       let keyWindow = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first
          //       if let maintabVC = keyWindow?.rootViewController as? ViewController {
-         //
          //        }
          //       self.dismiss(animated: true, completion: nil)
          //   }
-       //
+         //
     }
 }
     // проверяем поля на заполненность
@@ -114,9 +110,9 @@ class LoginController: UIViewController {
         view.addSubview(stackView)
         stackView.anchor(top: stacUpElementsView.bottomAnchor,leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor,pading: .init(top: 45, left: 20, bottom: 0, right:20), size: .init(width: 0, height: view.frame.height/4))
         
-       // определяем кнопку зайти через фесбук
-       view.addSubview(registrationWithFacebook)
-       registrationWithFacebook.anchor(top: nil, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor, pading: .init(top: 0, left: 40, bottom: 10, right: 40))
+        // определяем кнопку зайти через фесбук
+        view.addSubview(registrationWithFacebook)
+        registrationWithFacebook.anchor(top: nil, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor, pading: .init(top: 0, left: 40, bottom: 10, right: 40))
     }
     
     @objc fileprivate func goToSingUP(){

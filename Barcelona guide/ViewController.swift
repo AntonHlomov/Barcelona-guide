@@ -43,9 +43,7 @@ class ViewController: UIViewController,CLLocationManagerDelegate,UINavigationCon
         
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 200, height: 90)
-       
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-   
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.translatesAutoresizingMaskIntoConstraints = false
