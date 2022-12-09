@@ -8,6 +8,7 @@
 import UIKit
 
 class Login: UIViewController {
+    var presenter: LoginPresenterProtocol!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,4 +27,12 @@ class Login: UIViewController {
     }
     */
 
+}
+extension Login: LoginProtocol {
+    func failure(error: Error){
+        
+    }
+    func alert(title: String, message: String){
+        
+    }
 }

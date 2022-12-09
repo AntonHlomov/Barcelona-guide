@@ -10,6 +10,7 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 class FavoriteObjectsCollection: UICollectionViewController {
+    var presenter: FavoriteObjectsPresenterProtocol!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,4 +86,21 @@ class FavoriteObjectsCollection: UICollectionViewController {
     }
     */
 
+}
+extension FavoriteObjectsCollection: FavoriteObjectsProtocol {
+    func sucses(objects: [Object]?){
+        
+    }
+    func failure(error: Error){
+        
+    }
+    func reload(){
+        
+    }
+    func reloadCell(indexPath: IndexPath){
+        
+    }
+    func alert(title: String, message: String){
+        
+    }
 }

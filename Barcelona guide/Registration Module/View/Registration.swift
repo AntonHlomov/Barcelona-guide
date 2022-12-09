@@ -8,6 +8,7 @@
 import UIKit
 
 class Registration: UIViewController {
+    var presenter: RegistrationPresenterProtocol!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,4 +27,12 @@ class Registration: UIViewController {
     }
     */
 
+}
+extension Registration: RegistrationProtocol {
+    func failure(error: Error){
+        
+    }
+    func alert(title: String, message: String){
+        
+    }
 }

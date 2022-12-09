@@ -8,7 +8,8 @@
 import UIKit
 
 class Mapa: UIViewController {
-
+    var presenter: MapaPresenterProtocol!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,4 +27,12 @@ class Mapa: UIViewController {
     }
     */
 
+}
+extension Mapa: MapaProtocol {
+    func failure(error: Error){
+        
+    }
+    func alert(title: String, message: String){
+        
+    }
 }

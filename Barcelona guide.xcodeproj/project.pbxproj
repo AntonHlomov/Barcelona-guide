@@ -73,6 +73,8 @@
 		8AEABDCE2942700500E37FED /* FavoriteObjectsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEABDCD2942700500E37FED /* FavoriteObjectsPresenter.swift */; };
 		8AEABDD129427A4E00E37FED /* InterfaceStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEABDD029427A4E00E37FED /* InterfaceStyle.swift */; };
 		8AEABDD329427A6E00E37FED /* Сolors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEABDD229427A6E00E37FED /* Сolors.swift */; };
+		8AEABDD82942CBC800E37FED /* PresentansionObjectPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEABDD72942CBC800E37FED /* PresentansionObjectPresenter.swift */; };
+		8AEABDDA2942CBE800E37FED /* PresentansionObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEABDD92942CBE800E37FED /* PresentansionObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -134,6 +136,8 @@
 		8AEABDCD2942700500E37FED /* FavoriteObjectsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteObjectsPresenter.swift; sourceTree = "<group>"; };
 		8AEABDD029427A4E00E37FED /* InterfaceStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceStyle.swift; sourceTree = "<group>"; };
 		8AEABDD229427A6E00E37FED /* Сolors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Сolors.swift"; sourceTree = "<group>"; };
+		8AEABDD72942CBC800E37FED /* PresentansionObjectPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentansionObjectPresenter.swift; sourceTree = "<group>"; };
+		8AEABDD92942CBE800E37FED /* PresentansionObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentansionObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,12 +185,13 @@
 				8AEABD5229425C8400E37FED /* Router */,
 				8AEABD5129425C6F00E37FED /* Builder */,
 				8AEABD5029425C3C00E37FED /* Settings Module */,
+				8AEABD4B29425A7500E37FED /* Screensaver Module */,
 				8AEABD4F29425B6900E37FED /* Collection locations Module */,
 				8AEABD4E29425B2C00E37FED /* Mapa Module */,
 				8AEABD4D29425AFB00E37FED /* Registration Module */,
 				8AEABD4C29425AEB00E37FED /* Login Module */,
-				8AEABD4B29425A7500E37FED /* Screensaver Module */,
 				8AEABDC429426F1400E37FED /* Collection favorite object Module */,
+				8AEABDD42942CB6400E37FED /* Presentansion object Module */,
 				8AEABD4A29425A5E00E37FED /* Model */,
 				8AEABDA229426C5C00E37FED /* Tsests */,
 				8AE0EB20277A3A9B002ADA32 /* AppDelegate.swift */,
@@ -645,6 +650,31 @@
 			path = "Interface style extension";
 			sourceTree = "<group>";
 		};
+		8AEABDD42942CB6400E37FED /* Presentansion object Module */ = {
+			isa = PBXGroup;
+			children = (
+				8AEABDD62942CB9C00E37FED /* Presenter */,
+				8AEABDD52942CB8300E37FED /* View */,
+			);
+			path = "Presentansion object Module";
+			sourceTree = "<group>";
+		};
+		8AEABDD52942CB8300E37FED /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8AEABDD92942CBE800E37FED /* PresentansionObject.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8AEABDD62942CB9C00E37FED /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				8AEABDD72942CBC800E37FED /* PresentansionObjectPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -738,6 +768,7 @@
 				8AEABD9629426BB200E37FED /* RegistrationPresenter.swift in Sources */,
 				8AEABD8B29426AEF00E37FED /* Screensaver.swift in Sources */,
 				8AE0EB38277A449D002ADA32 /* Utils.swift in Sources */,
+				8AEABDDA2942CBE800E37FED /* PresentansionObject.swift in Sources */,
 				8AEABDC029426E9F00E37FED /* RequestsHashtag.swift in Sources */,
 				8AE0EB2B277A3A9B002ADA32 /* Barcelona_guide.xcdatamodeld in Sources */,
 				8AEABD9229426B7B00E37FED /* LoginPresenter.swift in Sources */,
@@ -756,6 +787,7 @@
 				8AEABDB629426E0000E37FED /* AnchoredConstraintsExtension.swift in Sources */,
 				8AEABDA629426CD100E37FED /* ButtonExtension.swift in Sources */,
 				8A45477A278A1C3A001A3F67 /* RegistrationController.swift in Sources */,
+				8AEABDD82942CBC800E37FED /* PresentansionObjectPresenter.swift in Sources */,
 				8A2E26162786444E00B866E8 /* Route.swift in Sources */,
 				8AEABDB429426DE500E37FED /* LoadAndCacheImageObject.swift in Sources */,
 				8AEABD6C294267BD00E37FED /* Builder.swift in Sources */,

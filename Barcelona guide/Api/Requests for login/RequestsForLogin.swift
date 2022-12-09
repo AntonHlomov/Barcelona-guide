@@ -6,3 +6,11 @@
 //
 
 import Foundation
+import Firebase
+
+protocol LoginApiProtocol {
+    
+}
+class LoginApi: LoginApiProtocol{
+    
+}

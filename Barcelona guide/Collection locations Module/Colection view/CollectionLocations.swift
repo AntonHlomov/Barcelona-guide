@@ -10,6 +10,7 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 class CollectionLocations: UICollectionViewController {
+    var presenter: CollectionLocationsPresenterProtocol!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,4 +86,12 @@ class CollectionLocations: UICollectionViewController {
     }
     */
 
+}
+extension CollectionLocations: CollectionLocationsProtocol {
+    func failure(error: Error){
+        
+    }
+    func alert(title: String, message: String){
+        
+    }
 }

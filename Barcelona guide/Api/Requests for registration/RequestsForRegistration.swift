@@ -6,3 +6,11 @@
 //
 
 import Foundation
+import Firebase
+
+protocol RegistrationApiProtocol {
+    
+}
+class RegistrationApi: RegistrationApiProtocol{
+    
+}

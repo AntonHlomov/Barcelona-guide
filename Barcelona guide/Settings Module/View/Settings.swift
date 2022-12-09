@@ -8,6 +8,7 @@
 import UIKit
 
 class Settings: UIViewController {
+    var presenter: SettingsPresenterProtocol!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,4 +27,12 @@ class Settings: UIViewController {
     }
     */
 
+}
+extension Settings: SettingsProtocol {
+    func failure(error: Error){
+        
+    }
+    func alert(title: String, message: String){
+        
+    }
 }

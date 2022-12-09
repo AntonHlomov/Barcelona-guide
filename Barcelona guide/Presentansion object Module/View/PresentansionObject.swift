@@ -1,14 +1,14 @@
 //
-//  Screensaver.swift
+//  PresentansionObject.swift
 //  Barcelona guide
 //
-//  Created by Anton Khlomov on 08/12/2022.
+//  Created by Anton Khlomov on 09/12/2022.
 //
 
 import UIKit
 
-class Screensaver: UIViewController {
-    var presenter: ScreensaverPresenterProtocol!
+class PresentansionObject: UIViewController {
+    var presenter: PresentansionObjectPresenterProtocol!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +28,11 @@ class Screensaver: UIViewController {
     */
 
 }
-extension Screensaver: ScreensaverProtocol {
+extension PresentansionObject: PresentansionObjectProtocol {
     func failure(error: Error){
+        
+    }
+    func reload(){
         
     }
     func alert(title: String, message: String){

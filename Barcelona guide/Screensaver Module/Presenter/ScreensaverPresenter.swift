@@ -14,8 +14,8 @@ protocol ScreensaverProtocol: AnyObject{
 
 protocol ScreensaverPresenterProtocol: AnyObject{
     
-    init(view: ScreensaverProtocol, networkServiceUser: RequestsUserApiProtocol,networkServiceSetings: RequestsSetingsApiProtocol,networkServiceHashtag: RequestsHashtagApiProtocol,networkServiceObject: RequestsObjectsApiProtocol, ruter:RouterProtocol)
-    func getData()
+    init(view: ScreensaverProtocol, networkServiceUser: RequestsUserApiProtocol,networkServiceSetings: RequestsSetingsApiProtocol,networkServiceHashtag: RequestsHashtagApiProtocol,networkServiceObject: RequestsObjectsApiProtocol, router:RouterProtocol)
+    func verificationUser()
 }
 
 class ScreensaverPresenter: ScreensaverPresenterProtocol{
@@ -31,15 +31,31 @@ class ScreensaverPresenter: ScreensaverPresenterProtocol{
     var hashtag: [Hashtag]?
     var object: [Object]?
     
-    required  init(view: ScreensaverProtocol, networkServiceUser: RequestsUserApiProtocol,networkServiceSetings: RequestsSetingsApiProtocol,networkServiceHashtag: RequestsHashtagApiProtocol,networkServiceObject: RequestsObjectsApiProtocol, ruter:RouterProtocol){
+    required  init(view: ScreensaverProtocol, networkServiceUser: RequestsUserApiProtocol,networkServiceSetings: RequestsSetingsApiProtocol,networkServiceHashtag: RequestsHashtagApiProtocol,networkServiceObject: RequestsObjectsApiProtocol, router:RouterProtocol){
         self.view = view
-        self.router = ruter
+        self.router = router
         self.networkServiceUser = networkServiceUser
         self.networkServiceSetings = networkServiceSetings
         self.networkServiceHashtag = networkServiceHashtag
         self.networkServiceObject = networkServiceObject
         
         verificationUser()
+    }
+    
+    func verificationUser(){
+       
+        networkServiceUser.verificationUser { [weak self] result in
+            guard self != nil else {return}
+            DispatchQueue.main.async {
+                switch result{
+                case .success(_):
+                    self?.getData()
+                case .failure(let error):
+                    self?.view?.failure(error: error)
+                    self?.router?.dismiss()
+                }
+            }
+        }
     }
     
     func getData(){
@@ -64,39 +80,4 @@ class ScreensaverPresenter: ScreensaverPresenterProtocol{
             print("go to next page")
         }
     }
-    func verificationUser(){
-       
-        networkServiceUser.verificationUser { [weak self] result in
-            guard self != nil else {return}
-            DispatchQueue.main.async {
-                switch result{
-                case .success(_):
-                    self?.getData()
-                case .failure(let error):
-                    self?.view?.failure(error: error)
-                    self?.router?.dismiss()
-                }
-            }
-        }
-    }
-
-    // Geting data
- //   func getData(){
- //       networkService.getData(user: self.user){ [weak self] result in
- //           guard self != nil else {return}
- //           DispatchQueue.main.async {
- //               switch result{
- //               case .success(let price):
- //                   self?.price = price?.sorted{$0.nameServise<$1.nameServise}
- //                   self?.view?.sucses(price: price)
- //                   self?.view?.reload()
- //               case .failure(let error):
- //                   self?.view?.failure(error: error)
- //
- //               }
- //           }
- //       }
- //   }
-  
 }
-
