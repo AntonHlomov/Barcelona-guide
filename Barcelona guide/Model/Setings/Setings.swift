@@ -8,5 +8,9 @@
 import Foundation
 
 class Setings{
+    var uidSetings: String!
     
+    init(dictionary: [String: Any]) {
+        self.uidSetings = dictionary["uidSetings"] as? String ?? ""
+    }
 }

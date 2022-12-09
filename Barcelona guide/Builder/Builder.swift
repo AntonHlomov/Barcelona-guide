@@ -6,3 +6,9 @@
 //
 
 import Foundation
+protocol AsselderBuilderProtocol{
+    
+}
+class AsselderModelBuilder: AsselderBuilderProtocol{
+    
+}
