@@ -19,6 +19,8 @@ protocol ScreensaverPresenterProtocol: AnyObject{
 }
 
 class ScreensaverPresenter: ScreensaverPresenterProtocol{
+ 
+    
     
     weak var view: ScreensaverProtocol?
     let networkServiceUser: RequestsUserApiProtocol!
@@ -38,20 +40,21 @@ class ScreensaverPresenter: ScreensaverPresenterProtocol{
         self.networkServiceSetings = networkServiceSetings
         self.networkServiceHashtag = networkServiceHashtag
         self.networkServiceObject = networkServiceObject
-        
+
         verificationUser()
     }
     
     func verificationUser(){
-       
-        networkServiceUser.verificationUser { [weak self] result in
-            guard self != nil else {return}
-            DispatchQueue.main.async {
+        DispatchQueue.main.async { [self] in
+            networkServiceUser.verificationUser { [weak self] result in
+                guard self != nil else {return}
                 switch result{
                 case .success(_):
                     self?.getData()
-                case .failure(let error):
-                    self?.view?.failure(error: error)
+                case .failure(_):
+                    sleep(3)
+                    print("authorization false")
+                    self?.router?.initalLogin()
                     self?.router?.dismiss()
                 }
             }
@@ -60,24 +63,33 @@ class ScreensaverPresenter: ScreensaverPresenterProtocol{
     
     func getData(){
         let meQueue = DispatchQueue(label: "getData")
-      
+  
         meQueue.sync {
+            sleep(4)
             print("getUser-1")
-        }
+       }
         meQueue.sync {
+            sleep(2)
             print("getSetings-2")
             
         }
         meQueue.sync {
+            sleep(5)
             print("getHashtag-3")
         }
         meQueue.sync {
+            sleep(1)
             print("getObject-4")
             
         }
         meQueue.sync {
-            print("dismis view")
-            print("go to next page")
+            DispatchQueue.main.async { [self] in
+                self.router?.initalMapa()
+                self.router?.dismiss()
+            }
         }
+            
+        
+      
     }
 }

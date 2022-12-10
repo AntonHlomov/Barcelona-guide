@@ -9,23 +9,23 @@ import UIKit
 
 class Screensaver: UIViewController {
     var presenter: ScreensaverPresenterProtocol!
+    
+    let logoImage = UIImageView(image: #imageLiteral(resourceName: "icons8-route-30").withRenderingMode(.alwaysOriginal))
+    let nameAp = UILabel.headerBigText(title: "Te lo doy")
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        view.backgroundColor = UIColor.appColor(.bluePewter)
+        configureViewComponents()
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    fileprivate func configureViewComponents(){
+        view.addSubview(nameAp)
+        nameAp.centerInSuperview() //выстовляет по середине экрана
+        view.addSubview(logoImage)
+        logoImage.anchor(top: nil, leading: nil, bottom: nameAp.topAnchor, trailing: nil, pading: .init(top: 0, left: 0, bottom: 40, right: 0), size: .init(width: 80, height: 80))
+        logoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true //выстовляет по середине экрана
     }
-    */
+
 
 }
 extension Screensaver: ScreensaverProtocol {

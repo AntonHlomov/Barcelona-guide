@@ -44,20 +44,7 @@ extension UILabel{
 }
 
 // функция для поля текст филд
-extension UITextField{
-    class func setupTextField(title: String, hideText: Bool, enabled: Bool) -> UITextField {
-        
-        let tf = CustomTextField(padding: 16)
-        tf.placeholder = title
-        tf.backgroundColor = UIColor(white: 1, alpha: 0.7)
-        tf.layer.cornerRadius = 5
-        tf.font = UIFont .systemFont(ofSize: 16)
-        tf.textColor = .darkText
-        tf.isSecureTextEntry = hideText         // скрытие пороля
-        tf.isEnabled = enabled
-        return tf
-    }
-}
+
 extension UILabel{
     class func setupLabel(title: String, alignment: NSTextAlignment, color: UIColor, alpha: Double, size: Int, numberLines: Int ) -> UILabel{
         let label = UILabel()

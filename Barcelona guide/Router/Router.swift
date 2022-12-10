@@ -25,6 +25,7 @@ protocol RouterProtocol: RouterLogin {
     func showPresentansionObject(user: User?)
     func popToRoot()
     func dismiss()
+    func schowLoginMoveToLeft()
 }
 class Router: RouterProtocol{
     var navigationControler: UINavigationController?
@@ -113,5 +114,22 @@ class Router: RouterProtocol{
         if let navigationControler = navigationControler{
             navigationControler.dismiss(animated: true, completion: nil)
         }
+    }
+    func schowLoginMoveToLeft(){
+        if let navigationControler = navigationControler{
+            guard let showControler = assemblyBuilder?.createLoginModule(router: self) else {return}
+            navigationControler.customMoveToLeft(showControler)
+        }
+    }
+}
+extension UINavigationController {
+   
+    func customMoveToLeft(_ viewController: UIViewController) {
+        let transition: CATransition = CATransition()
+        transition.duration = 0.3
+        transition.type = CATransitionType.push
+        transition.subtype = CATransitionSubtype.fromLeft
+        view.layer.add(transition, forKey: nil)
+        pushViewController(viewController, animated: false)
     }
 }

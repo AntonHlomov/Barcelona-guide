@@ -6,13 +6,16 @@
 //
 
 import UIKit
+import Firebase
 
 class Mapa: UIViewController {
     var presenter: MapaPresenterProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = UIColor.appColor(.bluePewter)
+      
+        
         // Do any additional setup after loading the view.
     }
     

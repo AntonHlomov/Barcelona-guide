@@ -15,7 +15,9 @@ protocol LoginProtocol: AnyObject{
 protocol LoginPresenterProtocol: AnyObject{
     
     init(view: LoginProtocol, networkService: LoginApiProtocol, router:RouterProtocol)
-    func getData()
+    func authorisation(emailAuth: String, passwordAuth: String)
+    func goToRegistarasionControler()
+    func goToRegistrationWithApple()
 }
 
 class LoginPresenter: LoginPresenterProtocol{
@@ -29,11 +31,24 @@ class LoginPresenter: LoginPresenterProtocol{
         self.router = router
         self.networkService = networkService
         
-        getData()
     }
-    
-    // Geting data
-    func getData(){
+    func goToRegistrationWithApple(){
+        print("goToRegistrationWithApple")
+    }
+    func authorisation(emailAuth: String, passwordAuth: String){
+        networkService.login(emailAuth: emailAuth, passwordAuth: passwordAuth) {[weak self] result in
+        guard let self = self else {return}
+            DispatchQueue.main.async {
+                switch result{
+                case.success(_):
+                    self.router?.initalScreensaver()
+                case.failure(let error):
+                    self.view?.failure(error: error)
+                }
+            }
+        }
+    }
+    func goToRegistarasionControler(){
+        self.router?.showRegistration()
     }
 }
-

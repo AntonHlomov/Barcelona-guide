@@ -17,11 +17,12 @@ class RequestsUserApi: RequestsUserApiProtocol{
         if Auth.auth().currentUser != nil {
             completion(.success(true))
             } else {
-            completion(.failure("The user is not registered." as! Error))
+                let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "User does not exist"])
+                completion(.failure(error))
             return
         }
-
     }
+
     
                        
 }
