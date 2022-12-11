@@ -40,9 +40,10 @@ class Login: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.appColor(.bluePewter)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleTapDismiss), name: UIApplication.willResignActiveNotification, object:nil)
       //  navigationController?.navigationBar.isHidden = true // скрыть навигейшн бар
-        setupNotificationObserver()
         configureViewComponents()
+        setupNotificationObserver()
         setupTapGesture()
         handlers()
     }
@@ -79,6 +80,8 @@ class Login: UIViewController {
         guard let password = passwordTextField.text else {return}
         // говорим презентеру на меня тапнули сделай эту бизнес логику
         self.presenter.authorisation(emailAuth: email, passwordAuth: password)
+        self.loginButton.isEnabled = false
+        self.loginButton.backgroundColor = UIColor.appColor(.redLightSalmon)
     }
     @objc fileprivate func formValidation() {
         guard
@@ -89,7 +92,7 @@ class Login: UIViewController {
             self.loginButton.backgroundColor = UIColor.appColor(.redLightSalmon)
             return
         }
-       loginButton.isEnabled = true
+        loginButton.isEnabled = true
         loginButton.backgroundColor = UIColor.appColor(.redDarkSalmon)
     }
     
@@ -106,9 +109,15 @@ class Login: UIViewController {
         // следит когда пbcxtpftn
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardSwowHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+    override func viewWillAppear(_ animated: Bool) {
+       super.viewWillAppear(animated)
+       AppUtility.lockOrientation(.portrait)
+       // Or to rotate and lock
+   }
     override func viewWillDisappear(_ animated: Bool) {      //очищает клавиатуру из памяти обязательно делать если вызываешь клаву
          super.viewWillDisappear(animated)
          NotificationCenter.default.removeObserver(self)
+        AppUtility.lockOrientation(.all)
      }
     //размеры клавиатуры
     @objc fileprivate func handleKeyboardSwow(notification: Notification){
@@ -133,9 +142,12 @@ class Login: UIViewController {
 }
 extension Login: LoginProtocol {
     func failure(error: Error){
-        
+        let error = "\(error.localizedDescription)"
+        alertError(title: "Error", message: error)
+        loginButton.isEnabled = true
+        loginButton.backgroundColor = UIColor.appColor(.redDarkSalmon)
     }
     func alert(title: String, message: String){
-        
+        alertMessage(title: title, message: message)
     }
 }

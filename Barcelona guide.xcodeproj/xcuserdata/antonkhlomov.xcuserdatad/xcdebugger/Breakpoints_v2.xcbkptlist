@@ -7,16 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A9C9F5E4-EE1B-4A96-A625-0725246A21DF"
+            uuid = "A6243B51-7422-43F8-ADED-C4647712C287"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Barcelona guide/Login Module/Presenter/LoginPresenter.swift"
+            filePath = "Barcelona guide/Registration Module/View/Registration.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "authorisation(emailAuth:passwordAuth:)"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
+            landmarkName = "handleKeyboardSwow(notification:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

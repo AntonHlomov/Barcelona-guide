@@ -24,6 +24,7 @@
 		8A454778278A1BE5001A3F67 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A454777278A1BE5001A3F67 /* LoginController.swift */; };
 		8A45477A278A1C3A001A3F67 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A454779278A1C3A001A3F67 /* RegistrationController.swift */; };
 		8A45477C278A1FE3001A3F67 /* CheckUserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A45477B278A1FE3001A3F67 /* CheckUserController.swift */; };
+		8A6BDB8B29451C0100B472EB /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6BDB8A29451C0100B472EB /* AppUtility.swift */; };
 		8AE0EB21277A3A9B002ADA32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0EB20277A3A9B002ADA32 /* AppDelegate.swift */; };
 		8AE0EB23277A3A9B002ADA32 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0EB22277A3A9B002ADA32 /* SceneDelegate.swift */; };
 		8AE0EB25277A3A9B002ADA32 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0EB24277A3A9B002ADA32 /* ViewController.swift */; };
@@ -56,7 +57,6 @@
 		8AEABDA629426CD100E37FED /* ButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEABDA529426CD100E37FED /* ButtonExtension.swift */; };
 		8AEABDA829426D3600E37FED /* LabelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEABDA729426D3600E37FED /* LabelExtension.swift */; };
 		8AEABDAA29426D5000E37FED /* TextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEABDA929426D5000E37FED /* TextFieldExtension.swift */; };
-		8AEABDAC29426D6400E37FED /* AlertExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEABDAB29426D6400E37FED /* AlertExtension.swift */; };
 		8AEABDAE29426D7D00E37FED /* FetchCurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEABDAD29426D7D00E37FED /* FetchCurrentUser.swift */; };
 		8AEABDB029426D9A00E37FED /* FirestoreRequestExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEABDAF29426D9A00E37FED /* FirestoreRequestExtension.swift */; };
 		8AEABDB229426DC200E37FED /* LoadAndCacheImageUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEABDB129426DC200E37FED /* LoadAndCacheImageUser.swift */; };
@@ -85,6 +85,7 @@
 		8A454777278A1BE5001A3F67 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		8A454779278A1C3A001A3F67 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
 		8A45477B278A1FE3001A3F67 /* CheckUserController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckUserController.swift; sourceTree = "<group>"; };
+		8A6BDB8A29451C0100B472EB /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		8AE0EB1D277A3A9B002ADA32 /* Barcelona guide.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Barcelona guide.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AE0EB20277A3A9B002ADA32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AE0EB22277A3A9B002ADA32 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -119,7 +120,6 @@
 		8AEABDA529426CD100E37FED /* ButtonExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonExtension.swift; sourceTree = "<group>"; };
 		8AEABDA729426D3600E37FED /* LabelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelExtension.swift; sourceTree = "<group>"; };
 		8AEABDA929426D5000E37FED /* TextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
-		8AEABDAB29426D6400E37FED /* AlertExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertExtension.swift; sourceTree = "<group>"; };
 		8AEABDAD29426D7D00E37FED /* FetchCurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchCurrentUser.swift; sourceTree = "<group>"; };
 		8AEABDAF29426D9A00E37FED /* FirestoreRequestExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreRequestExtension.swift; sourceTree = "<group>"; };
 		8AEABDB129426DC200E37FED /* LoadAndCacheImageUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadAndCacheImageUser.swift; sourceTree = "<group>"; };
@@ -161,6 +161,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8A6BDB8929451BD600B472EB /* Orientasion Extension */ = {
+			isa = PBXGroup;
+			children = (
+				8A6BDB8A29451C0100B472EB /* AppUtility.swift */,
+			);
+			path = "Orientasion Extension";
+			sourceTree = "<group>";
+		};
 		8AE0EB14277A3A9B002ADA32 = {
 			isa = PBXGroup;
 			children = (
@@ -203,7 +211,6 @@
 				8A2E261727876B9700B866E8 /* PresentRoute.swift */,
 				8A2E2613278643ED00B866E8 /* CollectionRoute.swift */,
 				8A2E26152786444E00B866E8 /* Route.swift */,
-				8AE0EB39277A6C86002ADA32 /* Alert.swift */,
 				8AE0EB37277A449D002ADA32 /* Utils.swift */,
 				8AE0EB26277A3A9B002ADA32 /* Main.storyboard */,
 				8AE0EB2C277A3A9C002ADA32 /* Assets.xcassets */,
@@ -301,6 +308,7 @@
 		8AEABD5329425DAC00E37FED /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				8A6BDB8929451BD600B472EB /* Orientasion Extension */,
 				8AEABD67294266FC00E37FED /* Anchored constraints extension */,
 				8AEABD662942649400E37FED /* Load and cache image object */,
 				8AEABD652942646F00E37FED /* Load and cache image user */,
@@ -351,7 +359,7 @@
 		8AEABD5829425EB900E37FED /* Alert extension */ = {
 			isa = PBXGroup;
 			children = (
-				8AEABDAB29426D6400E37FED /* AlertExtension.swift */,
+				8AE0EB39277A6C86002ADA32 /* Alert.swift */,
 			);
 			path = "Alert extension";
 			sourceTree = "<group>";
@@ -809,8 +817,8 @@
 				8AEABDCB29426FAC00E37FED /* FavoriteObjectsCell.swift in Sources */,
 				8AEABD7B294268CB00E37FED /* Hashtag.swift in Sources */,
 				8AEABDB829426E2900E37FED /* RequestsObjects.swift in Sources */,
+				8A6BDB8B29451C0100B472EB /* AppUtility.swift in Sources */,
 				8AEABDC829426F8100E37FED /* FavoriteObjectsCollection.swift in Sources */,
-				8AEABDAC29426D6400E37FED /* AlertExtension.swift in Sources */,
 				8AEABD9C29426C1C00E37FED /* CollectionLocationsPresenter.swift in Sources */,
 				8AEABD6A294267A600E37FED /* Router.swift in Sources */,
 				8AEABDBA29426E4300E37FED /* RequestsForLogin.swift in Sources */,

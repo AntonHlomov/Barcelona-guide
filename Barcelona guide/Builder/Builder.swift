@@ -37,7 +37,7 @@ class AsselderModelBuilder: AsselderBuilderProtocol{
         return view
     }
     func createCollectionLocationsModule(router: RouterProtocol) -> UIViewController {
-        let view = CollectionLocations()
+        let view = CollectionLocations(collectionViewLayout: UICollectionViewFlowLayout())
         let networkService = RequestsObjectsApi()
         let presenter = CollectionLocationsPresenter(view: view, networkService: networkService, router: router)
         view.presenter = presenter
@@ -65,7 +65,7 @@ class AsselderModelBuilder: AsselderBuilderProtocol{
         return view
     }
     func createFavoriteObjectsCollectionModule(router: RouterProtocol) -> UIViewController {
-        let view = FavoriteObjectsCollection()
+        let view = FavoriteObjectsCollection(collectionViewLayout: UICollectionViewFlowLayout())
         let networkService = RequestsObjectsApi()
         let presenter = FavoriteObjectsPresenter(view: view, networkService: networkService, router: router)
         view.presenter = presenter

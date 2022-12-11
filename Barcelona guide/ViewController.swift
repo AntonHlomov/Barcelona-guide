@@ -56,22 +56,22 @@ class ViewController: UIViewController,CLLocationManagerDelegate,UINavigationCon
     
     fileprivate let lastPlaceTextField = UITextField.setupTextField(title: "Last place..", hideText: false, enabled: true)
     
-    fileprivate let locationButtonAdFirstPlace = UIButton.setupButtonImage(color: .lightGray,activation: true,invisibility: false, laeyerRadius: 6, alpha: 0.2,resourseNa: "icons8-pinMap-48")
+    fileprivate let locationButtonAdFirstPlace = UIButton.setupButtonImage(color: .lightGray,activation: true,invisibility: false, laeyerRadius: 6, alpha: 0.2,resourseNa: "menu")
     
-    fileprivate let locationButtonAdLastPlace = UIButton.setupButtonImage(color: .lightGray,activation: true,invisibility: false, laeyerRadius: 6, alpha: 0.2,resourseNa: "icons8-pinMap-48")
+    fileprivate let locationButtonAdLastPlace = UIButton.setupButtonImage(color: .lightGray,activation: true,invisibility: false, laeyerRadius: 6, alpha: 0.2,resourseNa: "menu")
     
     fileprivate let addAdressButton = UIButton.setupButton(title: "+", color: UIColor.rgb(red: 31, green: 152, blue: 233),activation: false,invisibility: false, laeyerRadius: 30/2, alpha: 0.3, textcolor: .white)
     
-    fileprivate let styleMap = UIButton.setupButtonImage( color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.7, resourseNa: "icons8-map-24")
+    fileprivate let styleMap = UIButton.setupButtonImage( color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.7, resourseNa: "menu")
     
-    fileprivate let styleCarOrWhalk = UIButton.setupButtonImage( color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.7, resourseNa: "icons8-whalk-30")
+    fileprivate let styleCarOrWhalk = UIButton.setupButtonImage( color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.7, resourseNa: "menu")
     
-    fileprivate let addYorRouteButton = UIButton.setupButtonImage( color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.8,resourseNa: "icons8-add-100")
+    fileprivate let addYorRouteButton = UIButton.setupButtonImage( color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.8,resourseNa: "menu")
     
-    fileprivate let userLocationButtonCircle = UIButton.setupButtonImage(color: UIColor.rgb(red: 31, green: 152, blue: 233),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.6,resourseNa: "icons8-gps-30")
+    fileprivate let userLocationButtonCircle = UIButton.setupButtonImage(color: UIColor.rgb(red: 31, green: 152, blue: 233),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.6,resourseNa: "menu")
     
-    fileprivate let routeResetButton = UIButton.setupButtonImage(color: UIColor.rgb(red: 31, green: 152, blue: 233),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.6,resourseNa: "icons8-route-30")
-    fileprivate let recordRouteButton = UIButton.setupButtonImage( color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.6,resourseNa: "icons8-rec-30")
+    fileprivate let routeResetButton = UIButton.setupButtonImage(color: UIColor.rgb(red: 31, green: 152, blue: 233),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.6,resourseNa: "menu")
+    fileprivate let recordRouteButton = UIButton.setupButtonImage( color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 40/2, alpha: 0.6,resourseNa: "menu")
     
     lazy var stackTextFieldView = UIStackView(arrangedSubviews: [firstPlaceTextfield,lastPlaceTextField])
     lazy var stackButtonMapCarWhalk = UIStackView(arrangedSubviews: [styleMap,styleCarOrWhalk])

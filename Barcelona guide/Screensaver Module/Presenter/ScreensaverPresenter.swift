@@ -65,21 +65,29 @@ class ScreensaverPresenter: ScreensaverPresenterProtocol{
         let meQueue = DispatchQueue(label: "getData")
   
         meQueue.sync {
-            sleep(4)
-            print("getUser-1")
+            self.networkServiceUser.getUser{[weak self] result in
+            guard let self = self else {return}
+                    switch result{
+                    case.success(let user):
+                        self.user = user
+                    case.failure(let error):
+                        self.view?.failure(error: error)
+               }
+            }
+            print("getUser")
        }
         meQueue.sync {
-            sleep(2)
-            print("getSetings-2")
+            sleep(1)
+            print("getData-2")
             
         }
         meQueue.sync {
-            sleep(5)
-            print("getHashtag-3")
+            sleep(2)
+            print("getData-3")
         }
         meQueue.sync {
             sleep(1)
-            print("getObject-4")
+            print("getData-4")
             
         }
         meQueue.sync {
@@ -88,8 +96,25 @@ class ScreensaverPresenter: ScreensaverPresenterProtocol{
                 self.router?.dismiss()
             }
         }
-            
-        
-      
     }
+    func getUser(){
+        DispatchQueue.main.async {
+            self.networkServiceUser.getUser{[weak self] result in
+            guard let self = self else {return}
+                    switch result{
+                    case.success(let user):
+                        self.user = user
+                    case.failure(let error):
+                        self.view?.failure(error: error)
+               }
+            }
+         }
+    }
+    
+    
+    
+    
+    
+    
+    
 }

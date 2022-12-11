@@ -10,12 +10,16 @@ import Foundation
 protocol MapaProtocol: AnyObject{
     func failure(error: Error)
     func alert(title: String, message: String)
+    func setUser(user: User)
 }
 
 protocol MapaPresenterProtocol: AnyObject{
     
     init(view: MapaProtocol, networkService: RequestsObjectsApiProtocol, router:RouterProtocol)
     func getData()
+    var user: User? {get set}
+    func openSettingsUser()
+    func goToCollectionLocation()
 }
 
 class MapaPresenter: MapaPresenterProtocol{
@@ -23,6 +27,13 @@ class MapaPresenter: MapaPresenterProtocol{
     weak var view: MapaProtocol?
     let networkService: RequestsObjectsApiProtocol!
     var router: RouterProtocol?
+    var user: User? {
+        didSet {
+         print("User chenging!")
+            guard user != nil else{return}
+            self.view?.setUser(user: user!)
+        }
+    }
     
     required init(view: MapaProtocol, networkService: RequestsObjectsApiProtocol, router:RouterProtocol){
         self.view = view
@@ -31,8 +42,16 @@ class MapaPresenter: MapaPresenterProtocol{
         
         getData()
     }
+    func goToCollectionLocation(){
+        print("User collectionLoc!")
+        self.router?.showCollectionLocations()
+    }
+    func openSettingsUser(){
+        self.router?.showSettings()
+    }
     
     // Geting data
     func getData(){
+        self.user = userCache
     }
 }

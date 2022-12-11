@@ -9,12 +9,31 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class CollectionLocations: UICollectionViewController {
+class CollectionLocations: UICollectionViewController,UISearchBarDelegate {
     var presenter: CollectionLocationsPresenterProtocol!
+    var searchBar: UISearchBar = {
+        let search = UISearchBar()
+        return search }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = UIColor.appColor(.bluePewter)
+        self.collectionView.backgroundColor = UIColor.appColor(.bluePewter)
+        searchBar = UISearchBar()
+        searchBar.placeholder = "Search"
+        searchBar.delegate = self
+        searchBar.tintColor = UIColor.appColor(.grayMidle)
+        searchBar.barTintColor = UIColor.appColor(.bluePewter)
+        searchBar.barStyle = .black
+        searchBar.backgroundColor = UIColor.appColor(.bluePewter)
+        searchBar.sizeToFit()
+        searchBar.searchTextField.backgroundColor = UIColor.appColor(.grayPlatinum)
+        let textField = searchBar.value(forKey: "searchField") as! UITextField
+        let glassIconView = textField.leftView as! UIImageView
+        glassIconView.image = glassIconView.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        glassIconView.tintColor = UIColor.appColor(.pinkLightSalmon)
+        addDoneButtonOnKeyboard()
+        configureComponents()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -22,6 +41,18 @@ class CollectionLocations: UICollectionViewController {
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
         // Do any additional setup after loading the view.
+    }
+    //update on change of view orientation
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        self.collectionView.collectionViewLayout.invalidateLayout()
+    }
+    fileprivate func configureComponents(){
+        view.addSubview(searchBar)
+        searchBar.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: view.leadingAnchor, bottom: nil, trailing: view.trailingAnchor,pading: .init(top: 20, left: 0, bottom: 0, right: 0))
+        searchBar.layer.zPosition = 1
+        
+        self.collectionView.anchor(top: searchBar.bottomAnchor, leading: view.leadingAnchor, bottom: view.bottomAnchor, trailing: view.trailingAnchor,pading: .init(top: 0, left: 0, bottom: 0, right: 0))
+       
     }
 
     /*
@@ -38,25 +69,39 @@ class CollectionLocations: UICollectionViewController {
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 0
+        return 30
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    
+        cell.backgroundColor = UIColor.appColor(.grayPlatinum)
+        cell.layer.cornerRadius = 10
         // Configure the cell
     
         return cell
     }
 
     // MARK: UICollectionViewDelegate
-
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return    CGSize (width: view.frame.width - 30, height: view.frame.width/1.5 + 100)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: view.frame.width, height: 60)
+    }
+    // убераем разрыв между вью по горизонтали
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 30
+    }
+    // убераем разрыв между вью по вертикали
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 15
+    }
     /*
     // Uncomment this method to specify if the specified item should be highlighted during tracking
     override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
@@ -85,6 +130,24 @@ class CollectionLocations: UICollectionViewController {
     
     }
     */
+    
+    func addDoneButtonOnKeyboard(){
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        doneToolbar.barStyle = .default
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(title: "Ready", style: .done, target: self, action: #selector(self.doneButtonAction))
+        let items = [flexSpace, done]
+        doneToolbar.items = items
+        doneToolbar.sizeToFit()
+        searchBar.inputAccessoryView = doneToolbar
+    }
+    @objc func doneButtonAction(){
+        searchBar.resignFirstResponder()
+    }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
+       // presenter.filter(text: searchText)
+        print(searchText)
+    }
 
 }
 extension CollectionLocations: CollectionLocationsProtocol {

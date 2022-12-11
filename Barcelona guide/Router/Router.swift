@@ -26,6 +26,7 @@ protocol RouterProtocol: RouterLogin {
     func popToRoot()
     func dismiss()
     func schowLoginMoveToLeft()
+    func backTappedFromRight()
 }
 class Router: RouterProtocol{
     var navigationControler: UINavigationController?
@@ -51,6 +52,7 @@ class Router: RouterProtocol{
     func initalMapa() {
         if let navigationControler = navigationControler{
             guard let mainViewControler = assemblyBuilder?.createMapaModule(router: self) else {return}
+            navigationControler.navigationBar.isHidden = true
             navigationControler.viewControllers = [mainViewControler]
         }
     }
@@ -58,13 +60,15 @@ class Router: RouterProtocol{
     func showSettings(){
         if let navigationControler = navigationControler{
             guard let showControler = assemblyBuilder?.createSettingsModule(router: self) else {return}
-            navigationControler.pushViewController(showControler, animated: true)
+            navigationControler.navigationBar.isHidden = false
+            navigationControler.customMove(showControler, subtype: .fromLeft)
         }
     }
     
     func showCollectionLocations(){
         if let navigationControler = navigationControler{
             guard let showControler = assemblyBuilder?.createCollectionLocationsModule(router: self) else {return}
+            navigationControler.navigationBar.isHidden = true
             navigationControler.pushViewController(showControler, animated: true)
         }
     }
@@ -72,6 +76,7 @@ class Router: RouterProtocol{
     func showMapa(){
         if let navigationControler = navigationControler{
             guard let showControler = assemblyBuilder?.createMapaModule(router: self) else {return}
+            navigationControler.navigationBar.isHidden = true
             navigationControler.pushViewController(showControler, animated: true)
         }
     }
@@ -109,6 +114,11 @@ class Router: RouterProtocol{
             navigationControler.popToRootViewController(animated: true)
         }
     }
+   func backTappedFromRight(){
+       if let navigationControler = navigationControler{
+           navigationControler.customMovePopToRoot(subtype: .fromRight)
+       }
+   }
     
     func dismiss(){
         if let navigationControler = navigationControler{
@@ -118,18 +128,28 @@ class Router: RouterProtocol{
     func schowLoginMoveToLeft(){
         if let navigationControler = navigationControler{
             guard let showControler = assemblyBuilder?.createLoginModule(router: self) else {return}
-            navigationControler.customMoveToLeft(showControler)
+            navigationControler.customMove(showControler, subtype: .fromRight)
         }
     }
 }
 extension UINavigationController {
    
-    func customMoveToLeft(_ viewController: UIViewController) {
+    func customMove(_ viewController: UIViewController,subtype: CATransitionSubtype ) {
+      
         let transition: CATransition = CATransition()
         transition.duration = 0.3
         transition.type = CATransitionType.push
-        transition.subtype = CATransitionSubtype.fromLeft
+        transition.subtype = subtype
         view.layer.add(transition, forKey: nil)
         pushViewController(viewController, animated: false)
+    }
+    func customMovePopToRoot(subtype: CATransitionSubtype ) {
+      
+        let transition: CATransition = CATransition()
+        transition.duration = 0.3
+        transition.type = CATransitionType.push
+        transition.subtype = subtype
+        view.layer.add(transition, forKey: nil)
+        popToRootViewController(animated: true)
     }
 }

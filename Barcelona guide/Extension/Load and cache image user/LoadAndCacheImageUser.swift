@@ -34,6 +34,7 @@ func loadImage(with urlString: String)  {
     }.resume() // если запрос подвис запрос повториться
   }
     
+    
 }
 
 class CustomUIimageView: UIImageView {

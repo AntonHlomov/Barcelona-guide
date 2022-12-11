@@ -12,6 +12,9 @@ class Settings: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor.appColor(.bluePewter)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: self, action: #selector(backTapped))
+        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.appColor(.grayPlatinum)
 
         // Do any additional setup after loading the view.
     }
@@ -26,6 +29,9 @@ class Settings: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    @objc func backTapped() {
+        presenter.goToBack()
+    }
 
 }
 extension Settings: SettingsProtocol {

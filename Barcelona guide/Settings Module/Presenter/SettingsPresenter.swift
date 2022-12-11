@@ -16,6 +16,7 @@ protocol SettingsPresenterProtocol: AnyObject{
     
     init(view: SettingsProtocol, networkService: RequestsSetingsApiProtocol, router:RouterProtocol)
     func getData()
+    func goToBack()
 }
 
 class SettingsPresenter: SettingsPresenterProtocol{
@@ -31,7 +32,9 @@ class SettingsPresenter: SettingsPresenterProtocol{
         
         getData()
     }
-    
+    func goToBack() {
+        self.router?.backTappedFromRight()
+    }
     // Geting data
     func getData(){
     }

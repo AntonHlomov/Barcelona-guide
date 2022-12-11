@@ -132,10 +132,16 @@ class Registration: UIViewController, UIImagePickerControllerDelegate, UINavigat
         // listener down keybord
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardSwowHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+    override func viewWillAppear(_ animated: Bool) {
+       super.viewWillAppear(animated)
+       AppUtility.lockOrientation(.portrait)
+       // Or to rotate and lock
+   }
    override func viewWillDisappear(_ animated: Bool) {
        //clean keybord from memoey
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self)
+        AppUtility.lockOrientation(.all)
     }
     //frame keybord
     @objc fileprivate func handleKeyboardSwow(notification: Notification){
@@ -162,9 +168,12 @@ class Registration: UIViewController, UIImagePickerControllerDelegate, UINavigat
 }
 extension Registration: RegistrationProtocol {
     func failure(error: Error){
-        
+        let error = "\(error.localizedDescription)"
+        alertError(title: "Error", message: error)
+        sigUpButton.isEnabled = true
+        sigUpButton.backgroundColor = UIColor.appColor(.redDarkSalmon)!
     }
     func alert(title: String, message: String){
-        
+        alertMessage(title: title, message: message)
     }
 }
