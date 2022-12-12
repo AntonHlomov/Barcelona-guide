@@ -34,6 +34,10 @@
 		8AE0EB30277A3A9C002ADA32 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AE0EB2E277A3A9C002ADA32 /* LaunchScreen.storyboard */; };
 		8AE0EB38277A449D002ADA32 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0EB37277A449D002ADA32 /* Utils.swift */; };
 		8AE0EB3A277A6C86002ADA32 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE0EB39277A6C86002ADA32 /* Alert.swift */; };
+		8AE409C229474AAF002DB4EC /* PresenterAddNewOject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE409C129474AAF002DB4EC /* PresenterAddNewOject.swift */; };
+		8AE409C429474AE9002DB4EC /* AddNewOjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE409C329474AE9002DB4EC /* AddNewOjectView.swift */; };
+		8AE409C72947EE5E002DB4EC /* GeoFire in Frameworks */ = {isa = PBXBuildFile; productRef = 8AE409C62947EE5E002DB4EC /* GeoFire */; };
+		8AE409C92947EE5E002DB4EC /* GeoFireUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 8AE409C82947EE5E002DB4EC /* GeoFireUtils */; };
 		8AEABD6A294267A600E37FED /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEABD69294267A600E37FED /* Router.swift */; };
 		8AEABD6C294267BD00E37FED /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEABD6B294267BD00E37FED /* Builder.swift */; };
 		8AEABD7B294268CB00E37FED /* Hashtag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEABD7A294268CB00E37FED /* Hashtag.swift */; };
@@ -97,6 +101,8 @@
 		8AE0EB31277A3A9C002ADA32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8AE0EB37277A449D002ADA32 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		8AE0EB39277A6C86002ADA32 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		8AE409C129474AAF002DB4EC /* PresenterAddNewOject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterAddNewOject.swift; sourceTree = "<group>"; };
+		8AE409C329474AE9002DB4EC /* AddNewOjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewOjectView.swift; sourceTree = "<group>"; };
 		8AEABD69294267A600E37FED /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		8AEABD6B294267BD00E37FED /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
 		8AEABD7A294268CB00E37FED /* Hashtag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hashtag.swift; sourceTree = "<group>"; };
@@ -150,10 +156,12 @@
 				8A454774278A1B4B001A3F67 /* FirebasePerformance in Frameworks */,
 				8A454776278A1B4B001A3F67 /* FirebaseStorage in Frameworks */,
 				8A454770278A1B4B001A3F67 /* FirebaseInstallations in Frameworks */,
+				8AE409C72947EE5E002DB4EC /* GeoFire in Frameworks */,
 				8A454764278A1B4B001A3F67 /* FirebaseAnalytics in Frameworks */,
 				8A454766278A1B4B001A3F67 /* FirebaseAuth in Frameworks */,
 				8A45476E278A1B4B001A3F67 /* FirebaseFunctions in Frameworks */,
 				8A45476C278A1B4B001A3F67 /* FirebaseFirestore in Frameworks */,
+				8AE409C92947EE5E002DB4EC /* GeoFireUtils in Frameworks */,
 				8A45476A278A1B4B001A3F67 /* FirebaseDynamicLinks in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -188,6 +196,7 @@
 		8AE0EB1F277A3A9B002ADA32 /* Barcelona guide */ = {
 			isa = PBXGroup;
 			children = (
+				8AE409BE29474A3B002DB4EC /* Add new object Module */,
 				8AEABD5B294260B300E37FED /* Api */,
 				8AEABD5329425DAC00E37FED /* Extension */,
 				8AEABD5229425C8400E37FED /* Router */,
@@ -220,6 +229,31 @@
 				8AE0EB29277A3A9B002ADA32 /* Barcelona_guide.xcdatamodeld */,
 			);
 			path = "Barcelona guide";
+			sourceTree = "<group>";
+		};
+		8AE409BE29474A3B002DB4EC /* Add new object Module */ = {
+			isa = PBXGroup;
+			children = (
+				8AE409C029474A65002DB4EC /* Presenter */,
+				8AE409BF29474A5F002DB4EC /* Viiew */,
+			);
+			path = "Add new object Module";
+			sourceTree = "<group>";
+		};
+		8AE409BF29474A5F002DB4EC /* Viiew */ = {
+			isa = PBXGroup;
+			children = (
+				8AE409C329474AE9002DB4EC /* AddNewOjectView.swift */,
+			);
+			path = Viiew;
+			sourceTree = "<group>";
+		};
+		8AE409C029474A65002DB4EC /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				8AE409C129474AAF002DB4EC /* PresenterAddNewOject.swift */,
+			);
+			path = Presenter;
 			sourceTree = "<group>";
 		};
 		8AEABD4A29425A5E00E37FED /* Model */ = {
@@ -710,6 +744,8 @@
 				8A454771278A1B4B001A3F67 /* FirebaseMessaging */,
 				8A454773278A1B4B001A3F67 /* FirebasePerformance */,
 				8A454775278A1B4B001A3F67 /* FirebaseStorage */,
+				8AE409C62947EE5E002DB4EC /* GeoFire */,
+				8AE409C82947EE5E002DB4EC /* GeoFireUtils */,
 			);
 			productName = "Barcelona guide";
 			productReference = 8AE0EB1D277A3A9B002ADA32 /* Barcelona guide.app */;
@@ -741,6 +777,7 @@
 			mainGroup = 8AE0EB14277A3A9B002ADA32;
 			packageReferences = (
 				8A454762278A1B4B001A3F67 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8AE409C52947EE5E002DB4EC /* XCRemoteSwiftPackageReference "geofire-objc" */,
 			);
 			productRefGroup = 8AE0EB1E277A3A9B002ADA32 /* Products */;
 			projectDirPath = "";
@@ -773,6 +810,7 @@
 				8AEABDBE29426E7C00E37FED /* RequestsUser.swift in Sources */,
 				8AEABD9829426BE900E37FED /* Mapa.swift in Sources */,
 				8AE0EB3A277A6C86002ADA32 /* Alert.swift in Sources */,
+				8AE409C429474AE9002DB4EC /* AddNewOjectView.swift in Sources */,
 				8AEABD9629426BB200E37FED /* RegistrationPresenter.swift in Sources */,
 				8AEABD8B29426AEF00E37FED /* Screensaver.swift in Sources */,
 				8AE0EB38277A449D002ADA32 /* Utils.swift in Sources */,
@@ -803,6 +841,7 @@
 				8AEABDD329427A6E00E37FED /* Сolors.swift in Sources */,
 				8AEABD8D29426B0F00E37FED /* ScreensaverPresenter.swift in Sources */,
 				8AEABDA829426D3600E37FED /* LabelExtension.swift in Sources */,
+				8AE409C229474AAF002DB4EC /* PresenterAddNewOject.swift in Sources */,
 				8AEABD9029426B6400E37FED /* Login.swift in Sources */,
 				8AEABD832942694B00E37FED /* CollectionLocations.swift in Sources */,
 				8AEABDB029426D9A00E37FED /* FirestoreRequestExtension.swift in Sources */,
@@ -1059,6 +1098,14 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		8AE409C52947EE5E002DB4EC /* XCRemoteSwiftPackageReference "geofire-objc" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/geofire-objc.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1111,6 +1158,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8A454762278A1B4B001A3F67 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		8AE409C62947EE5E002DB4EC /* GeoFire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8AE409C52947EE5E002DB4EC /* XCRemoteSwiftPackageReference "geofire-objc" */;
+			productName = GeoFire;
+		};
+		8AE409C82947EE5E002DB4EC /* GeoFireUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8AE409C52947EE5E002DB4EC /* XCRemoteSwiftPackageReference "geofire-objc" */;
+			productName = GeoFireUtils;
 		};
 /* End XCSwiftPackageProductDependency section */
 

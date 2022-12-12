@@ -16,6 +16,7 @@ protocol AsselderBuilderProtocol{
     func createLoginModule(router: RouterProtocol) -> UIViewController
     func createFavoriteObjectsCollectionModule(router: RouterProtocol) -> UIViewController
     func createPresentansionObjectModule(router: RouterProtocol,user: User?) -> UIViewController
+    func createAddNewOjectViewModule(router: RouterProtocol,user: User?) -> UIViewController
     
 }
 class AsselderModelBuilder: AsselderBuilderProtocol{
@@ -75,6 +76,13 @@ class AsselderModelBuilder: AsselderBuilderProtocol{
         let view = PresentansionObject()
         let networkService = RequestsObjectsApi()
         let presenter = PresentansionObjectPresenter(view: view, networkService: networkService, router: router,user: user)
+        view.presenter = presenter
+        return view
+    }
+    func createAddNewOjectViewModule(router: RouterProtocol,user: User?) -> UIViewController{
+        let view = AddNewOjectView()
+        let networkService = RequestsObjectsApi()
+        let presenter = AddNewOjectPresenter(view: view, networkService: networkService, router: router,user: user)
         view.presenter = presenter
         return view
     }

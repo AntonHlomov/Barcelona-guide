@@ -74,7 +74,7 @@ class Mapa: UIViewController,CLLocationManagerDelegate,UINavigationControllerDel
         menu.layer.cornerRadius = 12
         
         view.addSubview(colectionView)
-        colectionView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: 90))
+        colectionView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: view.frame.height/6.2))
         
         leaftStackButton.axis = .vertical
         leaftStackButton.spacing = 15
@@ -135,7 +135,9 @@ class Mapa: UIViewController,CLLocationManagerDelegate,UINavigationControllerDel
             return
         }
     }
-    @objc fileprivate func selectorAddNewObjectButton(sender: UIButton){}
+    @objc fileprivate func selectorAddNewObjectButton(sender: UIButton){
+        presenter.showAddNewOject()
+    }
     
     func OnOflocationManager(){
         if CLLocationManager.locationServicesEnabled() {

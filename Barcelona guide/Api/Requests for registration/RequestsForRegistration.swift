@@ -48,7 +48,7 @@ class RegistrationApi: RegistrationApiProtocol{
                                        "emailUser": emailAuth,
                                        "profileImageUser": profileImageUrl,
                                        "karmaUser": 0,
-                        ] as [String : Any]
+                                       "cauntAddedObjects":0 ] as [String : Any]
                         Firestore.firestore().collection("users").document(uid).setData(docData) { (error) in
                             if let error = error {
                                 completion(.failure(error))

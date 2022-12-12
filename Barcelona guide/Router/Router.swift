@@ -23,12 +23,15 @@ protocol RouterProtocol: RouterLogin {
     func showLogin()
     func showFavoriteObjectsCollection()
     func showPresentansionObject(user: User?)
+    func showAddNewOject(user: User?)
     func popToRoot()
     func dismiss()
     func schowLoginMoveToLeft()
     func backTappedFromRight()
 }
 class Router: RouterProtocol{
+ 
+    
     var navigationControler: UINavigationController?
     var assemblyBuilder: AsselderBuilderProtocol?
     
@@ -105,6 +108,13 @@ class Router: RouterProtocol{
     func showPresentansionObject(user: User?){
         if let navigationControler = navigationControler{
             guard let showControler = assemblyBuilder?.createPresentansionObjectModule(router: self,user: user) else {return}
+            navigationControler.pushViewController(showControler, animated: true)
+        }
+    }
+    func showAddNewOject(user: User?) {
+        if let navigationControler = navigationControler{
+            guard let showControler = assemblyBuilder?.createAddNewOjectViewModule(router: self,user: user) else {return}
+           // navigationControler.pushViewController(showControler, animated: true)
             navigationControler.pushViewController(showControler, animated: true)
         }
     }

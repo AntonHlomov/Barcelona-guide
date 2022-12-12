@@ -20,6 +20,7 @@ protocol MapaPresenterProtocol: AnyObject{
     var user: User? {get set}
     func openSettingsUser()
     func goToCollectionLocation()
+    func showAddNewOject()
 }
 
 class MapaPresenter: MapaPresenterProtocol{
@@ -41,6 +42,9 @@ class MapaPresenter: MapaPresenterProtocol{
         self.networkService = networkService
         
         getData()
+    }
+    func showAddNewOject(){
+        self.router?.showAddNewOject(user: self.user)
     }
     func goToCollectionLocation(){
         print("User collectionLoc!")
