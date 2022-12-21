@@ -9,7 +9,7 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class CollectionLocations: UICollectionViewController,UISearchBarDelegate {
+class CollectionLocations: UICollectionViewController,UISearchBarDelegate, UICollectionViewDelegateFlowLayout {
     var presenter: CollectionLocationsPresenterProtocol!
     var searchBar: UISearchBar = {
         let search = UISearchBar()
@@ -39,6 +39,7 @@ class CollectionLocations: UICollectionViewController,UISearchBarDelegate {
 
         // Register cell classes
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView.semanticContentAttribute = .unspecified
 
         // Do any additional setup after loading the view.
     }
@@ -75,12 +76,24 @@ class CollectionLocations: UICollectionViewController,UISearchBarDelegate {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 30
+        return 8
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
         cell.backgroundColor = UIColor.appColor(.grayPlatinum)
+        var text: UILabel{
+            let t = UILabel()
+            t.text = String(indexPath.row)
+            t.tintColor = .brown
+            t.font = UIFont .systemFont(ofSize: 12)
+          
+            return t
+        }
+        cell.addSubview(text)
+     
+
+      
         cell.layer.cornerRadius = 10
         // Configure the cell
     
@@ -101,6 +114,9 @@ class CollectionLocations: UICollectionViewController,UISearchBarDelegate {
     // убераем разрыв между вью по вертикали
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 15
+    }
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath.row)
     }
     /*
     // Uncomment this method to specify if the specified item should be highlighted during tracking

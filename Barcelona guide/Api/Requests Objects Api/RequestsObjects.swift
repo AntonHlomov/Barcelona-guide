@@ -30,10 +30,9 @@ class RequestsObjectsApi: RequestsObjectsApiProtocol{
         
         let dateCreateObject = Date()
         
-        let uidObject = NSUUID().uuidString
         let db =  Firestore.firestore().collection("users").document(uid)
         guard let uploadObjectImage = objectImage.jpegData(compressionQuality: 0.3) else {return}
-        var dataServies = [ "uidObject": uidObject,
+        var dataServies = [ "uidObject": hash,
                             "nameObject": nameObject,
                             "categoryObject": categoryObject,
                             "textObject": textObject,
@@ -50,7 +49,7 @@ class RequestsObjectsApi: RequestsObjectsApiProtocol{
                             "karmaUserСreator": karmaUserСreator,
                             "dateCreateObject":dateCreateObject
         ] as [String : Any]
-        let storageRef = Storage.storage().reference().child("Object_image").child(uidObject)
+        let storageRef = Storage.storage().reference().child("Object_image").child(hash)
         storageRef.putData(uploadObjectImage, metadata: nil) { (_, error) in
             if let error = error {
                 completion(.failure(error))
@@ -64,7 +63,7 @@ class RequestsObjectsApi: RequestsObjectsApiProtocol{
                     return
                 }
                 dataServies["objectImage"] = objectImageUrl
-                db.collection("objects").document(uidObject).setData(dataServies) { (error) in
+                db.collection("objects").document(hash).setData(dataServies) { (error) in
                     if let error = error {
                         completion(.failure(error))
                         return

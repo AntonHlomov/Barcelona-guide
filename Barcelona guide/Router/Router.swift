@@ -15,10 +15,10 @@ protocol RouterLogin{
 protocol RouterProtocol: RouterLogin {
     func initalScreensaver()
     func initalLogin()
-    func initalMapa()
-    func showSettings()
+    func initContainerMapAndMenu()
+    func showMessenger()
     func showCollectionLocations()
-    func showMapa()
+    func showChatUsers(user: User?)
     func showRegistration()
     func showLogin()
     func showFavoriteObjectsCollection()
@@ -30,8 +30,7 @@ protocol RouterProtocol: RouterLogin {
     func backTappedFromRight()
 }
 class Router: RouterProtocol{
- 
-    
+
     var navigationControler: UINavigationController?
     var assemblyBuilder: AsselderBuilderProtocol?
     
@@ -52,19 +51,19 @@ class Router: RouterProtocol{
         }
     }
     
-    func initalMapa() {
+    func initContainerMapAndMenu() {
         if let navigationControler = navigationControler{
-            guard let mainViewControler = assemblyBuilder?.createMapaModule(router: self) else {return}
+            guard let mainViewControler = assemblyBuilder?.createContainerMapAndMenuModule(router: self) else {return}
             navigationControler.navigationBar.isHidden = true
             navigationControler.viewControllers = [mainViewControler]
         }
     }
     
-    func showSettings(){
+    func showMessenger(){
         if let navigationControler = navigationControler{
-            guard let showControler = assemblyBuilder?.createSettingsModule(router: self) else {return}
+            guard let showControler = assemblyBuilder?.createMessengerModule(router: self) else {return}
             navigationControler.navigationBar.isHidden = false
-            navigationControler.customMove(showControler, subtype: .fromLeft)
+            navigationControler.pushViewController(showControler, animated: true)
         }
     }
     
@@ -75,15 +74,7 @@ class Router: RouterProtocol{
             navigationControler.pushViewController(showControler, animated: true)
         }
     }
-    
-    func showMapa(){
-        if let navigationControler = navigationControler{
-            guard let showControler = assemblyBuilder?.createMapaModule(router: self) else {return}
-            navigationControler.navigationBar.isHidden = true
-            navigationControler.pushViewController(showControler, animated: true)
-        }
-    }
-    
+
     func showRegistration(){
         if let navigationControler = navigationControler{
             guard let showControler = assemblyBuilder?.createRegistrationModule(router: self) else {return}
@@ -111,10 +102,18 @@ class Router: RouterProtocol{
             navigationControler.pushViewController(showControler, animated: true)
         }
     }
+    func showChatUsers(user: User?){
+        if let navigationControler = navigationControler{
+            guard let showControler = assemblyBuilder?.createChatUsersModule(router: self,user: user) else {return}
+            navigationControler.navigationBar.isHidden = false
+            navigationControler.customMove(showControler, subtype: .fromLeft)
+            
+        }
+    }
     func showAddNewOject(user: User?) {
         if let navigationControler = navigationControler{
             guard let showControler = assemblyBuilder?.createAddNewOjectViewModule(router: self,user: user) else {return}
-           // navigationControler.pushViewController(showControler, animated: true)
+            navigationControler.navigationBar.isHidden = false
             navigationControler.pushViewController(showControler, animated: true)
         }
     }

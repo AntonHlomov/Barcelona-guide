@@ -9,12 +9,28 @@ import UIKit
 import CoreLocation
 
 
-class AddNewOjectView:UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,CLLocationManagerDelegate {
+class AddNewOjectView:UIViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,CLLocationManagerDelegate, UITextFieldDelegate {
 
     var presenter: AddNewOjectPresenterProtocol!
     var locationManager = CLLocationManager()
     var userLongitude: CLLocationDegrees!
     var userLatitude: CLLocationDegrees!
+    var myPicker: UIPickerView! = UIPickerView()
+    
+    var selectedValue: String?{
+        didSet {
+         print("selectedValue chenging!")
+           // guard selectedValue != nil else{return}
+            formValidation()
+        }
+    }
+    var uidSelectedValue: String?{
+        didSet {
+         print("uidSelectedValue chenging!")
+           // guard selectedValue != nil else{return}
+            formValidation()
+        }
+    }
 
     var imageSelected = false
     var selectPhotoButton: UIButton = {
@@ -25,7 +41,7 @@ class AddNewOjectView:UIViewController,UIImagePickerControllerDelegate,UINavigat
         button.tintColor = UIColor(white: 1, alpha: 0.5)
         return button
     }()
-    fileprivate let categoryObject = UITextField.setupTextField(title: "Сhoose category..", hideText: false, enabled: true)
+    fileprivate var categoryObject = UITextField.setupTextField(title: "Сhoose category..", hideText: false, enabled: true)
     fileprivate let nameObject = UITextField.setupTextField(title: "Item name...", hideText: false, enabled: true)
     fileprivate let textObject = UITextField.setupTextField(title: "Сommentary..", hideText: false, enabled: true)
     fileprivate let publishButton =    UIButton.setupButton(title: "Рublish", color: UIColor.appColor(.pinkLightSalmon)!, activation: false, invisibility: false, laeyerRadius: 12, alpha: 0.7, textcolor: UIColor.appColor(.grayPlatinum)!)
@@ -34,12 +50,21 @@ class AddNewOjectView:UIViewController,UIImagePickerControllerDelegate,UINavigat
     override func viewDidLoad(){
         super.viewDidLoad()
         view.backgroundColor = UIColor.appColor(.bluePewter)
-        self.navigationController?.navigationBar.tintColor = UIColor.appColor(.bluePewter)
+        navigationController?.navigationBar.tintColor = UIColor.appColor(.grayPlatinum)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(openCamera))
+       // self.navigationItem.rightBarButtonItem?.tintColor = UIColor.appColor(.grayPlatinum)
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
+        
+   
+       
+        
+        self.categoryObject.inputView = UIView()
+        self.categoryObject.inputAccessoryView = UIView()
+     
+      
         configureViewComponents()
         setupTapGesture()
         hadleres()
@@ -54,6 +79,8 @@ class AddNewOjectView:UIViewController,UIImagePickerControllerDelegate,UINavigat
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     }
     fileprivate func configureViewComponents(){
+      
+        
         view.addSubview(publishButton)
         publishButton.anchor(top: nil, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor, pading: .init(top: 0, left: 20, bottom: 5, right: 20), size: .init(width: 0, height: 40))
         
@@ -69,41 +96,15 @@ class AddNewOjectView:UIViewController,UIImagePickerControllerDelegate,UINavigat
         stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         view.addSubview(selectPhotoButton)
-        selectPhotoButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading:  view.safeAreaLayoutGuide.leadingAnchor, bottom: stackView.topAnchor, trailing:  view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: 0, left: 20, bottom: 40, right: 20), size: .init(width: stackView.frame.width, height: stackView.frame.width))
+        selectPhotoButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading:  nil, bottom: nil, trailing:  nil, pading: .init(top: view.frame.height/10, left: 0, bottom: view.frame.height/8, right: 0), size: .init(width: stackView.frame.width/4, height: stackView.frame.width/4))
         selectPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true //выстовляет по середине экрана
         selectPhotoButton.layer.cornerRadius = 12
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-   /*
-        
-        view.addSubview(selectPhotoButton)
-        selectPhotoButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading:  view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing:  view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: view.frame.height/15, left: 20, bottom: 0, right: 20), size: .init(width: view.frame.height/6.5, height: view.frame.height/6.5))
-        selectPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true //выстовляет по середине экрана
-        selectPhotoButton.layer.cornerRadius = view.frame.height/7 / 2
-        view.addSubview(addButton)
-        addButton.anchor(top: nil, leading: view.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.trailingAnchor, pading: .init(top: 0, left: 20, bottom: 5, right: 20), size: .init(width: 0, height: 40))
-        stackView.axis = .vertical
-        stackView.spacing = view.frame.height/35
-        stackView.distribution = .fillEqually  // для корректного отображения
-        view.addSubview(stackView)
-        stackView.anchor(top: selectPhotoButton.bottomAnchor, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: nil, trailing:  view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: 30, left: 20, bottom: 0, right: 20), size: .init(width: 0, height: view.frame.height/3))
-        stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-    */
+    
+  
+  
     }
     fileprivate func hadleres() {
+     
         categoryObject.addTarget(self, action: #selector(formValidation), for: .editingChanged)
         nameObject.addTarget(self, action: #selector(formValidation), for: .editingChanged)
         textObject.addTarget(self, action: #selector(formValidation), for: .editingChanged)
@@ -113,9 +114,12 @@ class AddNewOjectView:UIViewController,UIImagePickerControllerDelegate,UINavigat
     }
     @objc fileprivate func formValidation(){
         guard
+            imageSelected == true,
             categoryObject.hasText,
             nameObject.hasText,
-            textObject.hasText
+            textObject.hasText,
+            self.selectedValue != nil,
+            self.uidSelectedValue != nil
         else {
             publishButton.isEnabled = false
             publishButton.backgroundColor = UIColor.appColor(.redLightSalmon)!.withAlphaComponent(0.7)
@@ -124,7 +128,8 @@ class AddNewOjectView:UIViewController,UIImagePickerControllerDelegate,UINavigat
         publishButton.isEnabled = true
         publishButton.backgroundColor = UIColor.appColor(.redDarkSalmon)
         }
-    //MARK: - Add expenses
+ 
+    //MARK: - Add
     @objc fileprivate func addService(){
         self.handleTapDismiss()
         guard let category = categoryObject.text?.lowercased() else {return}
@@ -145,8 +150,10 @@ class AddNewOjectView:UIViewController,UIImagePickerControllerDelegate,UINavigat
             imageSelected = false
             return
         }
+        selectPhotoButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading:  view.safeAreaLayoutGuide.leadingAnchor, bottom: stackView.topAnchor, trailing:  view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: 0, left: 20, bottom: 40, right: 20), size: .init(width: stackView.frame.width, height: stackView.frame.width))
+        selectPhotoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true //выстовляет по середине экрана
         selectPhotoButton.layer.cornerRadius = 12
-      //  selectPhotoButton.layer.masksToBounds = true
+       //selectPhotoButton.layer.masksToBounds = true
         selectPhotoButton.layer.backgroundColor = UIColor.appColor(.grayPlatinum)?.cgColor
         selectPhotoButton.layer.borderWidth = 2
         selectPhotoButton.layer.borderColor = UIColor.appColor(.grayPlatinum)?.cgColor
@@ -206,10 +213,18 @@ class AddNewOjectView:UIViewController,UIImagePickerControllerDelegate,UINavigat
     //размеры клавиатуры
     @objc fileprivate func handleKeyboardSwow(notification: Notification){
         guard let value = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {return}
-        let keyboardframe = value .cgRectValue    //рамка клавиатуры
+        guard  value.cgRectValue.height != 0  else {return}
+        
+        let keyboardframe = value.cgRectValue    //рамка клавиатуры
         let bottomSpace = view.frame.height - stackView.frame.origin.y - stackView.frame.height        //на сколько должна сдвинуть интерфейс
         let difference = keyboardframe.height - bottomSpace
-        self.view.transform = CGAffineTransform(translationX: 0, y: -difference - 15)
+        if difference > 50 {
+         self.view.transform = CGAffineTransform(translationX: 0, y: CGFloat(-difference) - 19)
+         }
+        if difference < 50 && difference != 0  {
+            self.view.transform = CGAffineTransform(translationX: 0, y: CGFloat(-keyboardframe.height + (bottomSpace/2)) )
+         }
+       
     }
     //опускание клавиатуры
     @objc fileprivate func handleKeyboardSwowHide(){
@@ -221,8 +236,38 @@ class AddNewOjectView:UIViewController,UIImagePickerControllerDelegate,UINavigat
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapDismiss)))
     }
     @objc fileprivate func handleTapDismiss(){
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.view.transform = .identity     // интерфейс опускаеться в низ
+        }, completion: nil)
         view.endEditing(true)
     }
+   
+   
+}
+extension AddNewOjectView:UIPickerViewDataSource, UIPickerViewDelegate{
+  
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return presenter.category?.count ?? 0
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedValue = presenter.category?[row].nameCategory ?? ""
+        uidSelectedValue = presenter.category?[row].uidCategory ?? ""
+        categoryObject.text = presenter.category?[row].nameCategory ?? ""
+        self.view.endEditing(true)
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return presenter.category?[row].nameCategory ?? ""
+    }
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        return NSAttributedString(string: presenter.category?[row].nameCategory ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.appColor(.grayMidle)!])
+    }
+    
 }
 extension AddNewOjectView: AddNewOjectProtocol{
     func failure(error: Error) {
@@ -231,6 +276,20 @@ extension AddNewOjectView: AddNewOjectProtocol{
     
     func alert(title: String, message: String) {
         
+    }
+    func reload() {
+        myPicker = UIPickerView()
+        myPicker.dataSource = self
+        myPicker.delegate = self
+        categoryObject.delegate = self
+        categoryObject.inputView = myPicker
+     //   categoryObject.text = String(presenter.category?[0].nameCategory ?? "")
+    //    self.selectedValue = presenter.category?[0].nameCategory ?? ""
+      //  self.uidSelectedValue = presenter.category?[0].uidCategory ?? ""
+        myPicker.backgroundColor = UIColor.appColor(.grayPlatinum)
+       // myPicker.tintColor = UIColor.appColor(.grayMidle)
+       
+        self.myPicker.reloadAllComponents()
     }
     
     

@@ -14,7 +14,8 @@ class Object{
     
     var uidObject: String!
     var nameObject: String!
-    var categoryObject: String!
+    var idCategoryObject: String! // значения Hashtag
+    var categoryObject: String! // значения Hashtag
     var textObject: String!
     var objectImage: String!
     var latitudeObject: Double!

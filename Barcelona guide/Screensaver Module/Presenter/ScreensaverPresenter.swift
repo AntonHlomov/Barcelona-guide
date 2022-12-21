@@ -14,7 +14,7 @@ protocol ScreensaverProtocol: AnyObject{
 
 protocol ScreensaverPresenterProtocol: AnyObject{
     
-    init(view: ScreensaverProtocol, networkServiceUser: RequestsUserApiProtocol,networkServiceSetings: RequestsSetingsApiProtocol,networkServiceHashtag: RequestsHashtagApiProtocol,networkServiceObject: RequestsObjectsApiProtocol, router:RouterProtocol)
+    init(view: ScreensaverProtocol, networkServiceUser: RequestsUserApiProtocol,networkServiceSetings: RequestsMessengerApiProtocol,networkServiceHashtag: RequestsCategoryApiProtocol,networkServiceObject: RequestsObjectsApiProtocol, router:RouterProtocol)
     func verificationUser()
 }
 
@@ -24,16 +24,16 @@ class ScreensaverPresenter: ScreensaverPresenterProtocol{
     
     weak var view: ScreensaverProtocol?
     let networkServiceUser: RequestsUserApiProtocol!
-    let networkServiceSetings: RequestsSetingsApiProtocol!
-    let networkServiceHashtag: RequestsHashtagApiProtocol!
+    let networkServiceSetings: RequestsMessengerApiProtocol!
+    let networkServiceHashtag: RequestsCategoryApiProtocol!
     let networkServiceObject: RequestsObjectsApiProtocol!
     var router: RouterProtocol?
     var user: User?
-    var setings: Setings?
-    var hashtag: [Hashtag]?
+    var setings: Message?
+    var hashtag: [Category]?
     var object: [Object]?
     
-    required  init(view: ScreensaverProtocol, networkServiceUser: RequestsUserApiProtocol,networkServiceSetings: RequestsSetingsApiProtocol,networkServiceHashtag: RequestsHashtagApiProtocol,networkServiceObject: RequestsObjectsApiProtocol, router:RouterProtocol){
+    required  init(view: ScreensaverProtocol, networkServiceUser: RequestsUserApiProtocol,networkServiceSetings: RequestsMessengerApiProtocol,networkServiceHashtag: RequestsCategoryApiProtocol,networkServiceObject: RequestsObjectsApiProtocol, router:RouterProtocol){
         self.view = view
         self.router = router
         self.networkServiceUser = networkServiceUser
@@ -92,7 +92,8 @@ class ScreensaverPresenter: ScreensaverPresenterProtocol{
         }
         meQueue.sync {
             DispatchQueue.main.async { [self] in
-                self.router?.initalMapa()
+               // self.router?.initalMapa()
+                self.router?.initContainerMapAndMenu()
                 self.router?.dismiss()
             }
         }
