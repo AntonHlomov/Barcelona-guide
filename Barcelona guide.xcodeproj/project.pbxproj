@@ -261,7 +261,7 @@
 			isa = PBXGroup;
 			children = (
 				8AEABD4E29425B2C00E37FED /* Mapa Module */,
-				8AB154D629510D8800EA9830 /* MenuMap */,
+				8AB154D629510D8800EA9830 /* Menu for Map */,
 				8AB154D329510B3300EA9830 /* Presenter */,
 				8A5BC6F22952A4590040A982 /* ContainerMapAndMenu.swift */,
 			);
@@ -276,14 +276,14 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
-		8AB154D629510D8800EA9830 /* MenuMap */ = {
+		8AB154D629510D8800EA9830 /* Menu for Map */ = {
 			isa = PBXGroup;
 			children = (
 				8AB154D729510E0800EA9830 /* MenuMap.swift */,
 				8AB154D929510E7700EA9830 /* MenuTableCell.swift */,
 				8AB154DB29510ED800EA9830 /* MenuModel.swift */,
 			);
-			path = MenuMap;
+			path = "Menu for Map";
 			sourceTree = "<group>";
 		};
 		8ADE78BF294E9CC800CAD5C7 /* Сhat users Module */ = {
@@ -348,18 +348,18 @@
 		8AE0EB1F277A3A9B002ADA32 /* Barcelona guide */ = {
 			isa = PBXGroup;
 			children = (
-				8AEABD5B294260B300E37FED /* Api */,
-				8AEABD5329425DAC00E37FED /* Extension */,
 				8AEABD5229425C8400E37FED /* Router */,
 				8AEABD5129425C6F00E37FED /* Builder */,
-				8AEABD5029425C3C00E37FED /* Messenger Module */,
+				8AEABD5B294260B300E37FED /* Api */,
+				8AEABD5329425DAC00E37FED /* Extension */,
 				8AEABD4B29425A7500E37FED /* Screensaver Module */,
-				8ADE78BF294E9CC800CAD5C7 /* Сhat users Module */,
-				8AB154D029510A3A00EA9830 /* Container map and back menu Module */,
-				8AEABD4F29425B6900E37FED /* Collection locations Module */,
-				8AEABD4D29425AFB00E37FED /* Registration Module */,
-				8AE409BE29474A3B002DB4EC /* Add new object Module */,
 				8AEABD4C29425AEB00E37FED /* Login Module */,
+				8AEABD4D29425AFB00E37FED /* Registration Module */,
+				8AB154D029510A3A00EA9830 /* Container map and back menu Module */,
+				8ADE78BF294E9CC800CAD5C7 /* Сhat users Module */,
+				8AEABD5029425C3C00E37FED /* Messenger Module */,
+				8AEABD4F29425B6900E37FED /* Collection locations Module */,
+				8AE409BE29474A3B002DB4EC /* Add new object Module */,
 				8AEABDC429426F1400E37FED /* Collection favorite object Module */,
 				8AEABDD42942CB6400E37FED /* Presentansion object Module */,
 				8AEABD4A29425A5E00E37FED /* Model */,

@@ -20,14 +20,12 @@ class AddNewOjectView:UIViewController,UIImagePickerControllerDelegate,UINavigat
     var selectedValue: String?{
         didSet {
          print("selectedValue chenging!")
-           // guard selectedValue != nil else{return}
             formValidation()
         }
     }
     var uidSelectedValue: String?{
         didSet {
          print("uidSelectedValue chenging!")
-           // guard selectedValue != nil else{return}
             formValidation()
         }
     }
@@ -57,14 +55,10 @@ class AddNewOjectView:UIViewController,UIImagePickerControllerDelegate,UINavigat
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
-        
-   
        
-        
         self.categoryObject.inputView = UIView()
         self.categoryObject.inputAccessoryView = UIView()
      
-      
         configureViewComponents()
         setupTapGesture()
         hadleres()

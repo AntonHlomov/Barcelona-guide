@@ -10,7 +10,7 @@ import UIKit
 class MenuMap: UIViewController {
     var presenter: ContainerMapAndMenuPresenterProtocol!
     var tableView: UITableView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .darkGray
@@ -29,24 +29,42 @@ class MenuMap: UIViewController {
         tableView.backgroundColor = .darkGray
     }
 }
+@available(iOS 16.0, *)
 extension MenuMap: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return  MenuModel.allCases.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MenuTableCell.reuseId) as! MenuTableCell
-        let menuModel = MenuModel(rawValue: indexPath.row)
-        cell.iconImageView.image = menuModel?.image
-        cell.myLabel.text = menuModel?.description
+       // presenter.menuConecter(index: indexPath)
+        guard let menuModel = MenuModel(rawValue: indexPath.row) else {return cell}
+        let dataButon = StatePressButonMenu(buton: menuModel, pressButonIndex: 0)
+        cell.iconImageView.image = dataButon.imageButon
+        cell.myLabel.text = dataButon.descriptionButon
+    
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       // presenter.menuConecter(index: indexPath)
+        let cell = self.tableView.cellForRow(at: indexPath) as! MenuTableCell
+        guard let menuModel = MenuModel(rawValue: indexPath.row) else {return}
+        let pressButonIndex = cell.numberPressButon + 1
+        let dataButon = StatePressButonMenu(buton: menuModel, pressButonIndex: pressButonIndex)
         tableView.deselectRow(at: indexPath, animated: true)
-        print(indexPath)
-        presenter.menuConecter(index: indexPath)
+        cell.iconImageView.image = dataButon.imageButon
+        cell.myLabel.text = dataButon.descriptionButon
+        cell.numberPressButon = dataButon.pressButonIndex
     }
+    
 }
 extension MenuMap: MenuViewProtocol {
+    func setDataButtonMenu(indexPath: IndexPath){
+        print("setDataButtonMenu")
+      //  guard var cell = self.tableView.cellForRow(at: indexPath) as? MenuTableCell else {return}
+      //  let menuModel = MenuModel(rawValue: indexPath.row)
+      //  cell.iconImageView.image = menuModel?.image
+      //  cell.myLabel.text = menuModel?.description
+    }
     func clouse() {
         print("MenuMap clouse")
     }

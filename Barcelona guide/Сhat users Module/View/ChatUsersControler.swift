@@ -18,8 +18,9 @@ class ChatUsersControler: UITableViewController,UISearchBarDelegate, UICollectio
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.appColor(.bluePewter)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: self, action: #selector(backTapped))
         self.navigationController?.navigationBar.tintColor = UIColor.appColor(.grayPlatinum)
-        
+    
         tableView.register(ChatUserCell.self, forCellReuseIdentifier: chatUserId)
         tableView.separatorColor = .clear //линии между ячейками цвет
         tableView.refreshControl = dataRefresher
@@ -132,6 +133,9 @@ class ChatUsersControler: UITableViewController,UISearchBarDelegate, UICollectio
     }
     @objc func doneButtonAction(){
         searchBar.resignFirstResponder()
+    }
+    @objc func backTapped(){
+        presenter.backToMapa()
     }
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
        // presenter.filter(text: searchText)

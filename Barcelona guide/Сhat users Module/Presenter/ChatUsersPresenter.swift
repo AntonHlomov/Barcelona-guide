@@ -16,13 +16,10 @@ protocol ChatUsersPresenterProtocol: AnyObject {
     init(view: ChatUsersProtocol,networkService: RequestsMessengerApiProtocol, router: RouterProtocol,user: User?)
     func getChatUsers()
     func filter(text: String)
-   // func deleteClient(indexPath: IndexPath)
-   // func redactClient(indexPath: IndexPath)
-   // var user: User? { get set }
     var chatUsers: [ChatUser]? {get set}
     var filterChatUsers: [ChatUser]? {get set}
     func goToChatUser(indexPathRowChatUser:Int)
-   // func goToAddClient()
+    func backToMapa()
 }
 
 class ClientsTabPresentor: ChatUsersPresenterProtocol {
@@ -33,15 +30,14 @@ class ClientsTabPresentor: ChatUsersPresenterProtocol {
     var chatUsers: [ChatUser]?
     var filterChatUsers: [ChatUser]?
     var user: User?
-   // var markAddMassageReminder: Bool
+
 
     required init(view: ChatUsersProtocol,networkService: RequestsMessengerApiProtocol, router: RouterProtocol,user: User?) {
         self.view = view
         self.router = router
         self.networkService = networkService
         self.user = user
-        //  self.markAddMassageReminder = markAddMassageReminder
-        //   getClients()
+     
     }
     
     func deleteClient(indexPath: IndexPath){
@@ -98,5 +94,8 @@ class ClientsTabPresentor: ChatUsersPresenterProtocol {
     }
     func redactClient(indexPath: IndexPath){
       //  self.router?.showAddClientView(editMode: true, client:  self.filterClients?[indexPath.row], user: self.user)
+    }
+    func backToMapa(){
+        self.router?.backTappedFromRight()
     }
 }

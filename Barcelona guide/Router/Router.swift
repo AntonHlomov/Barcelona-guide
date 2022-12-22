@@ -16,6 +16,7 @@ protocol RouterProtocol: RouterLogin {
     func initalScreensaver()
     func initalLogin()
     func initContainerMapAndMenu()
+    
     func showMessenger()
     func showCollectionLocations()
     func showChatUsers(user: User?)
@@ -24,10 +25,12 @@ protocol RouterProtocol: RouterLogin {
     func showFavoriteObjectsCollection()
     func showPresentansionObject(user: User?)
     func showAddNewOject(user: User?)
+    
     func popToRoot()
     func dismiss()
     func schowLoginMoveToLeft()
     func backTappedFromRight()
+    func backTappedFromLeft()
 }
 class Router: RouterProtocol{
 
@@ -128,6 +131,11 @@ class Router: RouterProtocol{
            navigationControler.customMovePopToRoot(subtype: .fromRight)
        }
    }
+    func backTappedFromLeft(){
+        if let navigationControler = navigationControler{
+            navigationControler.customMovePopToRoot(subtype: .fromLeft)
+        }
+    }
     
     func dismiss(){
         if let navigationControler = navigationControler{

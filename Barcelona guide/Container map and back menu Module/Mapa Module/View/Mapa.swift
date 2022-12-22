@@ -23,7 +23,6 @@ class Mapa: UIViewController,CLLocationManagerDelegate,UINavigationControllerDel
     var annotationsArray = [MKPointAnnotation]()
     let annotationUser = MKPointAnnotation()
     
-
     let userImageButton = CustomUIimageView(frame: .zero )
     
     let appsCollectionView: UICollectionView = {
@@ -132,6 +131,7 @@ class Mapa: UIViewController,CLLocationManagerDelegate,UINavigationControllerDel
     
     }
     @objc fileprivate func selectorUserButton(){
+    
         print("selectorUserButton")
          presenter.toggleMenu()
     }
@@ -273,7 +273,7 @@ extension Mapa: ContainerMapAndMenuProtocol {
                            initialSpringVelocity: 0,
                            options: .curveEaseInOut,
                            animations: {
-                self.view.frame.origin.x = self.view.frame.width - 230
+                self.view.frame.origin.x = self.view.frame.width - 140
             }) { (finished) in
                 
             }

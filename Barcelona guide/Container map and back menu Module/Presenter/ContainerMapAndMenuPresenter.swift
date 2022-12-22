@@ -9,6 +9,7 @@ import Foundation
 
 protocol MenuViewProtocol: AnyObject{
     func clouse()
+    func setDataButtonMenu(indexPath: IndexPath)
 }
 
 protocol ContainerMapAndMenuProtocol: AnyObject{
@@ -29,8 +30,9 @@ protocol ContainerMapAndMenuPresenterProtocol: AnyObject{
     func showAddNewOject()
     func toggleMenu()
     func contacts()
+    func setUser()
     
-    func menuConecter(index: IndexPath)
+    func menuConecter(index: IndexPath) 
 }
     
 class ContainerMapAndMenuPresenter: ContainerMapAndMenuPresenterProtocol{
@@ -41,11 +43,11 @@ class ContainerMapAndMenuPresenter: ContainerMapAndMenuPresenterProtocol{
     var router: RouterProtocol?
     var favoritOjects: [Object]?
     var isMove: Bool
+    
     var user: User? {
         didSet {
             print("User chenging!")
-            guard user != nil else{return}
-            self.viewMapa?.setUser(user: user!)
+            setUser()
         }
     }
     
@@ -61,18 +63,30 @@ class ContainerMapAndMenuPresenter: ContainerMapAndMenuPresenterProtocol{
         self.isMove = false
         getData()
     }
+    func setUser(){
+        guard user != nil else{return}
+        self.viewMapa?.setUser(user: user!)
+    }
     
     func menuConecter(index: IndexPath){
         switch index.row{
         case 0://Profile
             return
-        case 1://Menu
-            return
-        case 2: //Contacts
+        case 1://Messendger
             toggleMenu()
             self.router?.showChatUsers(user: self.user)
             return
-        case 3://Settings
+        case 2: //Contacts
+          
+            return
+        case 3://StyleMode
+            return
+        case 4://MapMode
+            return
+        case 5://RoadMode
+            self.viewMenuMapa?.setDataButtonMenu(indexPath: index)
+            return
+        case 6://Settings
             return
             
         default:

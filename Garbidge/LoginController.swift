@@ -17,11 +17,11 @@ class LoginController: UIViewController {
        return text
     }()
 
-    private let registrationNewUser: UIButton = {
+    let registrationNewUser: UIButton = {
         let button = UIButton(type: .system)
         let attributedTitle = NSMutableAttributedString(string: "Регистрация", attributes: [.font:UIFont.systemFont (ofSize: 18), .foregroundColor: UIColor.rgb(red: 170, green: 92, blue: 178) ])
         button.setAttributedTitle(attributedTitle, for: .normal)
-        button.addTarget(self, action: #selector(goToSingUP), for: .touchUpInside)
+        button.addTarget(LoginController.self, action: #selector(goToSingUP), for: .touchUpInside)
         return button
     }()
   

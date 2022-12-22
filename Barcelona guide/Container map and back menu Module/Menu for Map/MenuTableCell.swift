@@ -9,6 +9,7 @@ import UIKit
 
 class MenuTableCell: UITableViewCell {
     static let reuseId = "MenuTableCell"
+    var numberPressButon = 0
     
     let iconImageView: UIImageView = {
        let iv = UIImageView()

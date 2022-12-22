@@ -23,7 +23,7 @@ class Messenger: UIViewController,UITableViewDataSource,UITableViewDelegate {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    var foonMassegeInput: UIView = {
+    var foonMassegeInput:UIView = {
         var view = UIView()
         view.layer.backgroundColor = UIColor.appColor(.grayPlatinum)?.cgColor
         return view
@@ -53,6 +53,7 @@ class Messenger: UIViewController,UITableViewDataSource,UITableViewDelegate {
         view.backgroundColor = UIColor.appColor(.grayMidle)
         NotificationCenter.default.addObserver(self, selector: #selector(handleTapDismiss), name: UIApplication.willResignActiveNotification, object:nil)
         navigationController?.navigationBar.tintColor = UIColor.appColor(.grayPlatinum)
+        
         massegeInput.delegate = self
         configTable()
         configView()
