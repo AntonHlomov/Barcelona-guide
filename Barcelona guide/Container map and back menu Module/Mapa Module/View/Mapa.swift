@@ -11,7 +11,7 @@ import CoreLocation
 import Firebase
 
 
-class Mapa: UIViewController,CLLocationManagerDelegate,UINavigationControllerDelegate{
+class Mapa: UIViewController,CLLocationManagerDelegate,UINavigationControllerDelegate,MKMapViewDelegate{
     var presenter: ContainerMapAndMenuPresenterProtocol!
 
     fileprivate let map: MKMapView = {
@@ -19,11 +19,10 @@ class Mapa: UIViewController,CLLocationManagerDelegate,UINavigationControllerDel
         mapView.translatesAutoresizingMaskIntoConstraints = false
         return mapView
     }()
+    var transportTypeMapa: MKDirectionsTransportType = .walking
     let locationManager = CLLocationManager()
     var annotationsArray = [MKPointAnnotation]()
     let annotationUser = MKPointAnnotation()
-    
-    let userImageButton = CustomUIimageView(frame: .zero )
     
     let appsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -37,30 +36,27 @@ class Mapa: UIViewController,CLLocationManagerDelegate,UINavigationControllerDel
         return collectionView
     }()
     
+    var userImageButton = CustomUIimageView(frame: .zero )
+    
     fileprivate let menu = UIButton.setupButtonImage( color: UIColor.appColor(.bluePewter)!,activation: true,invisibility: false, laeyerRadius: 12, alpha:0.6,resourseNa: "menu")
     
-    fileprivate let carOrWhalkButton = UIButton.setupButtonImage( color: UIColor.rgb(red: 190, green: 140, blue: 196),activation: true,invisibility: false, laeyerRadius: 12, alpha: 0.6,resourseNa: "car")
-    
-    fileprivate let styleMap = UIButton.setupButtonImage(color: UIColor.rgb(red: 31, green: 152, blue: 233),activation: true,invisibility: false, laeyerRadius: 12, alpha: 0.6,resourseNa: "map")
-    
-    fileprivate let userLocationButton = UIButton.setupButtonImage(color: UIColor.rgb(red: 31, green: 152, blue: 233),activation: true,invisibility: false, laeyerRadius: 12, alpha: 0.6,resourseNa: "arrow")
     
     fileprivate let addNewObjectButton = UIButton.setupButtonImage( color: UIColor.appColor(.pinkLightSalmon)!,activation: true,invisibility: false, laeyerRadius: 12, alpha: 0.6,resourseNa: "add")
     
-    lazy var upRStackButton = UIStackView(arrangedSubviews: [styleMap,carOrWhalkButton,userLocationButton])
+    
+    
     lazy var downRStackButton = UIStackView(arrangedSubviews: [menu,addNewObjectButton])
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.appColor(.bluePewter)
-      //  self.navigationItem.leftBarButtonItem?.tintColor = UIColor.appColor(.grayPlatinum)
-        
+      
         map.delegate = self
-        locationManager.delegate = self
+     //   locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
+        locationManagerSetings()
         
-        OnOflocationManager()
         configureViewComponents()
         
         appsCollectionView.delegate = self
@@ -69,20 +65,15 @@ class Mapa: UIViewController,CLLocationManagerDelegate,UINavigationControllerDel
         
         setupTapGesture()
         hadleres()
-        
-        locationManager.startUpdatingLocation()
-        let annotation1 = MKPointAnnotation()
-        annotation1.coordinate = CLLocationCoordinate2D(latitude: 41.380422846823755, longitude: 2.154067881398437)
-              annotation1.title = "Кофе за 1 $" // Optional
-              annotation1.subtitle = "Вкусный кофе " // Optional
-              self.map.addAnnotation(annotation1)
-     
-       
- 
+    
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        
+        locationManager.startUpdatingLocation()
+       // sleep(1)
+        locationManager.stopUpdatingLocation()
     }
     fileprivate func configureViewComponents(){
         
@@ -96,13 +87,7 @@ class Mapa: UIViewController,CLLocationManagerDelegate,UINavigationControllerDel
         
         view.addSubview(appsCollectionView)
         appsCollectionView.anchor(top: nil, leading: view.safeAreaLayoutGuide.leadingAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, trailing: view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: 0, left: 0, bottom: 0, right: 0), size: .init(width: 0, height: view.frame.height/6.2))
-        
-        upRStackButton.axis = .vertical
-        upRStackButton.spacing = 15
-        upRStackButton.distribution = .fillEqually
-        view.addSubview(upRStackButton)
-        upRStackButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, leading: nil, bottom: nil, trailing: view.safeAreaLayoutGuide.trailingAnchor, pading: .init(top: 30, left: 0 , bottom: 0, right:10), size: .init(width: 40, height: 122.5))
-      
+     
         downRStackButton.axis = .vertical
         downRStackButton.spacing = 15
         downRStackButton.distribution = .fillEqually
@@ -116,95 +101,25 @@ class Mapa: UIViewController,CLLocationManagerDelegate,UINavigationControllerDel
         userImageButton.addGestureRecognizer(tapUserImage)
         userImageButton.isUserInteractionEnabled = true
         menu.addTarget(self, action: #selector(selectorMenu), for: .touchUpInside)
-        styleMap.tag = 0
-        styleMap.addTarget(self, action: #selector(selectorStyleMap(sender:)), for: .touchUpInside)
-        userLocationButton.tag = 1
-        userLocationButton.addTarget(self, action: #selector(selectorUserLocationButton(sender:)), for: .touchUpInside)
+      
         addNewObjectButton.tag = 0
         addNewObjectButton.addTarget(self, action: #selector(selectorAddNewObjectButton(sender:)), for: .touchUpInside)
-        carOrWhalkButton.tag = 1
-        carOrWhalkButton.addTarget(self, action: #selector(changeCarOrWhalk(sender:)), for: .touchUpInside)
     }
+    
     @objc fileprivate func selectorMenu(){
         print("selectorMenu")
-       presenter.goToCollectionLocation()
-    
+        presenter.showCollectionAllObgects()
     }
     @objc fileprivate func selectorUserButton(){
-    
         print("selectorUserButton")
-         presenter.toggleMenu()
+        presenter.toggleMenu()
     }
-    
-    @objc fileprivate func selectorStyleMap(sender: UIButton){
-        switch map.mapType {
-        case .standard:
-            map.mapType = .satellite
-        case .satellite:
-            map.mapType = .hybrid
-        case .hybrid:
-            map.mapType = .satelliteFlyover
-        case .satelliteFlyover:
-            map.mapType = .hybridFlyover
-        case .hybridFlyover:
-            map.mapType = .mutedStandard
-        case .mutedStandard:
-            map.mapType = .standard
-        @unknown default:
-            map.mapType = .standard
-        }
-    }
-    @objc fileprivate func selectorUserLocationButton(sender: UIButton){
-        switch sender.tag  {
-        case 0:
-            UIView.animate(withDuration: 0.25, animations: {
-                self.userLocationButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-            })
-            locationManager.startUpdatingLocation()
-            userLocationButton.tag = 1
-          //  userLocationButtonCircle.backgroundColor = UIColor.rgb(red: 190, green: 140, blue: 196).withAlphaComponent(0.6)
-           
-        case 1:
-            UIView.animate(withDuration: 0.25, animations: {
-                self.userLocationButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2)
-            })
-            locationManager.stopUpdatingLocation()
-            userLocationButton.tag = 0
-           // userLocationButtonCircle.backgroundColor = UIColor.rgb(red: 31, green: 152, blue: 233).withAlphaComponent(0.6)
-        default:
-            return
-        }
-    }
+  
     @objc fileprivate func selectorAddNewObjectButton(sender: UIButton){
-        presenter?.showAddNewOject()
+        presenter?.addNewOject()
     }
     
-    @objc fileprivate func changeCarOrWhalk(sender: UIButton){
-       
-       switch sender.tag {
-       case 0:
-           UIView.animate(withDuration: 0.25, animations: {
-               self.carOrWhalkButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-           })
-           carOrWhalkButton.tag = 1
-           carOrWhalkButton.setImage(#imageLiteral(resourceName: "icons8-car180-60"), for:.normal)
-           carOrWhalkButton.backgroundColor = UIColor.rgb(red: 31, green: 152, blue: 233).withAlphaComponent(0.6)
-          
-       case 1:
-           UIView.animate(withDuration: 0.25, animations: {
-               self.carOrWhalkButton.transform = CGAffineTransform(rotationAngle: CGFloat.pi * 2)
-           })
-           carOrWhalkButton.tag = 0
-           carOrWhalkButton.setImage(#imageLiteral(resourceName: "icons8-whalk-30"), for:.normal)
-           carOrWhalkButton.backgroundColor = UIColor.rgb(red: 190, green: 140, blue: 196).withAlphaComponent(0.6)
-          
-       default:
-           return
-       }
-        
-     }
-    
-    func OnOflocationManager(){
+    func locationManagerSetings(){
         if CLLocationManager.locationServicesEnabled() {
               locationManager.delegate = self
               locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -213,9 +128,39 @@ class Mapa: UIViewController,CLLocationManagerDelegate,UINavigationControllerDel
         map.isZoomEnabled = true
         map.isScrollEnabled = true
         map.showsUserLocation = true
-        
         if let coor = map.userLocation.location?.coordinate{
             map.setCenter(coor, animated: true)
+        }
+    }
+    //MARK: - make a route for point.
+    private func createDirectioReqest (startCoordinate: CLLocationCoordinate2D, destinationCoordinate: CLLocationCoordinate2D){
+        
+        let startLocation = MKPlacemark(coordinate: startCoordinate)
+        let destinationLocation = MKPlacemark(coordinate: destinationCoordinate)
+        let request = MKDirections.Request()// запрос
+        request.source = MKMapItem(placemark: startLocation)
+        request.destination = MKMapItem(placemark: destinationLocation)
+        request.transportType = transportTypeMapa
+        // смотрим альтернативные маршруты
+        request.requestsAlternateRoutes = true
+        let direction = MKDirections(request: request)
+        direction.calculate { (responce, error) in
+            if let error = error{
+                print(error.localizedDescription)
+                return
+            }
+            guard let responce = responce else {
+                self.alertError(title: "Error", message: "Route not available.")
+                return
+            }
+            // route.distance показывает дистанцию маршрута в метрах
+            // responce.routes маршруты но мы берем первый, что бы в дальнейшем в цикле сравнивать какой короче
+            var minRoute = responce.routes[0]
+            for route in responce.routes {
+                minRoute = (route.distance < minRoute.distance) ? route : minRoute
+            }
+            // создаем маршрут
+            self.map.addOverlay(minRoute.polyline)
         }
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -228,8 +173,6 @@ class Mapa: UIViewController,CLLocationManagerDelegate,UINavigationControllerDel
         //annotationUser.subtitle = "current location"
        // self.map.addAnnotation(annotationUser)
         map.setRegion(region, animated: true)
-  
-  
     }
     
     //MARK: - TapGesture and endEditing
@@ -238,33 +181,120 @@ class Mapa: UIViewController,CLLocationManagerDelegate,UINavigationControllerDel
       map.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTapDismiss)))
   }
   @objc fileprivate func handleTapDismiss(){
+      presenter.toggleMenuOnlyClouse() // Closed menu wen we taped for map.
       view.endEditing(true)
   }
 
-}
-//MARK: - extension
 
-extension Mapa: MKMapViewDelegate{
+//MARK: - mapView
+   
+    /*
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard !(annotation is MKUserLocation) else {
+            return nil
+        }
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView?.pinTintColor = UIColor.gray
+            pinView?.canShowCallout = true
+        }
+        else {
+            pinView?.annotation = annotation
+        }
+        return pinView
+    }
+      
+   
+
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if view.annotation is ObjectPointAnatasion {
+            if let selectedAnnotation = view.annotation as? ObjectPointAnatasion {
+                if let id = selectedAnnotation.identifier {
+                    for pin in mapView.annotations as! [ObjectPointAnatasion] {
+                        if let myIdentifier = pin.identifier {
+                            if myIdentifier == id {
+                                print(pin.lat ?? 0.0)
+                                print(pin.lon ?? 0.0)
+                               
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+*/
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("didSelect")
+    }
+
     
     // отрисовка на карте маршрута
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let render = MKPolylineRenderer(overlay: overlay as! MKPolyline)
-        switch carOrWhalkButton.tag {
-        case 0:
+        switch transportTypeMapa {
+        case .walking:
             render.strokeColor = UIColor.rgb(red: 190, green: 140, blue: 196).withAlphaComponent(0.7)
-        case 1:
+        case .automobile:
             render.strokeColor = UIColor.rgb(red: 31, green: 152, blue: 233).withAlphaComponent(0.7)
     
         default:
             render.strokeColor = UIColor.rgb(red: 190, green: 140, blue: 196)
         }
-        
+        render.strokeColor = UIColor.rgb(red: 190, green: 140, blue: 196).withAlphaComponent(0.7)
         return render
     }
 }
 
-extension Mapa: ContainerMapAndMenuProtocol {
-    func showMenuViewController(shouldMove: Bool) {
+extension Mapa: MapProtocol {
+    
+    func showAnatansions(anatansions: [Object]){
+        self.map.addAnnotations(anatansions)
+        self.map.showAnnotations(anatansions, animated: true)
+    }
+    
+    func selectLocationMagnet(indexButonMode: Int){
+        switch indexButonMode{
+        case 0: locationManager.stopUpdatingLocation()
+        case 1: locationManager.startUpdatingLocation()
+        default: locationManager.stopUpdatingLocation()
+        }
+    }
+ 
+    func changeTansportType(indexButonMode: Int){
+        switch indexButonMode {
+        case 0:
+            transportTypeMapa = .walking
+        case 1:
+            transportTypeMapa = .automobile
+        default:
+            transportTypeMapa = .walking
+        }
+    }
+
+    func changeStyleMap(indexButoon: Int){
+        switch indexButoon {
+        case 0:
+            map.mapType = .standard
+        case 1:
+             map.mapType = .satellite
+        case 2:
+            map.mapType = .hybrid
+        case 3:
+            map.mapType = .satelliteFlyover
+        case 4:
+            map.mapType = .hybridFlyover
+        case 5:
+            map.mapType = .mutedStandard
+       
+        default:
+            map.mapType = .standard
+        }
+    }
+    
+    func openMenu(shouldMove: Bool) {
         if shouldMove {
             // показываем menu
             UIView.animate(withDuration: 0.5,
@@ -296,7 +326,7 @@ extension Mapa: ContainerMapAndMenuProtocol {
         print("sucses")
     }
     
-    func setUser(user: User) {
+    func setDataUserButton(user: User) {
         userImageButton.loadImage(with: user.profileImageUser ?? "")
         userImageButton.layer.borderWidth = 3
         userImageButton.layer.borderColor = UIColor.appColor(.bluePewter)!.cgColor

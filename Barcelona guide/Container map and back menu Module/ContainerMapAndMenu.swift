@@ -18,24 +18,9 @@ class ContainerMapAndMenu: UIViewController {
     }
 
 }
-extension ContainerMapAndMenu: ContainerMapAndMenuProtocol{
-    
-    
-    func sucses() {
-        print("")
-    }
-    
+extension ContainerMapAndMenu: ContainerMapProtocol{
     func failure(error: Error) {
-        print("")
+        print("error -> ContainerMapAndMenu")
     }
-    
-    func setUser(user: User) {
-        print("")
-    }
-    
-    func showMenuViewController(shouldMove: Bool) {
-        print("")
-    }
-    
-    
+
 }

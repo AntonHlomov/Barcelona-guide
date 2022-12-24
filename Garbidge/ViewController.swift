@@ -289,6 +289,11 @@ class ViewController: UIViewController,CLLocationManagerDelegate,UINavigationCon
         mapView.showAnnotations(showArrayAnnotions, animated: true)
     }
     
+    
+    
+    
+    
+    
       func touchResetButton(){
           if locationButtonAdFirstPlace.tag == 1{
               addLocationUserFerstPlace(sender: locationButtonAdFirstPlace)

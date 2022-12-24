@@ -7,10 +7,9 @@
 
 import Foundation
 import CoreLocation
+import MapKit
 
-
-
-class Object{
+class Object: MKPointAnnotation{
     
     var uidObject: String!
     var nameObject: String!
@@ -30,11 +29,9 @@ class Object{
     var profileImageUserСreator: String!
     var emailUserСreator: String!
     var karmaUserСreator: Int!
-   
     
-      init(dictionary: [String: Any]) {
+    init(dictionary: [String: Any]) {
         
-            
         self.uidObject = dictionary["uidObject"] as? String ?? ""
         self.nameObject = dictionary["nameObject"] as? String ?? ""
         self.categoryObject = dictionary["categoryObject"] as? String ?? ""
@@ -44,12 +41,18 @@ class Object{
         self.longitudeObject = dictionary["longitudeObject"]  as? Double ?? nil
         self.location = dictionary["location"]  as? CLLocationCoordinate2D ?? nil
         self.likeObject = dictionary["likeObject"]  as? Int ?? nil
-         self.uidUserСreator = dictionary["uidUserСreator"] as? String ?? ""
-         self.nameUserСreator = dictionary["nameUserСreator"] as? String ?? ""
-         self.fullNameUserСreator = dictionary["fullNameUserСreator"] as? String ?? ""
-         self.profileImageUserСreator = dictionary["profileImageUserм"] as? String ?? ""
-         self.emailUserСreator = dictionary["emailUserСreator"] as? String ?? ""
-         self.karmaUserСreator = dictionary["karmaUserСreator"]  as? Int ?? nil
+        self.uidUserСreator = dictionary["uidUserСreator"] as? String ?? ""
+        self.nameUserСreator = dictionary["nameUserСreator"] as? String ?? ""
+        self.fullNameUserСreator = dictionary["fullNameUserСreator"] as? String ?? ""
+        self.profileImageUserСreator = dictionary["profileImageUserм"] as? String ?? ""
+        self.emailUserСreator = dictionary["emailUserСreator"] as? String ?? ""
+        self.karmaUserСreator = dictionary["karmaUserСreator"]  as? Int ?? nil
+        
+        super.init()
+        self.title = nameObject
+        self.subtitle = textObject
+        self.coordinate = CLLocationCoordinate2D(latitude: latitudeObject, longitude: longitudeObject)
         
     }
+    
 }

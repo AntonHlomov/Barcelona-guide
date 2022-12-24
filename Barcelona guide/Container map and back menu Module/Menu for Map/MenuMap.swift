@@ -29,7 +29,7 @@ class MenuMap: UIViewController {
         tableView.backgroundColor = .darkGray
     }
 }
-@available(iOS 16.0, *)
+
 extension MenuMap: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return  MenuModel.allCases.count
@@ -45,7 +45,7 @@ extension MenuMap: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       // presenter.menuConecter(index: indexPath)
+     
         let cell = self.tableView.cellForRow(at: indexPath) as! MenuTableCell
         guard let menuModel = MenuModel(rawValue: indexPath.row) else {return}
         let pressButonIndex = cell.numberPressButon + 1
@@ -54,6 +54,7 @@ extension MenuMap: UITableViewDelegate, UITableViewDataSource {
         cell.iconImageView.image = dataButon.imageButon
         cell.myLabel.text = dataButon.descriptionButon
         cell.numberPressButon = dataButon.pressButonIndex
+        presenter.menuConecter(index: indexPath,indexMode: dataButon.pressButonIndex)
     }
     
 }
@@ -65,7 +66,5 @@ extension MenuMap: MenuViewProtocol {
       //  cell.iconImageView.image = menuModel?.image
       //  cell.myLabel.text = menuModel?.description
     }
-    func clouse() {
-        print("MenuMap clouse")
-    }
+  
 }

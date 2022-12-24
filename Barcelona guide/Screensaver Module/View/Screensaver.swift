@@ -10,7 +10,7 @@ import UIKit
 class Screensaver: UIViewController {
     var presenter: ScreensaverPresenterProtocol!
     
-    let logoImage = UIImageView(image: #imageLiteral(resourceName: "icons8-route-30").withRenderingMode(.alwaysOriginal))
+    let logoImage = UIImageView(image: #imageLiteral(resourceName: "icons8-маркер-на-карте-100 (1)").withRenderingMode(.alwaysOriginal))
     let nameAp = UILabel.headerBigText(title: "Te lo doy")
 
     override func viewDidLoad() {
@@ -22,7 +22,7 @@ class Screensaver: UIViewController {
         view.addSubview(nameAp)
         nameAp.centerInSuperview() //выстовляет по середине экрана
         view.addSubview(logoImage)
-        logoImage.anchor(top: nil, leading: nil, bottom: nameAp.topAnchor, trailing: nil, pading: .init(top: 0, left: 0, bottom: 40, right: 0), size: .init(width: 80, height: 80))
+        logoImage.anchor(top: nil, leading: nil, bottom: nameAp.topAnchor, trailing: nil, pading: .init(top: 0, left: 0, bottom: 20, right: 0), size: .init(width: 200, height: 200))
         logoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true //выстовляет по середине экрана
     }
 

@@ -35,7 +35,7 @@ enum MenuModel: Int,CaseIterable {
     case StyleMode
     case MapMode
     case RoadMode
-    case Settings
+    case Location
     
     var description: [String] {
         switch self {
@@ -44,7 +44,7 @@ enum MenuModel: Int,CaseIterable {
         case .StyleMode: return ["Light mode","Dark mode"]
         case .MapMode: return ["Standard map","Satellite","Hybrid","Satellite flyover", "Hybrid flyover","Muted standard"]
         case .RoadMode: return ["Walking","Car"]
-        case .Settings: return ["Setting"]
+        case .Location: return ["Location","Magnet location"]
         }
     }
     
@@ -52,17 +52,18 @@ enum MenuModel: Int,CaseIterable {
         switch self {
         case .Profile: return [#imageLiteral(resourceName: "Profile2").withRenderingMode(.alwaysOriginal)]
         case .Messenger: return [#imageLiteral(resourceName: "Messenger").withRenderingMode(.alwaysOriginal)]
-        case .StyleMode: return [#imageLiteral(resourceName: "sunLight").withRenderingMode(.alwaysOriginal),
-                                 #imageLiteral(resourceName: "moon").withRenderingMode(.alwaysOriginal)]
+        case .StyleMode: return [#imageLiteral(resourceName: "sun2").withRenderingMode(.alwaysOriginal),
+                                 #imageLiteral(resourceName: "icons8-символ-луны-50 (2)").withRenderingMode(.alwaysOriginal)]
         case .MapMode: return [#imageLiteral(resourceName: "icons8-map-24").withRenderingMode(.alwaysOriginal),
-                               #imageLiteral(resourceName: "icons8-маркер-на-карте-24").withRenderingMode(.alwaysOriginal),
+                               #imageLiteral(resourceName: "icons8-путеводитель-50").withRenderingMode(.alwaysOriginal),
                                #imageLiteral(resourceName: "icons8-route-30").withRenderingMode(.alwaysOriginal),
-                               #imageLiteral(resourceName: "icons8-булавка-для-карты-24").withRenderingMode(.alwaysOriginal),
+                               #imageLiteral(resourceName: "map2").withRenderingMode(.alwaysOriginal),
                                #imageLiteral(resourceName: "map").withRenderingMode(.alwaysOriginal),
-                               #imageLiteral(resourceName: "icons8-pinMap-48").withRenderingMode(.alwaysOriginal)]
+                               #imageLiteral(resourceName: "icons8-мир-50").withRenderingMode(.alwaysOriginal)]
         case .RoadMode: return [#imageLiteral(resourceName: "icons8-whalk-30").withRenderingMode(.alwaysOriginal),
                                 #imageLiteral(resourceName: "car").withRenderingMode(.alwaysOriginal)]
-        case .Settings: return [#imageLiteral(resourceName: "Settings2").withRenderingMode(.alwaysOriginal)]
+        case .Location: return [#imageLiteral(resourceName: "icons8-направление-на-север-50").withRenderingMode(.alwaysOriginal),
+                                #imageLiteral(resourceName: "icons8-центральное-направление-50").withRenderingMode(.alwaysOriginal)]
             
         }
     }

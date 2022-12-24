@@ -6,69 +6,135 @@
 //
 
 import Foundation
+import MapKit
+
+protocol ContainerMapProtocol: AnyObject{
+    func failure(error: Error)
+}
 
 protocol MenuViewProtocol: AnyObject{
-    func clouse()
     func setDataButtonMenu(indexPath: IndexPath)
 }
 
-protocol ContainerMapAndMenuProtocol: AnyObject{
-    func sucses()
+protocol MapProtocol: AnyObject{
+    // DATA
+    func setDataUserButton(user: User)
+    func showAnatansions(anatansions: [Object])
+    // MENU
+    func openMenu(shouldMove: Bool)
+    
+    func changeStyleMap(indexButoon: Int)
+    func changeTansportType(indexButonMode: Int)
+    func selectLocationMagnet(indexButonMode: Int)
+    // ERROR
     func failure(error: Error)
-    func setUser(user: User)
-    func showMenuViewController(shouldMove: Bool)
 }
 
 protocol ContainerMapAndMenuPresenterProtocol: AnyObject{
-    init(view: ContainerMapAndMenuProtocol,viewMapa:ContainerMapAndMenuProtocol,viewMenuMapa:MenuViewProtocol,networkService: RequestsObjectsApiProtocol, router:RouterProtocol)
-    
+    init(view: ContainerMapProtocol,viewMapa:MapProtocol,viewMenuMapa:MenuViewProtocol,networkService: RequestsObjectsApiProtocol, router:RouterProtocol)
+    // MAPA DATA
     var user: User? {get set}
     var favoritOjects: [Object]? {get set}
-    func getData()
-    func openSettingsUser()
-    func goToCollectionLocation()
-    func showAddNewOject()
-    func toggleMenu()
-    func contacts()
+    // MENU
+    func getUser()
     func setUser()
+    func toggleMenu()
+    func getObjects()
+    func toggleMenuOnlyClouse() // Closed menu wen we taped for map.
+    func menuConecter(index: IndexPath,indexMode: Int?)
     
-    func menuConecter(index: IndexPath) 
+    // MAPA BUTTON
+    func addNewOject()
+    func showCollectionAllObgects()
 }
     
 class ContainerMapAndMenuPresenter: ContainerMapAndMenuPresenterProtocol{
-    weak var view: ContainerMapAndMenuProtocol?
-    weak var viewMapa: ContainerMapAndMenuProtocol?
+    weak var view: ContainerMapProtocol?
+    weak var viewMapa: MapProtocol?
     weak var viewMenuMapa: MenuViewProtocol?
     let networkService: RequestsObjectsApiProtocol!
     var router: RouterProtocol?
-    var favoritOjects: [Object]?
-    var isMove: Bool
     
-    var user: User? {
-        didSet {
-            print("User chenging!")
-            setUser()
-        }
+    var isMove: Bool // Indicator back menu close or open.
+    var favoritOjects: [Object]?
+    var nearbysObjects: [Object]?
+    
+    var user: User? { didSet { print("User chenging!"); setUser()}
+        
     }
     
-    required init(view: ContainerMapAndMenuProtocol,viewMapa:ContainerMapAndMenuProtocol,viewMenuMapa:MenuViewProtocol,networkService: RequestsObjectsApiProtocol, router:RouterProtocol){
+    required init(view: ContainerMapProtocol,viewMapa:MapProtocol,viewMenuMapa:MenuViewProtocol,networkService: RequestsObjectsApiProtocol, router:RouterProtocol){
         
         self.view = view
         self.viewMapa = viewMapa
         self.viewMenuMapa = viewMenuMapa
         self.router = router
         self.networkService = networkService
-        self.favoritOjects = [Object]()
         
-        self.isMove = false
-        getData()
+        self.isMove = false // Indicator back menu closed
+        self.favoritOjects = [Object]()
+        self.nearbysObjects = [Object]()
+       
+        getUser()
+        getObjects()
+    }
+    // Geting data
+    func getUser(){
+        print("Geting data")
+        self.user = userCache
     }
     func setUser(){
         guard user != nil else{return}
-        self.viewMapa?.setUser(user: user!)
+        self.viewMapa?.setDataUserButton(user: user!)
+    }
+    func getObjects(){
+        let lat = 41.410422846823855
+        let long = 2.154067881398437
+        let dist = 50 * 1000
+        networkService.getObjectsNearUser(user: self.user, radius: Double(dist), latitudeUser: lat, longitudeUser: long) { [weak self] result in
+            guard self != nil else {return}
+            DispatchQueue.main.async { [self] in
+                switch result{
+                case .success(let objects):
+                    self?.nearbysObjects = objects
+                    self?.viewMapa?.showAnatansions(anatansions: self?.nearbysObjects ?? [Object]() )
+                    print("success")
+                case .failure(let error):
+                    self?.view?.failure(error: error)
+                  
+                }
+            }
+        }
     }
     
-    func menuConecter(index: IndexPath){
+    func getAnotations(){
+       //let annotation4 = MKPointAnnotation()
+     //   annotation4.coordinate = CLLocationCoordinate2D(latitude:41.410422846823855, longitude:  //2.154067881398437)
+     //   annotation4.title = "Мебель" // Optional
+     //   annotation4.subtitle = "Красивый стул " // Optional
+     //   nearbysObjects.append(annotation4)
+     //   self.viewMapa?.showAnatansions(anatansions: self.nearbysObjects)
+    }
+    func addNewOject(){
+        self.router?.showAddNewOject(user: self.user)
+    }
+    // MARK: Button map
+    func showCollectionAllObgects(){
+        print("User collectionLoc!")
+        self.router?.showCollectionLocations()
+    }
+    //MARK: Menu
+    
+    func toggleMenu() {
+        self.isMove = !self.isMove
+        self.viewMapa?.openMenu(shouldMove:self.isMove)
+    }
+    func toggleMenuOnlyClouse() {
+        guard self.isMove == true else {return}
+        self.isMove = !self.isMove
+        self.viewMapa?.openMenu(shouldMove:self.isMove)
+    }
+    func menuConecter(index: IndexPath,indexMode: Int?){
         switch index.row{
         case 0://Profile
             return
@@ -76,45 +142,26 @@ class ContainerMapAndMenuPresenter: ContainerMapAndMenuPresenterProtocol{
             toggleMenu()
             self.router?.showChatUsers(user: self.user)
             return
-        case 2: //Contacts
-          
+        case 2: //StyleMode
             return
-        case 3://StyleMode
+        case 3://MapMode
+            guard let indexButoon = indexMode else {return}
+            self.viewMapa?.changeStyleMap(indexButoon: indexButoon)
             return
-        case 4://MapMode
+        case 4://RoadMode
+            guard let indexButoon = indexMode else {return}
+            self.viewMapa?.changeTansportType(indexButonMode: indexButoon)
             return
-        case 5://RoadMode
-            self.viewMenuMapa?.setDataButtonMenu(indexPath: index)
+        case 5://Location
+            guard let indexButoon = indexMode else {return}
+            self.viewMapa?.selectLocationMagnet(indexButonMode: indexButoon)
+           // toggleMenu()
             return
-        case 6://Settings
-            return
-            
+        
         default:
             break
         }
         
     }
-    func contacts() {
-        self.viewMenuMapa?.clouse()
-    }
-    func toggleMenu() {
-        self.isMove = !self.isMove
-        self.viewMapa?.showMenuViewController(shouldMove:self.isMove)
-    }
-    func showAddNewOject(){
-        self.router?.showAddNewOject(user: self.user)
-    }
-    func goToCollectionLocation(){
-        print("User collectionLoc!")
-        self.router?.showCollectionLocations()
-    }
-    func openSettingsUser(){
-        self.router?.showChatUsers(user: self.user)
-    }
-    // Geting data
-    func getData(){
-        print("Geting data")
-        self.user = userCache
-    }
-}
     
+}
