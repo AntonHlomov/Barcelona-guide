@@ -12,20 +12,18 @@ import GeoFire
 import GeoFireUtils
 
 protocol RequestsObjectsApiProtocol {
-    func getObjectsNearUser(user: User?,radius: Double,latitudeUser: Double,longitudeUser: Double,compleation: @escaping (Result<[Object]?, Error>) -> Void)
-    
+    func getObjectsNearUser(user: User?,radius: Double,locationUser:CLLocationCoordinate2D,compleation: @escaping (Result<[Object]?, Error>) -> Void)
     func setObject(nameObject: String,categoryObject: String,textObject: String,objectImage: UIImage, longitude: Double, latitude: Double, user: User?,completion: @escaping (Result<Bool,Error>) -> Void)
 }
 
 class RequestsObjectsApi: RequestsObjectsApiProtocol{
 
-    func getObjectsNearUser(user: User?,radius: Double,latitudeUser: Double,longitudeUser: Double,compleation: @escaping (Result<[Object]?, Error>) -> Void){
-        guard let uid = Auth.auth().currentUser?.uid else {return}
+    func getObjectsNearUser(user: User?,radius: Double,locationUser:CLLocationCoordinate2D,compleation: @escaping (Result<[Object]?, Error>) -> Void){
+        guard (Auth.auth().currentUser?.uid) != nil else {return}
         
-        let center = CLLocationCoordinate2D(latitude: latitudeUser, longitude: longitudeUser)
+        let center = locationUser
         let radiusInM: Double = radius  //50 * 1000
-        
-        let db =  Firestore.firestore().collection("users").document(uid)
+        let db =  Firestore.firestore()//.collection("users").document(uid)
         let queryBounds = GFUtils.queryBounds(forLocation: center,
                                               withRadius: radiusInM)
         let queries = queryBounds.map { bound -> Query in
@@ -34,7 +32,6 @@ class RequestsObjectsApi: RequestsObjectsApiProtocol{
                 .start(at: [bound.startValue])
                 .end(at: [bound.endValue])
         }
-
         var objects = [Object]()
         func getDocumentsCompletion(snapshot: QuerySnapshot?, error: Error?) -> () {
             guard (snapshot?.documents) != nil else {
@@ -44,6 +41,7 @@ class RequestsObjectsApi: RequestsObjectsApiProtocol{
                 }
             return
             }
+            objects.removeAll()
             snapshot?.documents.forEach({ (documentSnapshot) in
             let lat = documentSnapshot.data()["latitudeObject"] as? Double ?? 0
             let lng = documentSnapshot.data()["longitudeObject"] as? Double ?? 0
@@ -59,13 +57,12 @@ class RequestsObjectsApi: RequestsObjectsApiProtocol{
             compleation(.success(objects))
         }
         for query in queries {
-            query.getDocuments(completion: getDocumentsCompletion)
+            query.addSnapshotListener(getDocumentsCompletion)
         }
     }
     
     func setObject(nameObject: String,categoryObject: String,textObject: String,objectImage: UIImage, longitude: Double, latitude: Double, user: User?, completion: @escaping (Result<Bool, Error>) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else {return}
-       
         guard let nameUserСreator = user?.nameUser else {return}
         guard let fullNameUserСreator = user?.fullNameUser else {return}
         guard let profileImageUserСreator = user?.profileImageUser else {return}
@@ -73,10 +70,8 @@ class RequestsObjectsApi: RequestsObjectsApiProtocol{
         guard let karmaUserСreator = user?.karmaUser else {return}
         let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let hash = GFUtils.geoHash(forLocation: location)
-        
         let dateCreateObject = Date()
-        
-        let db =  Firestore.firestore().collection("users").document(uid)
+        let db =  Firestore.firestore()
         guard let uploadObjectImage = objectImage.jpegData(compressionQuality: 0.3) else {return}
         var dataServies = [ "uidObject": hash,
                             "nameObject": nameObject,
@@ -115,7 +110,7 @@ class RequestsObjectsApi: RequestsObjectsApiProtocol{
                         completion(.failure(error))
                         return
                     }
-                    db.updateData(["cauntAddedObjects": FieldValue.increment(Int64(1))])
+                    db.collection("users").document(uid).updateData(["cauntAddedObjects": FieldValue.increment(Int64(1))])
                     completion(.success(true))
                 }
             }

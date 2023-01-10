@@ -1,0 +1,109 @@
+//
+//  MapAndFooterPresenter.swift
+//  Barcelona guide
+//
+//  Created by Anton Khlomov on 08/01/2023.
+//
+
+import Foundation
+
+protocol AdvertisementProtocol: AnyObject{
+    func failure(error: Error)
+    }
+
+protocol ViewHeaderProtocol: AnyObject{
+    func failure(error: Error)
+    }
+
+protocol MapRouteProtocol: AnyObject{
+    
+    func openHeader(shouldMove: Bool)
+    func closeViewFX()
+    func failure(error: Error)
+    }
+
+protocol FotterProtocol: AnyObject{
+    func corectionYfotter(headerMove: Bool,fotterMove: Bool)
+    func openFotter(fotterMove: Bool,headerMove: Bool)
+    func failure(error: Error)
+    }
+
+protocol MapAndFooterPresenterProtocol: AnyObject{
+    
+    init(viewHeader:ViewHeaderProtocol,viewAdvertisement: AdvertisementProtocol,viewFotter: FotterProtocol,viewMapRoute: MapRouteProtocol, networkService: RequestsObjectsApiProtocol, router:RouterProtocol, user: User?, object: Object?)
+    func toggleFotter()
+    func toggleHeader()
+    func handlersTapMapa()
+    func clouseView()
+    func openAllMenu()
+    
+    func selectorTookButton()
+    func selectorCancelButton()
+    }
+    
+class MapAndFooterPresenter: MapAndFooterPresenterProtocol{
+    
+    weak var viewFotter: FotterProtocol?
+    weak var viewMapRoute: MapRouteProtocol?
+    weak var viewAdvertisement: AdvertisementProtocol?
+    weak var viewHeader: ViewHeaderProtocol?
+    let networkService: RequestsObjectsApiProtocol!
+    var router: RouterProtocol?
+    var user: User?
+    var object: Object?
+    var isMoveFooter = false
+    var isMoveHeader = false {
+        didSet{
+            self.viewFotter?.corectionYfotter(headerMove: isMoveHeader, fotterMove: isMoveFooter)
+        }
+    }
+    
+    required init(viewHeader:ViewHeaderProtocol,viewAdvertisement: AdvertisementProtocol,viewFotter: FotterProtocol,viewMapRoute: MapRouteProtocol, networkService: RequestsObjectsApiProtocol, router:RouterProtocol, user: User?, object: Object?){
+        self.viewAdvertisement = viewAdvertisement
+        self.viewFotter = viewFotter
+        self.viewMapRoute = viewMapRoute
+        self.viewHeader = viewHeader
+        self.router = router
+        self.networkService = networkService
+        self.user = user
+        self.object = object
+    }
+    func openAllMenu(){
+        toggleFotter()
+        toggleHeader()
+    }
+    func selectorTookButton() {
+        print("selectorTookButton")
+    }
+    
+    func selectorCancelButton() {
+        self.viewMapRoute?.closeViewFX()
+       
+    }
+    func clouseView(){
+        //self.router?.initalScreensaver()
+       self.router?.initContainerMapAndMenu()
+        
+    }
+    func toggleHeader() {
+        self.isMoveHeader = !self.isMoveHeader
+        self.viewMapRoute?.openHeader(shouldMove: self.isMoveHeader)
+    }
+    func toggleFotter() {
+        self.isMoveFooter = !self.isMoveFooter
+        self.viewFotter?.openFotter(fotterMove: self.isMoveFooter, headerMove: self.isMoveHeader)
+    }
+    func handlersTapMapa() {
+        switch self.isMoveFooter{
+        case true:
+            return
+        case false:
+            toggleFotter()
+    
+        }
+    }
+   
+    
+   
+}
+

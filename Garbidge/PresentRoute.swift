@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+/*
 class PresentRoute: UIViewController, UINavigationControllerDelegate {
     
     lazy var imageView: UIImageView = {
@@ -222,3 +222,4 @@ class PresentRoute: UIViewController, UINavigationControllerDelegate {
     @objc fileprivate func  book(){
     }
 }
+*/

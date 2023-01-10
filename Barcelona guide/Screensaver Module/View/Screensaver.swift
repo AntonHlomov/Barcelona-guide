@@ -22,7 +22,7 @@ class Screensaver: UIViewController {
         view.addSubview(nameAp)
         nameAp.centerInSuperview() //выстовляет по середине экрана
         view.addSubview(logoImage)
-        logoImage.anchor(top: nil, leading: nil, bottom: nameAp.topAnchor, trailing: nil, pading: .init(top: 0, left: 0, bottom: 20, right: 0), size: .init(width: 200, height: 200))
+        logoImage.anchor(top: nil, leading: nil, bottom: nameAp.topAnchor, trailing: nil, pading: .init(top: 0, left: 0, bottom: 10, right: 0), size: .init(width: 250, height: 250))
         logoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true //выстовляет по середине экрана
     }
 

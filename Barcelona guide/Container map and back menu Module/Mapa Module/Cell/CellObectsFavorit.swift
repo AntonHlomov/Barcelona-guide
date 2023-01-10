@@ -8,11 +8,10 @@
 import UIKit
 
 class CellObectsFavorit: UICollectionViewCell {
-    
     var object: Object? {
-        //  didSet означает что эти пораметры класса можно транслировать по  приложениею
         didSet {
             imageView.loadImage(with: object?.profileImageUserСreator ?? "")
+            imageObjectView.loadImage(with: object?.objectImage ?? "")
             guard let name = object?.nameUserСreator else {return}
             guard let fullname = object?.fullNameUserСreator else {return}
             guard let nameObject = object?.nameObject else {return}
@@ -20,10 +19,15 @@ class CellObectsFavorit: UICollectionViewCell {
             nameUser.text = name.capitalized + " " + fullname.capitalized
             nameObjectCell.text = nameObject.capitalized
             textObject.text = text.capitalized
-            
         }
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.object = nil
+        self.imageObjectView.image = nil
+        self.imageView.image = nil
+    }
     
     override init(frame: CGRect) {
         super .init(frame: frame)
@@ -34,25 +38,13 @@ class CellObectsFavorit: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-      let  imageView = CustomUIimageView(frame: .zero)
-    
-  //  lazy var imageView: UIImageView = {
-  //
-  //      let iv = UIImageView()
-  //      iv.image = UIImage(named: "avaUser2")
-  //      iv.backgroundColor = .darkGray
-  //      iv.contentMode = .scaleAspectFill
-  //      iv.layer.cornerRadius = 20.0/2.0
-  //      iv.layer.masksToBounds = true
-  //
-  //      return iv
-  //  }()
-    
+    let imageView = CustomUIimageView(frame: .zero)
+    let imageObjectView = CustomUIimageView(frame: .zero)
     let nameUser: UILabel = {
         let Label = UILabel()
         Label.text = "Name Shurname"
         Label.textAlignment = .left
-        Label.textColor = UIColor.appColor(.grayPlatinum)
+        Label.textColor = UIColor.appColor(.blackOrPlatinumDarckMode)
         Label.font = UIFont.systemFont(ofSize: 13)
         Label.numberOfLines = 1
         return Label
@@ -72,33 +64,40 @@ class CellObectsFavorit: UICollectionViewCell {
         Label.textAlignment = .left
         Label.textColor = UIColor.appColor(.grayPlatinum)
         Label.font = UIFont.systemFont(ofSize: 14)
-        Label.numberOfLines = 1
+        Label.numberOfLines = 3
         Label.adjustsFontSizeToFitWidth = false
-    
+        
         return Label
     }()
-
-  
-    
+  //  var dateCell: UILabel = {
+  //      let Label = UILabel()
+  //      Label.text = "21.10 12:15"
+  //      Label.textAlignment = .left
+  //      Label.textColor = UIColor.appColor(.grayPlatinum)?.withAlphaComponent(0.8)
+  //      Label.font = UIFont.systemFont(ofSize: 10)
+  //      Label.numberOfLines = 1
+  //      return Label
+  //  }()
     
     func setupViews(){
-        
-        //  imageView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: 80)
         addSubview(imageView)
-        imageView.anchor(top: topAnchor, leading: leadingAnchor, bottom: nil, trailing: nil, pading: .init(top: 8, left: 8, bottom: 0, right: 0), size: .init(width: 20,height: 20))
+        imageView.anchor(top: nil, leading: leadingAnchor, bottom: topAnchor, trailing: nil, pading: .init(top: 0, left: 8, bottom: 5, right: 0), size: .init(width: 20,height: 20))
         imageView.layer.cornerRadius = 20/2
-        // imageView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         addSubview(nameUser)
-        nameUser.anchor(top: topAnchor, leading: imageView.trailingAnchor, bottom: nil, trailing: nil, pading: .init( top: 7, left: 5, bottom: 0, right: 5), size: .init(width: frame.width-30, height: 0))
-        // nameLebel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        nameUser.anchor(top: nil, leading: imageView.trailingAnchor, bottom: imageView.bottomAnchor, trailing: nil, pading: .init( top: 0, left: 5, bottom: 0, right: 0), size: .init(width: frame.width-30, height: 0))
+        
+        addSubview(imageObjectView)
+        imageObjectView.anchor(top: topAnchor, leading: nil, bottom: bottomAnchor, trailing: trailingAnchor, pading: .init(top: 8, left: 0, bottom: 8, right: 8), size: .init(width: frame.width/3,height: frame.height-16))
+        imageObjectView.layer.cornerRadius = 12
         
         addSubview(nameObjectCell)
-        nameObjectCell.anchor(top: imageView.bottomAnchor, leading: imageView.leadingAnchor, bottom: nil, trailing: trailingAnchor, pading: .init( top: -12, left: 0, bottom: 0, right: 5), size: .init(width: 0, height: 0))
-       
-        addSubview(textObject)
-        textObject.anchor(top: nameObjectCell.bottomAnchor, leading: nameObjectCell.leadingAnchor, bottom: bottomAnchor, trailing: trailingAnchor, pading: .init( top: -18, left: 0, bottom: 6, right: 5), size: .init(width: 0, height: 0))
-       
+        nameObjectCell.anchor(top: imageObjectView.topAnchor, leading: leadingAnchor, bottom: nil, trailing: imageObjectView.leadingAnchor, pading: .init( top: 0, left: 8, bottom: 0, right: 12), size: .init(width: 0, height: 0))
         
+      //  addSubview(dateCell)
+      //  dateCell.anchor(top: bottomAnchor, leading: nameObjectCell.leadingAnchor, bottom: nil, trailing: imageObjectView.leadingAnchor, pading: .init( top: 10, left: 10, bottom: 0, right: 12), size: .init(width: 0, height: 0))
+        
+        addSubview(textObject)
+        textObject.anchor(top: nameObjectCell.bottomAnchor, leading: nameObjectCell.leadingAnchor, bottom: bottomAnchor, trailing: imageObjectView.leadingAnchor, pading: .init( top: -18, left: 0, bottom:0, right: 12), size: .init(width: 0, height: 0))
     }
 }

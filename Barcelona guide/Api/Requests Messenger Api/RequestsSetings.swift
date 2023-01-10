@@ -9,7 +9,6 @@ import Foundation
 import Firebase
 
 protocol RequestsMessengerApiProtocol {
-    
 }
 class RequestsMessengerApi: RequestsMessengerApiProtocol{
     

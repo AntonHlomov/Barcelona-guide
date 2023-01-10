@@ -15,14 +15,16 @@ protocol AsselderBuilderProtocol{
     func createRegistrationModule(router: RouterProtocol) -> UIViewController
     func createLoginModule(router: RouterProtocol) -> UIViewController
     func createFavoriteObjectsCollectionModule(router: RouterProtocol) -> UIViewController
-    func createPresentansionObjectModule(router: RouterProtocol,user: User?) -> UIViewController
+    func createPresentansionObjectModule(router: RouterProtocol,user: User?,object: Object,distanseRoute: Double,timeRoute: Double) -> UIViewController
+    func createReservationModule(router: RouterProtocol,user: User?,object: Object?,distanseRoute: Double,timeRoute: Double) -> UIViewController
     func createAddNewOjectViewModule(router: RouterProtocol,user: User?) -> UIViewController
     func createChatUsersModule(router: RouterProtocol,user: User?) -> UIViewController
     func createContainerMapAndMenuModule(router: RouterProtocol) -> UIViewController
+    func createMapAndFooterModule(router: RouterProtocol,user: User?,object: Object?) -> UIViewController
     
 }
 class AsselderModelBuilder: AsselderBuilderProtocol{
-  
+ 
     func createScreensaverModule(router: RouterProtocol) -> UIViewController {
         let view = Screensaver()
         let networkServiceUser = RequestsUserApi()
@@ -69,10 +71,17 @@ class AsselderModelBuilder: AsselderBuilderProtocol{
         view.presenter = presenter
         return view
     }
-    func createPresentansionObjectModule(router: RouterProtocol,user: User?) -> UIViewController {
+    func createPresentansionObjectModule(router: RouterProtocol,user: User?,object: Object,distanseRoute: Double,timeRoute: Double) -> UIViewController {
         let view = PresentansionObject()
         let networkService = RequestsObjectsApi()
-        let presenter = PresentansionObjectPresenter(view: view, networkService: networkService, router: router,user: user)
+        let presenter = PresentansionObjectPresenter(view: view, networkService: networkService, router: router,user: user, object: object,distanseRoute: distanseRoute,timeRoute: timeRoute)
+        view.presenter = presenter
+        return view
+    }
+    func createReservationModule(router: RouterProtocol,user: User?,object: Object?,distanseRoute: Double,timeRoute: Double) -> UIViewController{
+        let view = ReservtionView()
+        let networkService = RequestsForReservation()
+        let presenter = ReservationViewPresenter(view: view , networkService: networkService, router: router, user: user, distance: distanseRoute, timeRoute: timeRoute, object: object)
         view.presenter = presenter
         return view
     }
@@ -108,4 +117,31 @@ class AsselderModelBuilder: AsselderBuilderProtocol{
         return view
     }
     
+    func createMapAndFooterModule(router: RouterProtocol, user: User?, object: Object?) -> UIViewController {
+        let viewHeader = ViewHeader()
+        let viewAdvertisement = AdvertisementView()
+        let viewMapRoute = MapRouteView()
+        let viewFotter = FotterView()
+        let networkService = RequestsObjectsApi()
+        let presenter = MapAndFooterPresenter(viewHeader: viewHeader, viewAdvertisement: viewAdvertisement, viewFotter: viewFotter, viewMapRoute: viewMapRoute, networkService: networkService, router: router, user: user, object: object)
+        viewHeader.presenter = presenter
+        viewAdvertisement.presenter = presenter
+        viewMapRoute.presenter = presenter
+        viewFotter.presenter = presenter
+        
+        viewHeader.view.insertSubview(viewMapRoute.view, at: 1)
+        viewHeader.addChild(viewMapRoute)
+        viewMapRoute.view.insertSubview(viewFotter.view, at: 2)
+        viewMapRoute.addChild(viewFotter)
+        viewHeader.view.insertSubview(viewAdvertisement.view, at: 3)
+        viewHeader.addChild(viewAdvertisement)
+        
+        
+        
+      //  viewMapRoute.view.insertSubview(viewFotter.view, at: 1)
+      //  viewMapRoute.addChild(viewFotter)
+      //  viewMapRoute.view.insertSubview(viewAdvertisement.view, at: 2)
+      //  viewMapRoute.addChild(viewAdvertisement)
+        return viewHeader
+    }
 }

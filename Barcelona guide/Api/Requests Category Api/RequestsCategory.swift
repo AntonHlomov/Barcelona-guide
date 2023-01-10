@@ -9,7 +9,6 @@ import Foundation
 import Firebase
 
 var categoryCash = [Category]()
-
 protocol RequestsCategoryApiProtocol {
     func getCategory(completion: @escaping (Result<[Category]?,Error>) -> Void)
     
@@ -23,7 +22,6 @@ class RequestsCategoryApi: RequestsCategoryApiProtocol{
                 completion(.failure(error))
                 return
             }
-           // var clientsCash = [Category]()
             categoryCash.removeAll()
             snapshot?.documents.forEach({ (documentSnapshot) in
                 let categoryDictionary = documentSnapshot.data()

@@ -22,7 +22,7 @@ class RegistrationController: UIViewController, UIImagePickerControllerDelegate,
         button.setTitleColor(.gray, for: .normal)
         button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.rgb(red: 31, green: 152, blue: 233) .cgColor
-        button.addTarget(self, action: #selector(selectPhoto), for: .touchUpInside)
+        button.addTarget(RegistrationController.self, action: #selector(selectPhoto), for: .touchUpInside)
         return button
     }()
 
@@ -44,7 +44,7 @@ class RegistrationController: UIViewController, UIImagePickerControllerDelegate,
         let attributedTitle = NSMutableAttributedString(string: "У меня есть аккаунт  ", attributes: [.font:UIFont.systemFont (ofSize: 18), .foregroundColor: UIColor.lightGray ])
         attributedTitle.append(NSAttributedString(string: "вернуться", attributes: [.font:UIFont.systemFont (ofSize: 18), .foregroundColor: UIColor.rgb(red: 170, green: 92, blue: 178) ]))
         button.setAttributedTitle(attributedTitle, for: .normal)
-        button.addTarget(self, action: #selector(goToSingIn), for: .touchUpInside)
+        button.addTarget(RegistrationController.self, action: #selector(goToSingIn), for: .touchUpInside)
         return button
     }()
     lazy var stackView = UIStackView(arrangedSubviews: [emailTexfield,fullNameTexfield,shurnameNameTexfield,passwordTexfield,sigUpButton])
@@ -121,7 +121,7 @@ class RegistrationController: UIViewController, UIImagePickerControllerDelegate,
                    if let err = err {
                     print(err.localizedDescription)
                     print("profile is nil")
-                    alertRegistrationControllerMassage(title: "Oops", message: "\(err.localizedDescription)")
+                       self.alertRegistrationControllerMassage(title: "Oops", message: "\(err.localizedDescription)")
                     return
                 }
                     print("Успешна получина ссылка на картинку")
@@ -133,7 +133,7 @@ class RegistrationController: UIViewController, UIImagePickerControllerDelegate,
                     Firestore.firestore().collection("users").document(uid).setData(docData) { (err) in
                         if let err = err {
                             print("Failed", err.localizedDescription)
-                            alertRegistrationControllerMassage(title: "Oops", message: "\(err.localizedDescription)")
+                            self.alertRegistrationControllerMassage(title: "Oops", message: "\(err.localizedDescription)")
                             return
                     }
                         print("Успешна сохранены данные")

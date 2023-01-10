@@ -11,12 +11,10 @@ import UIKit
 
 protocol RegistrationApiProtocol {
     func registration(photoUser: UIImage, emailAuth: String, name: String, passwordAuth: String,completion: @escaping (Result<Bool,Error>) -> Void)
-    
 }
 class RegistrationApi: RegistrationApiProtocol{
     func registration(photoUser: UIImage, emailAuth: String, name: String, passwordAuth: String, completion: @escaping (Result<Bool, Error>) -> Void) {
 
-       // DispatchQueue.global(qos: .utility).async {
             Auth.auth().createUser(withEmail: emailAuth, password: passwordAuth) {
                 (user, error) in
                 if let error = error {
@@ -54,13 +52,11 @@ class RegistrationApi: RegistrationApiProtocol{
                                 completion(.failure(error))
                                 return
                             }
-                            //Успешна сохранены данные
                             completion(.success(true))
                         }
                     }
                 }
             }
         }
-   // }
-    
+
 }

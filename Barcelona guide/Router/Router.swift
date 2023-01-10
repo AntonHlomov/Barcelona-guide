@@ -23,9 +23,10 @@ protocol RouterProtocol: RouterLogin {
     func showRegistration()
     func showLogin()
     func showFavoriteObjectsCollection()
-    func showPresentansionObject(user: User?)
+    func showPresentansionObject(user: User?,object: Object,distanseRoute: Double,timeRoute: Double)
     func showAddNewOject(user: User?)
-    
+    func showReservation(user: User?,object: Object,distanseRoute: Double,timeRoute: Double)
+    func initalMapAndFooterModule(user: User?,object: Object?)
     func popToRoot()
     func dismiss()
     func schowLoginMoveToLeft()
@@ -33,6 +34,10 @@ protocol RouterProtocol: RouterLogin {
     func backTappedFromLeft()
 }
 class Router: RouterProtocol{
+  
+    
+ 
+    
 
     var navigationControler: UINavigationController?
     var assemblyBuilder: AsselderBuilderProtocol?
@@ -73,7 +78,7 @@ class Router: RouterProtocol{
     func showCollectionLocations(){
         if let navigationControler = navigationControler{
             guard let showControler = assemblyBuilder?.createCollectionLocationsModule(router: self) else {return}
-            navigationControler.navigationBar.isHidden = true
+            navigationControler.navigationBar.isHidden = false
             navigationControler.pushViewController(showControler, animated: true)
         }
     }
@@ -95,15 +100,32 @@ class Router: RouterProtocol{
     func showFavoriteObjectsCollection(){
         if let navigationControler = navigationControler{
             guard let showControler = assemblyBuilder?.createFavoriteObjectsCollectionModule(router: self) else {return}
+            navigationControler.navigationBar.isHidden = false
             navigationControler.pushViewController(showControler, animated: true)
         }
     }
     
-    func showPresentansionObject(user: User?){
+    func showPresentansionObject(user: User?,object: Object,distanseRoute: Double,timeRoute: Double){
         if let navigationControler = navigationControler{
-            guard let showControler = assemblyBuilder?.createPresentansionObjectModule(router: self,user: user) else {return}
+            guard let showControler = assemblyBuilder?.createPresentansionObjectModule(router: self,user: user, object: object,distanseRoute: distanseRoute,timeRoute: timeRoute) else {return}
+            navigationControler.navigationBar.isHidden = false
             navigationControler.pushViewController(showControler, animated: true)
         }
+    }
+    func initalMapAndFooterModule(user: User?,object: Object?){
+        if let navigationControler = navigationControler{
+            guard let mainViewControler = assemblyBuilder?.createMapAndFooterModule(router: self, user: user, object: object) else {return}
+            navigationControler.navigationBar.isHidden = true
+            navigationControler.viewControllers = [mainViewControler]
+        }
+    }
+    func showReservation(user: User?,object: Object,distanseRoute: Double,timeRoute: Double){
+        if let navigationControler = navigationControler{
+            guard let showControler = assemblyBuilder?.createReservationModule(router: self,user: user, object: object,distanseRoute: distanseRoute,timeRoute: timeRoute) else {return}
+            navigationControler.navigationBar.isHidden = true
+            navigationControler.pushViewController(showControler, animated: true)
+        }
+        
     }
     func showChatUsers(user: User?){
         if let navigationControler = navigationControler{

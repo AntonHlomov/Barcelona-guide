@@ -51,7 +51,7 @@ extension UILabel{
         label.text = title
         label.textAlignment = alignment
         label.textColor = color.withAlphaComponent(alpha)
-        label.font = UIFont.systemFont(ofSize: CGFloat(size))
+        label.font = UIFont.boldSystemFont(ofSize: CGFloat(size))
         label.numberOfLines = numberLines
         return label
     }
@@ -69,6 +69,7 @@ extension UIButton{
         button.isEnabled = activation   //диактивация кнопки изначально кнопка не активна (активна после заполнения всех полей)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         button.isHidden = invisibility
+        button.imageView?.contentMode =  .scaleAspectFit
        
         return button
     }
@@ -82,6 +83,7 @@ extension UIButton{
         button.isHidden = invisibility
         button.setImage(#imageLiteral(resourceName: resourseNa), for: .normal)
         button.tintColor = UIColor(white: 1, alpha: 1)
+        button.imageView?.contentMode =  .scaleAspectFit
         return button
     }
 }

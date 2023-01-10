@@ -10,7 +10,6 @@ import Firebase
 
 protocol LoginApiProtocol {
     func login(emailAuth: String, passwordAuth: String,completion: @escaping (Result<Bool,Error>) -> Void)
-    
 }
 class LoginApi: LoginApiProtocol{
     func login(emailAuth: String, passwordAuth: String, completion: @escaping (Result<Bool, Error>) -> Void) {
@@ -18,8 +17,9 @@ class LoginApi: LoginApiProtocol{
             if let error = error {
                 completion(.failure(error))
                 return
-         }
+            }
             completion(.success(true))
         }
     }
+    
 }

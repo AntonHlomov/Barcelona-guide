@@ -21,8 +21,8 @@ class Object: MKPointAnnotation{
     var longitudeObject: Double!
     var location: CLLocationCoordinate2D!
     var likeObject: Int!
-    var dateCreateObject: Double!
-    
+    var dateCreateObject: Date!
+   
     var uidUserСreator: String!
     var nameUserСreator: String!
     var fullNameUserСreator: String!
@@ -38,21 +38,24 @@ class Object: MKPointAnnotation{
         self.textObject = dictionary["textObject"] as? String ?? ""
         self.objectImage = dictionary["objectImage"] as? String ?? ""
         self.latitudeObject = dictionary["latitudeObject"]  as? Double ?? nil
+        self.dateCreateObject = dictionary["dateCreateObject"]  as? Date ?? nil
         self.longitudeObject = dictionary["longitudeObject"]  as? Double ?? nil
         self.location = dictionary["location"]  as? CLLocationCoordinate2D ?? nil
         self.likeObject = dictionary["likeObject"]  as? Int ?? nil
         self.uidUserСreator = dictionary["uidUserСreator"] as? String ?? ""
         self.nameUserСreator = dictionary["nameUserСreator"] as? String ?? ""
         self.fullNameUserСreator = dictionary["fullNameUserСreator"] as? String ?? ""
-        self.profileImageUserСreator = dictionary["profileImageUserм"] as? String ?? ""
+        self.profileImageUserСreator = dictionary["profileImageUserСreator"] as? String ?? ""
         self.emailUserСreator = dictionary["emailUserСreator"] as? String ?? ""
         self.karmaUserСreator = dictionary["karmaUserСreator"]  as? Int ?? nil
+    
         
         super.init()
         self.title = nameObject
         self.subtitle = textObject
         self.coordinate = CLLocationCoordinate2D(latitude: latitudeObject, longitude: longitudeObject)
-        
+     
+    
     }
     
 }
