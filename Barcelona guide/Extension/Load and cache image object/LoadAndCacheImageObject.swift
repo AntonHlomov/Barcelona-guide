@@ -16,11 +16,8 @@ class ObjectUIImagePoint: UIImage {
               nil != image.cgImage else {
                     return nil
         }
-       
         self.init(cgImage: image.cgImage!)
-      
     }
-
     override func withRenderingMode(_ renderingMode: UIImage.RenderingMode) -> UIImage {
         // both return statements work:
         return self

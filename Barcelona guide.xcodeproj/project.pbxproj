@@ -479,7 +479,6 @@
 		8AE0EB1F277A3A9B002ADA32 /* Barcelona guide */ = {
 			isa = PBXGroup;
 			children = (
-				8A2C5DB1296B187200287B0A /* Route to object map Module */,
 				8AEABD5229425C8400E37FED /* Router */,
 				8AEABD5129425C6F00E37FED /* Builder */,
 				8AEABD5B294260B300E37FED /* Api */,
@@ -488,6 +487,7 @@
 				8AEABD4C29425AEB00E37FED /* Login Module */,
 				8AEABD4D29425AFB00E37FED /* Registration Module */,
 				8AB154D029510A3A00EA9830 /* Container map and back menu Module */,
+				8A2C5DB1296B187200287B0A /* Route to object map Module */,
 				8AEABDD42942CB6400E37FED /* Presentansion object Module */,
 				8AC4F8AA29674C590074605D /* Reservtion Module */,
 				8ADE78BF294E9CC800CAD5C7 /* Сhat users Module */,

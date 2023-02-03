@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import CoreLocation
+import MapKit
+
 
 protocol AdvertisementProtocol: AnyObject{
     func failure(error: Error)
@@ -16,6 +19,8 @@ protocol ViewHeaderProtocol: AnyObject{
     }
 
 protocol MapRouteProtocol: AnyObject{
+    func schowPointObjects(coordinatePoint: CLLocationCoordinate2D, scale: Double)
+
     
     func openHeader(shouldMove: Bool)
     func closeViewFX()
@@ -24,7 +29,7 @@ protocol MapRouteProtocol: AnyObject{
 
 protocol FotterProtocol: AnyObject{
     func corectionYfotter(headerMove: Bool,fotterMove: Bool)
-    func openFotter(fotterMove: Bool,headerMove: Bool)
+    func openFotter(fotterMove: Bool, headerMove: Bool)
     func failure(error: Error)
     }
 
@@ -39,6 +44,9 @@ protocol MapAndFooterPresenterProtocol: AnyObject{
     
     func selectorTookButton()
     func selectorCancelButton()
+    
+    func menuConecter(index: IndexPath,indexMode: Int?)
+
     }
     
 class MapAndFooterPresenter: MapAndFooterPresenterProtocol{
@@ -57,6 +65,7 @@ class MapAndFooterPresenter: MapAndFooterPresenterProtocol{
             self.viewFotter?.corectionYfotter(headerMove: isMoveHeader, fotterMove: isMoveFooter)
         }
     }
+  
     
     required init(viewHeader:ViewHeaderProtocol,viewAdvertisement: AdvertisementProtocol,viewFotter: FotterProtocol,viewMapRoute: MapRouteProtocol, networkService: RequestsObjectsApiProtocol, router:RouterProtocol, user: User?, object: Object?){
         self.viewAdvertisement = viewAdvertisement
@@ -67,7 +76,41 @@ class MapAndFooterPresenter: MapAndFooterPresenterProtocol{
         self.networkService = networkService
         self.user = user
         self.object = object
+        
+        schowPoint()
+        
     }
+    //MARK: - Menu
+    func menuConecter(index: IndexPath,indexMode: Int?){
+        switch index.row{
+        case 0://Messendger
+          //  toggleMenu()
+          //  self.router?.showChatUsers(user: self.user)
+            return
+        case 1: //StyleMode
+            return
+        case 2://MapMode
+            guard let indexButoon = indexMode else {return}
+          //  changeStyleMap(indexButoon: indexButoon)
+            return
+        case 3://RoadMode
+            guard let indexButoon = indexMode else {return}
+         //   changeTansportType(indexButonMode: indexButoon)
+            return
+        case 4://Location magnet
+            guard let indexButoon = indexMode else {return}
+           // self.viewMapa?.selectLocationMagnet(indexButonMode: indexButoon)
+            return
+        default:
+            break
+        }
+    }
+ 
+    func schowPoint(){
+        guard let coordinate = self.object?.coordinate else {return}
+        self.viewMapRoute?.schowPointObjects(coordinatePoint: coordinate, scale: 10)
+    }
+    
     func openAllMenu(){
         toggleFotter()
         toggleHeader()
@@ -102,8 +145,6 @@ class MapAndFooterPresenter: MapAndFooterPresenterProtocol{
     
         }
     }
-   
-    
    
 }
 

@@ -24,7 +24,7 @@ class MenuTableCell: UITableViewCell {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Кастомный текст"
-        label.font = UIFont.systemFont(ofSize: 20)
+        label.font = UIFont.systemFont(ofSize: 19)
         label.textColor = .white
         return label
     }()
@@ -38,14 +38,24 @@ class MenuTableCell: UITableViewCell {
         backgroundColor = .clear
         
         // iconImageView constaints
+     //   iconImageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+     //   iconImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12).isActive = true
+     //   iconImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+     //   iconImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+     //
+     //   // myLabel constaints
+     //   myLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+     //   myLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 12).isActive = true
+        
+        // iconImageView constaints
         iconImageView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        iconImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12).isActive = true
-        iconImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        iconImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        iconImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
+        iconImageView.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        iconImageView.widthAnchor.constraint(equalToConstant: 25).isActive = true
         
         // myLabel constaints
         myLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        myLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 12).isActive = true
+        myLabel.trailingAnchor.constraint(equalTo: iconImageView.leadingAnchor, constant: -12).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {

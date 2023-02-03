@@ -67,10 +67,7 @@ class FotterView: UIViewController {
         configureViewComponents()
         setupTapGesture()
         heandlers()
-        
-        
-
-        // Do any additional setup after loading the view.
+  
     }
     func configureViewComponents(){
         view.addSubview(fotterBox)

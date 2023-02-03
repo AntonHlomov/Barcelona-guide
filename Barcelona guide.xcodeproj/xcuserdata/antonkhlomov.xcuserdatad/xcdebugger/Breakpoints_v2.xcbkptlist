@@ -62,8 +62,8 @@
             filePath = "Barcelona guide/Container map and back menu Module/Mapa Module/View/Mapa.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
             landmarkName = "closedMenu()"
             landmarkType = "7">
          </BreakpointContent>

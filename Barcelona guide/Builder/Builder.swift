@@ -132,7 +132,7 @@ class AsselderModelBuilder: AsselderBuilderProtocol{
         viewHeader.view.insertSubview(viewMapRoute.view, at: 1)
         viewHeader.addChild(viewMapRoute)
         viewMapRoute.view.insertSubview(viewFotter.view, at: 2)
-        viewMapRoute.addChild(viewFotter)
+        viewMapRoute.addChild(viewFotter) 
         viewHeader.view.insertSubview(viewAdvertisement.view, at: 3)
         viewHeader.addChild(viewAdvertisement)
         

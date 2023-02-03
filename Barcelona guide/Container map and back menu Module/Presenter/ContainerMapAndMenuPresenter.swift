@@ -15,11 +15,12 @@ protocol ContainerMapProtocol: AnyObject{
 
 protocol MenuViewProtocol: AnyObject{
     func setDataButtonMenu(indexPath: IndexPath) // ??
+    func setDataUserButton(user: User?)
 }
 
 protocol MapProtocol: AnyObject{
     // DATA
-    func setDataUserButton(user: User?)
+   // func setDataUserButton(user: User?)
     func setObjects(objects: [Object])
     func getLastLocationUser() // ??
     func schowPointObjects(coordinatePoint: CLLocationCoordinate2D, scale: Double)
@@ -100,27 +101,27 @@ class ContainerMapAndMenuPresenter: ContainerMapAndMenuPresenterProtocol{
         setUser()
         showUser()
         
+        
     }
     //MARK: - Menu
     func menuConecter(index: IndexPath,indexMode: Int?){
         switch index.row{
-        case 0://Profile
-            return
-        case 1://Messendger
+
+        case 0://Messendger
             toggleMenu()
             self.router?.showChatUsers(user: self.user)
             return
-        case 2: //StyleMode
+        case 1: //StyleMode
             return
-        case 3://MapMode
+        case 2://MapMode
             guard let indexButoon = indexMode else {return}
             changeStyleMap(indexButoon: indexButoon)
             return
-        case 4://RoadMode
+        case 3://RoadMode
             guard let indexButoon = indexMode else {return}
             changeTansportType(indexButonMode: indexButoon)
             return
-        case 5://Location magnet
+        case 4://Location magnet
             guard let indexButoon = indexMode else {return}
             self.viewMapa?.selectLocationMagnet(indexButonMode: indexButoon)
             return
@@ -170,7 +171,7 @@ class ContainerMapAndMenuPresenter: ContainerMapAndMenuPresenterProtocol{
     
     func setUser(){
         guard user != nil else{return}
-        self.viewMapa?.setDataUserButton(user: user!)
+        self.viewMenuMapa?.setDataUserButton(user: user!)
     }
     //MARK: - Get objects
     func getObjects(){
@@ -270,7 +271,7 @@ class ContainerMapAndMenuPresenter: ContainerMapAndMenuPresenterProtocol{
             var distanseRoute = String(self.distanseRoute ?? 0.0)   //route.distance //показывает дистанцию маршрута в метрах
             distanseRoute.removeLast(2)
             self.timeRoute = minRoute.expectedTravelTime/60
-            var time = String(format: "%.0f", self.timeRoute ?? 0.0)
+            let time = String(format: "%.0f", self.timeRoute ?? 0.0)
             // создаем маршрут
             self.viewMapa?.drawRoute(route: minRoute.polyline, distance: distanseRoute, timeRoute:  time)
             
@@ -282,7 +283,7 @@ class ContainerMapAndMenuPresenter: ContainerMapAndMenuPresenterProtocol{
         }
     }
     func schowObject(object: Object){
-        self.router?.showPresentansionObject(user: self.user, object: object,distanseRoute: self.distanseRoute ?? 0.0,timeRoute: self.timeRoute ?? 0.0 )
+        self.router?.showPresentansionObject(user: self.user, object: object, distanseRoute: self.distanseRoute ?? 0.0,timeRoute: self.timeRoute ?? 0.0 )
     }
     
     func getAnotations(){

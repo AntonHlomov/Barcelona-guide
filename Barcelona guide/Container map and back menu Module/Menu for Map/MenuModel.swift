@@ -30,7 +30,7 @@ class StatePressButonMenu{
 }
 
 enum MenuModel: Int,CaseIterable {
-    case Profile
+   // case Profile
     case Messenger
     case StyleMode
     case MapMode
@@ -39,18 +39,24 @@ enum MenuModel: Int,CaseIterable {
     
     var description: [String] {
         switch self {
-        case .Profile: return ["Profile"]
-        case .Messenger: return ["Messenger"]
-        case .StyleMode: return ["Light mode","Dark mode"]
-        case .MapMode: return ["Standard map","Satellite","Hybrid","Satellite flyover", "Hybrid flyover","Muted standard"]
-        case .RoadMode: return ["Walking","Car"]
-        case .Location: return ["Location","Magnet location"]
+       // case .Profile: return [""]
+        case .Messenger: return [""]
+        case .StyleMode: return ["",""]
+        case .MapMode: return ["","","","","",""]
+        case .RoadMode: return ["",""]
+        case .Location: return ["",""]
+      //  case .Profile: return ["Profile"]
+      //  case .Messenger: return ["Messenger"]
+      //  case .StyleMode: return ["Light mode","Dark mode"]
+      //  case .MapMode: return ["Standard map","Satellite","Hybrid","Satellite flyover", "Hybrid flyover","Muted standard"]
+      //  case .RoadMode: return ["Walking","Car"]
+      //  case .Location: return ["Location","Magnet location"]
         }
     }
     
     var image: [UIImage] {
         switch self {
-        case .Profile: return [#imageLiteral(resourceName: "Profile2").withRenderingMode(.alwaysOriginal)]
+      //  case .Profile: return [#imageLiteral(resourceName: "Profile2").withRenderingMode(.alwaysOriginal)]
         case .Messenger: return [#imageLiteral(resourceName: "Messenger").withRenderingMode(.alwaysOriginal)]
         case .StyleMode: return [#imageLiteral(resourceName: "sun2").withRenderingMode(.alwaysOriginal),
                                  #imageLiteral(resourceName: "icons8-символ-луны-50 (2)").withRenderingMode(.alwaysOriginal)]
